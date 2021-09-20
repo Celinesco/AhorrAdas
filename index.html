@@ -59,33 +59,98 @@
         <div class="container vista">
             <div class="columns">
 
-                <div class="column is-offset-1-widescreen is-3 is-4-desktop is-12-tablet">
+                <div class="column is-offset-1-widescreen is-3-desktop is-12-tablet">
                     <div class="card">
                         <div class="card-content">
                             <div class="content">
                                 <h3 class="title is-3 has-text-dark">Balance</h3>
-                                <div class="columns is-mobile is-vcentered">
+                                <div class="columns is-vcentered">
                                     <p class="column is-size-5">Ganancias</p>
-                                    <div class="column is-offset-5 is-flex is-justify-content-flex-end has-text-success"
+                                    <div class="column has-text-success is-flex is-justify-content-flex-end" 
                                         id="ganancias">+$0</div>
                                 </div>
-                                <div class="columns is-mobile is-vcentered">
+                                <div class="columns is-vcentered">
                                     <p class="column is-size-5 ">Gastos</p>
-                                    <div class="column is-flex is-justify-content-flex-end has-text-danger" id="gastos">
+                                    <div class="column has-text-danger is-flex is-justify-content-flex-end" id="gastos">
                                         -$0</div>
                                 </div>
-                                <div class="columns is-mobile is-vcentered">
+                                <div class="columns is-vcentered">
                                     <p class="column is-size-4">Total</p>
-                                    <div class="column is-flex is-justify-content-flex-end has-text-weight-semibold"
+                                    <div class="column has-text-weight-semibold is-flex is-justify-content-flex-end"
                                         id="total">$0</div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
                     <div class="card my-5">
                         <div class="card-content">
                             <div class="content">
-                                <h4 class="title is-4">Filtros</h4>
+                                <div class="columns is-mobile is-flex">
+                                    <h4 class=" column title is-5">Filtros</h4>
+                                    <p class="column is-flex is-justify-content-flex-end has-text-link"
+                                        id="ocultar-filtros">Ocultar filtros</p>
+                                </div>
+
+
+                                <div class="field">
+                                    <label class="label" for="filtro-todos">Todos</label>
+                                    <div class="control">
+                                      <div class="select is-fullwidth">
+                                        <select id="filtro-todos">
+                                          <option>Todos</option>
+                                          <option>Gasto</option>
+                                          <option>Ganancia</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label" for="filtro-categoria">Categoría</label>
+                                    <div class="control">
+                                      <div class="select is-fullwidth">
+                                        <select  id="filtro-categoria">
+                                          <option>Todas</option>
+                                          <option>Comida</option>
+                                          <option>Servicios</option>
+                                          <option>Salidas</option>
+                                          <option>Educación</option>
+                                          <option>Transporte</option>
+                                          <option>Trabajo</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label" for="filtro-fecha">Desde</label>
+                                    <div class="control">
+                                        <input class="input" id="filtro-fecha" type="date">
+                                        </input>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label" for="filtro-ordenar">Ordenar por</label>
+                                    <div class="control">
+                                      <div class="select is-fullwidth">
+                                        <select id="filtro-ordenar">
+                                          <option>Más reciente</option>
+                                          <option>Menos reciente</option>
+                                          <option>Mayor monto</option>
+                                          <option>Menor monto</option>
+                                          <option>A/Z</option>
+                                          <option>Z/A</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                </div>
+
+
+
+
                             </div>
                         </div>
                     </div>
