@@ -1,92 +1,121 @@
 <!DOCTYPE html>
-<html class= "has-background-light" lang="es">
+<html class="has-background-light" lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
-    integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+        integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
     <title>Document</title>
 </head>
 
 <body>
     <header>
-        <nav class="navbar is-primary is-spaced mb-6" role="navigation" aria-label="main navigation">
+        <nav class="navbar is-primary is-spaced mb-5" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-              <a class="navbar-item" href="index.html"> 
-                <span class="icon is-large mr-2">
-                    <i class="fas fa-wallet fa-2x" aria-hidden="true"></i>
-                </span>
-                <h1 class="title is-2 has-text-white"> AhorrADAS</h1>
-              </a>
-          
-              <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-              </a>
+                <a class="navbar-item" href="index.html">
+                    <span class="icon is-large mr-2">
+                        <i class="fas fa-wallet fa-2x" aria-hidden="true"></i>
+                    </span>
+                    <h1 class="title is-2 has-text-white"> AhorrADAS</h1>
+                </a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                    data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
             </div>
-          
-            <div id="navbarBasicExample" class="navbar-menu">     
-              <div class="navbar-end">
-                <div class="navbar-item">
-                  <div class="buttons">
-                    <button class="button is-primary" id="abrir-balances">
-                        <span class="icon is-large mr-1">
-                            <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>
-                        </span>
-                        <p>Balance</p>
-                    </button>
-                    <button class="button is-primary" id="abrir-categorias">
-                        <span class="icon is-large mr-2">
-                            <i class="fas fa-tag mr-1" aria-hidden="true"></i>
-                        </span>
-                        <p>Categorías</p>
-                    </button>
-                    <button class="button is-primary" id="abrir-reportes">
-                        <i class="fas fa-chart-pie mr-1" aria-hidden="true"></i>
-                        <p>Reportes</p>
-                    </button>
+
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <button class="button is-primary" id="abrir-balances">
+                                <span class="icon is-large mr-1">
+                                    <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>
+                                </span>
+                                <p>Balance</p>
+                            </button>
+                            <button class="button is-primary" id="abrir-categorias">
+                                <span class="icon is-large mr-2">
+                                    <i class="fas fa-tag mr-1" aria-hidden="true"></i>
+                                </span>
+                                <p>Categorías</p>
+                            </button>
+                            <button class="button is-primary" id="abrir-reportes">
+                                <i class="fas fa-chart-pie mr-1" aria-hidden="true"></i>
+                                <p>Reportes</p>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </nav>
+        </nav>
     </header>
-    <main class="container vista">
-        <div class="columns">
-        
-        
-        <div class="column is-offset-1 is-3">
-            <div class="card">
-                <div class="card-content">
-                    <div class="content">
-                        <h2 class="title is-2">Balance</h2> <!-- no me funciona la clase is-dark-->
-                    </div>
-                </div>
-            </div>
-            <div class="card my-5">
-                <div class="card-content">
-                    <div class="content">
-                        <h3 class="title is-3">Filtros</h3> <!-- no me funciona la clase is-dark-->
-                    </div>
-                </div>
-            </div>
-        </div>
+    <main class= "section">
+        <div class="container vista">
+            <div class="columns">
 
 
-        <div class="column is-7">
-            <div class="card">
-                <div class="card-content">
-                    <div class="content">
-                        <h3 class="title is-3">Operaciones</h3> <!-- no me funciona la clase is-dark-->
+                <div class="column is-offset-1 is-3">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="content">
+                                <h3 class="title is-3 has-text-dark">Balance</h3>
+                                <div class="columns is-mobile is-vcentered">
+                                    <p class="column is-size-5">Ganancias</p>
+                                    <div class="column is-offset-5 is-flex is-justify-content-flex-end has-text-success" id="ganancias">+$0</div>
+                                </div>
+                                <div class="columns is-mobile is-vcentered">
+                                    <p class="column is-size-5 ">Gastos</p>
+                                    <div class="column is-flex is-justify-content-flex-end has-text-danger" id="gastos">-$0</div>
+                                </div>
+                                <div class="columns is-mobile is-vcentered">
+                                    <p class="column is-size-4">Total</p>
+                                    <div class="column is-flex is-justify-content-flex-end has-text-weight-semibold" id="total">$0</div>
+                                </div>
+                                <!-- 
+                                <div class="content columns">
+                                    <div class="column">
+                                        <p class= "is-size-5">Ganancias</p>
+                                        <p class= "is-size-5">Gastos</p>
+                                        <p class= "is-size-4">Total</p>
+                                    </div>
+                                    <div class="column is-offset-5">
+                                        <p id=ganancias>+$0</p>
+                                        <p id=gastos>-$0</p>
+                                        <p id=total>$0</p>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card my-5">
+                        <div class="card-content">
+                            <div class="content">
+                                <h4 class="title is-4">Filtros</h4>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+
+                <div class="column is-7">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="content">
+                                <h4 class="title is-4 has-text-dark">Operaciones</h4> <!-- no me funciona la clase is-dark-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
-        
-        </div>
     </main>
     <script src="main.js"></script>
 </body>
+
 </html>
