@@ -35,19 +35,19 @@
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
-                            <button class="button is-primary" id="abrir-balances">
+                            <button class="button is-primary" id="open-balance-section">
                                 <span class="icon is-large mr-1">
                                     <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>
                                 </span>
                                 <p>Balance</p>
                             </button>
-                            <button class="button is-primary" id="abrir-categorias">
+                            <button class="button is-primary" id="open-categorias-section">
                                 <span class="icon is-large mr-2">
                                     <i class="fas fa-tag mr-1" aria-hidden="true"></i>
                                 </span>
                                 <p>Categorías</p>
                             </button>
-                            <button class="button is-primary" id="abrir-reportes">
+                            <button class="button is-primary" id="open-reportes-section">
                                 <i class="fas fa-chart-pie mr-1" aria-hidden="true"></i>
                                 <p>Reportes</p>
                             </button>
@@ -56,7 +56,7 @@
                 </div>
         </nav>
     </header>
-    <main class="section balance">
+    <main class="section balance" id="section-balance">
         <div class="container">
             <div class="columns is-centered is-multiline">
 
@@ -173,7 +173,7 @@
         </div>
     </main>
 
-    <section class="section is-hidden" id="menu-categoria">
+    <section class="section is-hidden" id="section-categorias">
         <div class="container">
             <div class="columns is-centered is-mobile">
                 <div class="column is-8-widescreen is-9-desktop is-12-tablet">
@@ -196,91 +196,83 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="columns is-mobile">
-                            <div class="column is-four-fifths">
+                        <div class="columns is-mobile is-vcentered is-desktop">
+                            <div class="column">
                                 <p class="tag is-primary is-light">Comida</p>
                             </div>
                             <div class="columns">
-                                <div class="column is-3">
-                                    <button class="button is-ghost is-size-7">Editar</button>
-                                </div>
                                 <div class="column">
+                                    <button class="button is-ghost is-size-7">Editar</button>
                                     <button class="button is-ghost is-size-7">Eliminar</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="columns is-mobile">
-                            <div class="column is-four-fifths">
-                                <p class="tag is-primary is-light">Comida</p>
+                        <div class="columns is-mobile is-vcentered">
+                            <div class="column">
+                                <p class="tag is-primary is-light">Servicios</p>
                             </div>
                             <div class="columns">
-                                <div class="column is-3">
-                                    <button class="button is-ghost is-size-7">Editar</button>
-                                </div>
                                 <div class="column">
+                                    <button class="button is-ghost is-size-7">Editar</button>
                                     <button class="button is-ghost is-size-7">Eliminar</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="columns is-mobile">
-                            <div class="column is-four-fifths">
-                                <p class="tag is-primary is-light">Comida</p>
+                        <div class="columns is-mobile is-vcentered">
+                            <div class="column">
+                                <p class="tag is-primary is-light">Salidas</p>
                             </div>
                             <div class="columns">
-                                <div class="column is-3">
-                                    <button class="button is-ghost is-size-7">Editar</button>
-                                </div>
                                 <div class="column">
+                                    <button class="button is-ghost is-size-7">Editar</button>
                                     <button class="button is-ghost is-size-7">Eliminar</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="columns is-mobile">
-                            <div class="column is-four-fifths">
-                                <p class="tag is-primary is-light">Comida</p>
+                        <div class="columns is-mobile is-vcentered">
+                            <div class="column">
+                                <p class="tag is-primary is-light">Educación</p>
                             </div>
                             <div class="columns">
-                                <div class="column is-3">
-                                    <button class="button is-ghost is-size-7">Editar</button>
-                                </div>
                                 <div class="column">
+                                    <button class="button is-ghost is-size-7">Editar</button>
                                     <button class="button is-ghost is-size-7">Eliminar</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="columns is-mobile">
-                            <div class="column is-four-fifths">
-                                <p class="tag is-primary is-light">Comida</p>
+                        <div class="columns is-mobile is-vcentered">
+                            <div class="column">
+                                <p class="tag is-primary is-light">Transporte</p>
                             </div>
                             <div class="columns">
-                                <div class="column is-3">
-                                    <button class="button is-ghost is-size-7">Editar</button>
-                                </div>
                                 <div class="column">
+                                    <button class="button is-ghost is-size-7">Editar</button>
                                     <button class="button is-ghost is-size-7">Eliminar</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="columns is-mobile">
-                            <div class="column is-four-fifths">
-                                <p class="tag is-primary is-light">Comida</p>
+                        <div class="columns is-mobile is-vcentered">
+                            <div class="column">
+                                <p class="tag is-primary is-light">Transporte</p>
                             </div>
                             <div class="columns">
-                                <div class="column is-3">
-                                    <button class="button is-ghost is-size-7">Editar</button>
-                                </div>
                                 <div class="column">
+                                    <button class="button is-ghost is-size-7">Editar</button>
                                     <button class="button is-ghost is-size-7">Eliminar</button>
                                 </div>
                             </div>
                         </div>
+                    
+                   
+                    
+                       
                     </article>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section is-hidden" id="menu-reportes">
+    <section class="section is-hidden" id="section-reportes">
         <div class="container">
             <div class="columns is-centered is-mobile">
                 <div class="column is-8-widescreen is-9-desktop is-12-tablet">
