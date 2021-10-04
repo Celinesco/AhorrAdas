@@ -23,37 +23,26 @@
                     <h1 class="title is-2 has-text-white"> AhorrADAs</h1>
                 </a>
 
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" id="open-navbar-burger"
+                <a role="button" class="navbar-burger mt-2 is-primary" aria-label="menu" aria-expanded="false" id="button-navbar-burger"
                     data-target="navbarBasicExample">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                 </a>
             </div>
-
-            <div id="navbarBasicExample" class="navbar-menu">
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <button class="button is-primary" id="open-balance-section">
-                                <span class="icon is-large mr-1">
-                                    <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>
-                                </span>
-                                <p>Balance</p>
-                            </button>
-                            <button class="button is-primary" id="open-categorias-section">
-                                <span class="icon is-large mr-2">
-                                    <i class="fas fa-tag mr-1" aria-hidden="true"></i>
-                                </span>
-                                <p>Categorías</p>
-                            </button>
-                            <button class="button is-primary" id="open-reportes-section">
-                                <i class="fas fa-chart-pie mr-1" aria-hidden="true"></i>
-                                <p>Reportes</p>
-                            </button>
-                        </div>
-                    </div>
+            <div class="navbar-menu" id="burger-navbar-open">
+                <div class="navbar-end has-text-white">
+                    <a class="navbar-item" id="open-balance-section">
+                        <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>Balance
+                    </a>
+                    <a class="navbar-item" id="open-categorias-section">
+                        <i class="fas fa-tag mr-1" aria-hidden="true"></i>Categorías
+                    </a>
+                    <a class="navbar-item" id="open-reportes-section">
+                        <i class="fas fa-chart-pie mr-1" aria-hidden="true"></i>Reportes
+                    </a>
                 </div>
+            </div>
         </nav>
     </header>
     <main class="section balance" id="section-balance">
