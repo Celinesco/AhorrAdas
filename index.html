@@ -143,7 +143,7 @@
                                 <h4 class="title is-4 has-text-dark">Operaciones</h4>
                             </div>
                             <div class="column has-text-right">
-                                <button class="button is-primary">+ Nueva Operación</button>
+                                <button class="button is-primary" id="button-nueva-operacion">+ Nueva Operación</button>
                             </div>
                         </div>
                         <div class="columns is-centered my-6 py-6">
@@ -161,6 +161,81 @@
             </div>
         </div>
     </main>
+
+    <!--SECTION NUEVA OPERACION-->
+
+    <section class="section is-hidden" id="section-nueva-operacion">
+        <div class="container">
+            <div class="columns is-centered is-mobile">
+                <div class="column is-8-widescreen is-8-widescreen is-12-tablet">
+                    <artcile class="box">
+                        <h2 class="title is-size-2 mb-6">Nueva operación</h2>
+                        <form>
+                            <div class="field">
+                                <label class="label" for="operation-description">Descripción</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="operation-description">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="money-amount">Monto</label>
+                                <div class="control">
+                                    <input class="input" type="number" id="money-amount">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="operation-type">Tipo</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select id="operation-type">
+                                            <option>Gasto</option>
+                                            <option>Ganancia</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="operation-category">Categoría</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select id="operation-category">
+                                            <option>Comida</option>
+                                            <option>Servicios</option>
+                                            <option>Salidas</option>
+                                            <option>Educación</option>
+                                            <option>Transporte</option>
+                                            <option>Trabajo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="operation-date">Fecha</label>
+                                <div class="control">
+                                    <input class="input" id="operation-date" type="date">
+                                    </input>
+                                </div>
+                            </div>
+                            <div class="is-flex is-justify-content-flex-end">
+                                <div class="field is-grouped buttons mt-6">
+                                    <div class="control">
+                                        <button class="button is-light">Cancelar</button>
+                                    </div>
+                                    <div class="control">
+                                        <button class="button is-success">Agregar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </artcile>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!--SECTION CATEGORÍAS-->
 
     <section class="section is-hidden" id="section-categorias">
         <div class="container">
@@ -251,15 +326,13 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
                     </article>
                 </div>
             </div>
         </div>
     </section>
+
+<!--SECTION REPORTES-->
 
     <section class="section is-hidden" id="section-reportes">
         <div class="container">
@@ -287,3 +360,4 @@
 </body>
 
 </html>
+
