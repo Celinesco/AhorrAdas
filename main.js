@@ -25,6 +25,7 @@ const sectionCategorias = document.getElementById("section-categorias");
 const sectionEditarCategoria = document.getElementById("section-editar-categoria")
 const openSectionEditarCategoria = document.querySelectorAll(".open-editar-categoria");
 const deleteCategoria = document.querySelectorAll(".delete-categoria");
+const cancelEditarCategoria = document.getElementById("cancel-editar-categoria");
 
 
 //Variables Seccion Reportes 
@@ -94,6 +95,13 @@ for (let i = 0; i < openSectionEditarCategoria.length; i++) {
     }
 
 }
+
+cancelEditarCategoria.onclick = () => {
+    ocultarSecciones();
+    sectionCategorias.classList.remove('is-hidden')
+}
+
+
 
 
 
