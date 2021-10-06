@@ -26,6 +26,9 @@ const sectionEditarCategoria = document.getElementById("section-editar-categoria
 const openSectionEditarCategoria = document.querySelectorAll(".open-editar-categoria");
 const deleteCategoria = document.querySelectorAll(".delete-categoria");
 const cancelEditarCategoria = document.getElementById("cancel-editar-categoria");
+const addNuevaCategoria = document.getElementById("agregar-categoria");
+const inputNuevaCategoria = document.getElementById("input-nueva-categoria");
+const listCategorias = document.getElementById("lista-categorias")
 
 
 //Variables Seccion Reportes 
@@ -86,6 +89,28 @@ buttonOcultarFiltros.onclick = () => {
 }
 
 // //--------------------FUNCIONALIDAD CATEGORÍAS-----------------///
+
+let creatNewCategory = () => {
+    let li = document.createElement('li');
+    li.innerHTML = `<div class="columns is-mobile is-vcentered mb-3">
+    <div class="column">
+        <p class="tag is-primary is-light">${inputNuevaCategoria.value}</p>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+        </div>
+    </div>
+</div>`
+    return li;
+}
+
+
+
+addNuevaCategoria.onclick = () => {
+    listCategorias.appendChild(creatNewCategory())
+}
 
 
 for (let i = 0; i < openSectionEditarCategoria.length; i++) {

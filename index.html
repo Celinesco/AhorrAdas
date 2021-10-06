@@ -249,7 +249,7 @@
                             <div class="column is-10-tablet mb-5">
                                 <div class="field">
                                     <div class="control">
-                                        <input class="input" id="nueva-categoria" type="text" required>
+                                        <input class="input" id="input-nueva-categoria" type="text" required>
                                     </div>
                                 </div>
                             </div>
@@ -261,72 +261,88 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="columns is-mobile is-vcentered is-desktop">
-                            <div class="column">
-                                <p class="tag is-primary is-light">Comida</p>
-                            </div>
-                            <div class="columns">
-                                <div class="column">
-                                    <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                                    <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                        <ul id="lista-categorias">
+                            <li>
+                                <div class="columns is-mobile is-vcentered mb-3">
+                                    <div class="column">
+                                        <p class="tag is-primary is-light">Comida</p>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column">
+                                            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                                            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="columns is-mobile is-vcentered">
-                            <div class="column">
-                                <p class="tag is-primary is-light">Servicios</p>
-                            </div>
-                            <div class="columns">
-                                <div class="column">
-                                    <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                                    <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                            </li>
+
+                            <li>
+                                <div class="columns is-mobile is-vcentered mb-3">
+                                    <div class="column">
+                                        <p class="tag is-primary is-light">Servicios</p>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column">
+                                            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                                            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="columns is-mobile is-vcentered">
-                            <div class="column">
-                                <p class="tag is-primary is-light">Salidas</p>
-                            </div>
-                            <div class="columns">
-                                <div class="column">
-                                    <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                                    <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                            </li>
+                            <li>
+                                <div class="columns is-mobile is-vcentered mb-3">
+                                    <div class="column">
+                                        <p class="tag is-primary is-light">Salidas</p>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column">
+                                            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                                            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="columns is-mobile is-vcentered">
-                            <div class="column">
-                                <p class="tag is-primary is-light">Educación</p>
-                            </div>
-                            <div class="columns">
-                                <div class="column">
-                                    <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                                    <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                            </li>
+
+                            <li>
+                                <div class="columns is-mobile is-vcentered mb-3">
+                                    <div class="column">
+                                        <p class="tag is-primary is-light">Educación</p>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column">
+                                            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                                            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="columns is-mobile is-vcentered">
-                            <div class="column">
-                                <p class="tag is-primary is-light">Transporte</p>
-                            </div>
-                            <div class="columns">
-                                <div class="column">
-                                    <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                                    <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                            </li>
+                            <li>
+                                <div class="columns is-mobile is-vcentered mb-3">
+                                    <div class="column">
+                                        <p class="tag is-primary is-light">Transporte</p>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column">
+                                            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                                            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="columns is-mobile is-vcentered">
-                            <div class="column">
-                                <p class="tag is-primary is-light">Trabajo</p>
-                            </div>
-                            <div class="columns">
-                                <div class="column">
-                                    <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                                    <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                            </li>
+                            <li>
+                                <div class="columns is-mobile is-vcentered mb-3">
+                                    <div class="column">
+                                        <p class="tag is-primary is-light">Trabajo</p>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column">
+                                            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                                            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </li>
+                        </ul>
                     </article>
                 </div>
             </div>
