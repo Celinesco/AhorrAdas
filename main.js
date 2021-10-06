@@ -28,7 +28,7 @@ const deleteCategoria = document.querySelectorAll(".delete-categoria");
 const cancelEditarCategoria = document.getElementById("cancel-editar-categoria");
 const addNuevaCategoria = document.getElementById("agregar-categoria");
 const inputNuevaCategoria = document.getElementById("input-nueva-categoria");
-const listCategorias = document.getElementById("lista-categorias")
+const listCategorias = document.getElementById("lista-categorias");
 
 
 //Variables Seccion Reportes 
@@ -104,35 +104,43 @@ let creatNewCategory = () => {
     </div>
 </div>`
     return li;
+
 }
 
 
-
-addNuevaCategoria.onclick = () => {
-    listCategorias.appendChild(creatNewCategory())
+const abrirVentanaEditarCategoria = () => {
+    sectionCategorias.classList.add('is-hidden');
+    sectionEditarCategoria.classList.remove('is-hidden');
 }
 
 
 for (let i = 0; i < openSectionEditarCategoria.length; i++) {
-    openSectionEditarCategoria[i].onclick = () => {
-        sectionCategorias.classList.add('is-hidden');
-        sectionEditarCategoria.classList.remove('is-hidden');
-    }
-
+    openSectionEditarCategoria[i].onclick = abrirVentanaEditarCategoria;
 }
+
+
+addNuevaCategoria.onclick = () => {
+    nuevaCategoria = creatNewCategory()   
+    listCategorias.appendChild(nuevaCategoria)
+    let listaActualizada = document.querySelectorAll(".open-editar-categoria");
+    for (let i = 0; i < listaActualizada.length; i++) {
+        listaActualizada[i].onclick = abrirVentanaEditarCategoria;
+    }
+}
+
+//botones editar
 
 cancelEditarCategoria.onclick = () => {
     ocultarSecciones();
-    sectionCategorias.classList.remove('is-hidden')
+    sectionCategorias.classList.remove('is-hidden');
 }
 
 
+//botones eliminar 
 
 
-
-
-
-
-
-
-  
+for (let i = 0; i < deleteCategoria.length; i++) {
+    deleteCategoria[i].onclick = () => {
+    }
+    
+}
