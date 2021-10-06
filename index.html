@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
         integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
@@ -23,8 +22,8 @@
                     <h1 class="title is-2 has-text-white"> AhorrADAs</h1>
                 </a>
 
-                <a role="button" class="navbar-burger mt-2 is-primary" aria-label="menu" aria-expanded="false" id="button-navbar-burger"
-                    data-target="navbarBasicExample">
+                <a role="button" class="navbar-burger mt-2 is-primary" aria-label="menu" aria-expanded="false"
+                    id="button-navbar-burger" data-target="navbarBasicExample">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
@@ -32,20 +31,20 @@
             </div>
             <div class="navbar-menu" id="burger-navbar-open">
                 <div class="navbar-end has-text-white">
-                    <a class="navbar-item" id="open-balance-section">
+                    <a class="navbar-item" id="nav-item-balance-section">
                         <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>Balance
                     </a>
-                    <a class="navbar-item" id="open-categorias-section">
+                    <a class="navbar-item" id="nav-item-categorias-section">
                         <i class="fas fa-tag mr-1" aria-hidden="true"></i>Categorías
                     </a>
-                    <a class="navbar-item" id="open-reportes-section">
+                    <a class="navbar-item" id="nav-item-reportes-section">
                         <i class="fas fa-chart-pie mr-1" aria-hidden="true"></i>Reportes
                     </a>
                 </div>
             </div>
         </nav>
     </header>
-    <main class="section balance" id="section-balance">
+    <main class="section balance visible-section" id="section-balance">
         <div class="container">
             <div class="columns is-centered is-multiline">
 
@@ -168,7 +167,7 @@
 
     <!--SECTION NUEVA OPERACION-->
 
-    <section class="section is-hidden" id="section-nueva-operacion">
+    <section class="section is-hidden visible-section" id="section-nueva-operacion">
         <div class="container">
             <div class="columns is-centered is-mobile">
                 <div class="column is-8-widescreen is-8-widescreen is-12-tablet">
@@ -241,7 +240,7 @@
 
     <!--SECTION CATEGORÍAS-->
 
-    <section class="section is-hidden" id="section-categorias">
+    <section class="section is-hidden visible-section" id="section-categorias">
         <div class="container">
             <div class="columns is-centered is-mobile">
                 <div class="column is-8-widescreen is-9-desktop is-12-tablet">
@@ -270,8 +269,8 @@
                             </div>
                             <div class="columns">
                                 <div class="column">
-                                    <button class="button is-ghost is-size-7">Editar</button>
-                                    <button class="button is-ghost is-size-7">Eliminar</button>
+                                    <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                                    <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -281,8 +280,8 @@
                             </div>
                             <div class="columns">
                                 <div class="column">
-                                    <button class="button is-ghost is-size-7">Editar</button>
-                                    <button class="button is-ghost is-size-7">Eliminar</button>
+                                    <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                                    <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -292,8 +291,8 @@
                             </div>
                             <div class="columns">
                                 <div class="column">
-                                    <button class="button is-ghost is-size-7">Editar</button>
-                                    <button class="button is-ghost is-size-7">Eliminar</button>
+                                    <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                                    <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -303,8 +302,8 @@
                             </div>
                             <div class="columns">
                                 <div class="column">
-                                    <button class="button is-ghost is-size-7">Editar</button>
-                                    <button class="button is-ghost is-size-7">Eliminar</button>
+                                    <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                                    <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -314,8 +313,8 @@
                             </div>
                             <div class="columns">
                                 <div class="column">
-                                    <button class="button is-ghost is-size-7">Editar</button>
-                                    <button class="button is-ghost is-size-7">Eliminar</button>
+                                    <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                                    <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -325,8 +324,8 @@
                             </div>
                             <div class="columns">
                                 <div class="column">
-                                    <button class="button is-ghost is-size-7">Editar</button>
-                                    <button class="button is-ghost is-size-7">Eliminar</button>
+                                    <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                                    <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -336,9 +335,41 @@
         </div>
     </section>
 
-<!--SECTION REPORTES-->
+    <section class="section is-hidden visible-section" id="section-editar-categoria">
+        <div class="container">
+            <div class="columns is-centered is-mobile">
+                <div class="column is-8-widescreen is-9-desktop is-12-tablet">
+                    <article class="box pb-5">
+                        <h2 class="title is-size-2 mb-6">Editar categoría</h2>
+                        <label class="label" for="editar-nueva-categoria">Nombre</label>
+                        <div class="columns is-mobile">
+                            <div class="column is-fullwidth mb-5">
+                                <div class="field">
+                                    <div class="control">
+                                        <input class="input" id="editar-nueva-categoria" type="text" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="is-flex is-justify-content-flex-end">
+                            <div class="field is-grouped buttons mt-3">
+                                <div class="control">
+                                    <button class="button is-light">Cancelar</button>
+                                </div>
+                                <div class="control">
+                                    <button class="button is-success">Editar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <section class="section is-hidden" id="section-reportes">
+    <!--SECTION REPORTES-->
+
+    <section class="section is-hidden visible-section" id="section-reportes">
         <div class="container">
             <div class="columns is-centered is-mobile">
                 <div class="column is-8-widescreen is-9-desktop is-12-tablet">
@@ -364,4 +395,3 @@
 </body>
 
 </html>
-

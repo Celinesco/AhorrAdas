@@ -1,42 +1,58 @@
-//VARIABLES HEADER/NAV
+// //VARIABLES HEADER/NAV
 
-const openSectionBalance = document.getElementById("open-balance-section");
-const openSectionCategorias = document.getElementById("open-categorias-section");
-const openSectionReportes = document.getElementById("open-reportes-section");
+const navItemBalanceSection = document.getElementById("nav-item-balance-section");
+const navItemCategoriasSection = document.getElementById("nav-item-categorias-section");
+const navItemReportesSection = document.getElementById("nav-item-reportes-section");
 const burgerNavButton = document.getElementById("button-navbar-burger");
-const windowNavBarOpen = document.getElementById("burger-navbar-open");
-const sectionNuevaOperacion = document.getElementById("section-nueva-operacion");
-const openSectionNuevaOperacion = document.getElementById("button-nueva-operacion");
-const buttonOcultarFiltros = document.getElementById("ocultar-filtros");
-const formBalanceSection = document.getElementById("form-balance-section");
+const burgerNavBarOpen = document.getElementById("burger-navbar-open");
 
-//Variables main
+// Variables Visibilidad
+
+const visibleSection = document.querySelectorAll(".visible-section")
+
+// //Variables Section-Balance
 
 const sectionBalance = document.getElementById("section-balance");
+const formBalanceSection = document.getElementById("form-balance-section");
+const buttonOcultarFiltros = document.getElementById("ocultar-filtros");
+const sectionNuevaOperacion = document.getElementById("section-nueva-operacion");
+const openSectionNuevaOperacion = document.getElementById("button-nueva-operacion");
+
+
+// //Variables section-categorías
+
 const sectionCategorias = document.getElementById("section-categorias");
+const sectionEditarCategoria = document.getElementById("section-editar-categoria")
+const openSectionEditarCategoria = document.querySelectorAll(".open-editar-categoria");
+const deleteCategoria = document.querySelectorAll(".delete-categoria");
+
+
+//Variables Seccion Reportes 
+
 const sectionReportes = document.getElementById("section-reportes");
 
-//Funcionalidad Header/Nav
 
-openSectionBalance.onclick = () => {
-    sectionCategorias.classList.add('is-hidden');
-    sectionReportes.classList.add('is-hidden');
+// //Funcionalidad Header/Nav
+
+let ocultarSecciones = () => {
+    for (let i = 0; i < visibleSection.length; i++) {
+        visibleSection[i].classList.add('is-hidden');
+    }
+}
+
+navItemBalanceSection.onclick = () => {
+    ocultarSecciones();
     sectionBalance.classList.remove('is-hidden');
-    sectionNuevaOperacion.classList.add('is-hidden');
 }
 
-openSectionCategorias.onclick = () => {
-    sectionBalance.classList.add('is-hidden');
+navItemCategoriasSection.onclick = () => {
+    ocultarSecciones();
     sectionCategorias.classList.remove('is-hidden');
-    sectionReportes.classList.add('is-hidden');
-    sectionNuevaOperacion.classList.add('is-hidden');
 }
 
-openSectionReportes.onclick = () => {
-    sectionBalance.classList.add('is-hidden');
-    sectionCategorias.classList.add('is-hidden');
+navItemReportesSection.onclick = () => {
+    ocultarSecciones();
     sectionReportes.classList.remove('is-hidden');
-    sectionNuevaOperacion.classList.add('is-hidden');
 }
 
 
@@ -44,27 +60,46 @@ openSectionReportes.onclick = () => {
 
 burgerNavButton.onclick = () => {
     burgerNavButton.classList.toggle('is-active');
-    windowNavBarOpen.classList.toggle('is-active');
+    burgerNavBarOpen.classList.toggle('is-active');
 }
 
-//Funcionalidad main/Balance-section
+
+//---------------FFUNCIONALIDAD SECTION-BALANCE------------//////
 
 openSectionNuevaOperacion.onclick = () => {
+    ocultarSecciones();
     sectionNuevaOperacion.classList.remove('is-hidden');
-    sectionBalance.classList.add('is-hidden');
 }
 
 buttonOcultarFiltros.onclick = () => {
-   if (buttonOcultarFiltros.innerText === "Mostrar filtros") {
-       buttonOcultarFiltros.innerText = "Ocultar filtros";
-       formBalanceSection.classList.remove('is-hidden');
-       
+    if (buttonOcultarFiltros.innerText === "Mostrar filtros") {
+        buttonOcultarFiltros.innerText = "Ocultar filtros";
+        formBalanceSection.classList.remove('is-hidden');
 
-   }
-   else {
-       buttonOcultarFiltros.innerText = "Mostrar filtros";
-       formBalanceSection.classList.add('is-hidden');
-   }
+
+    }
+    else {
+        buttonOcultarFiltros.innerText = "Mostrar filtros";
+        formBalanceSection.classList.add('is-hidden');
+    }
+}
+
+// //--------------------FUNCIONALIDAD CATEGORÍAS-----------------///
+
+
+for (let i = 0; i < openSectionEditarCategoria.length; i++) {
+    openSectionEditarCategoria[i].onclick = () => {
+        sectionCategorias.classList.add('is-hidden');
+        sectionEditarCategoria.classList.remove('is-hidden');
+    }
+
 }
 
 
+
+
+
+
+
+
+  
