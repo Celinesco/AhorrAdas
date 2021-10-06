@@ -17,6 +17,7 @@ const formBalanceSection = document.getElementById("form-balance-section");
 const buttonOcultarFiltros = document.getElementById("ocultar-filtros");
 const sectionNuevaOperacion = document.getElementById("section-nueva-operacion");
 const openSectionNuevaOperacion = document.getElementById("button-nueva-operacion");
+const filtroCategoria = document.getElementById("filtro-categoria");
 
 
 // //Variables section-categorías
@@ -90,7 +91,15 @@ buttonOcultarFiltros.onclick = () => {
 
 // //--------------------FUNCIONALIDAD CATEGORÍAS-----------------///
 
-let creatNewCategory = () => {
+let newCategoryOnFiltroCategoria = () => {
+    let option = document.createElement('option')
+    option.innerText = `${inputNuevaCategoria.value}`
+    return option
+}
+
+
+
+let creatNewCategoryOnCategoriaSection = () => {
     let li = document.createElement('li');
     li.innerHTML = `<div class="columns is-mobile is-vcentered mb-3">
     <div class="column">
@@ -120,8 +129,10 @@ for (let i = 0; i < openSectionEditarCategoria.length; i++) {
 
 
 addNuevaCategoria.onclick = () => {
-    nuevaCategoria = creatNewCategory()   
+    let nuevaCategoria = creatNewCategoryOnCategoriaSection()   
     listCategorias.appendChild(nuevaCategoria)
+    let nuevaCategoriaEnFiltros = newCategoryOnFiltroCategoria ();
+    filtroCategoria.appendChild(nuevaCategoriaEnFiltros);
     let listaActualizada = document.querySelectorAll(".open-editar-categoria");
     for (let i = 0; i < listaActualizada.length; i++) {
         listaActualizada[i].onclick = abrirVentanaEditarCategoria;
@@ -138,9 +149,13 @@ cancelEditarCategoria.onclick = () => {
 
 //botones eliminar 
 
+// eliminarCategoria = () => {
 
-for (let i = 0; i < deleteCategoria.length; i++) {
-    deleteCategoria[i].onclick = () => {
-    }
+// }
+
+// for (let i = 0; i < deleteCategoria.length; i++) {
+//     deleteCategoria[i].onclick = () => {
+
+//     }
     
-}
+// }
