@@ -1,14 +1,14 @@
 // //VARIABLES HEADER/NAV
 
-const navItemBalanceSection = document.getElementById("nav-item-balance-section");
-const navItemCategoriasSection = document.getElementById("nav-item-categorias-section");
-const navItemReportesSection = document.getElementById("nav-item-reportes-section");
-const burgerNavButton = document.getElementById("button-navbar-burger");
-const burgerNavBarOpen = document.getElementById("burger-navbar-open");
+const itemNavSeccionBalance = document.getElementById("item-nav-seccion-balance");
+const itemNavSeccionCategorias = document.getElementById("item-nav-seccion-categorias");
+const itemNavSeccionReportes = document.getElementById("item-nav-seccion-reportes");
+const botonMenuHamburguesa = document.getElementById("boton-menu-hamburguesa");
+const abrirMenuHamburguesa = document.getElementById("abrir-menu-hamburguesa");
 
 // Variables Visibilidad
 
-const visibleSection = document.querySelectorAll(".visible-section")
+const seccionVisible = document.querySelectorAll(".seccion-visible")
 
 // //Variables Section-Balance
 
@@ -40,7 +40,7 @@ const sectionReportes = document.getElementById("section-reportes");
 
 //Funciones Auxiliares
 let ocultarSecciones = () => {
-    visibleSection.forEach((section) => {
+    seccionVisible.forEach((section) => {
         section.classList.add('is-hidden')
     })
 }
@@ -49,17 +49,17 @@ let ocultarSecciones = () => {
 
 
 
-navItemBalanceSection.onclick = () => {
+itemNavSeccionBalance.onclick = () => {
     ocultarSecciones();
     sectionBalance.classList.remove('is-hidden');
 }
 
-navItemCategoriasSection.onclick = () => {
+itemNavSeccionCategorias.onclick = () => {
     ocultarSecciones();
     sectionCategorias.classList.remove('is-hidden');
 }
 
-navItemReportesSection.onclick = () => {
+itemNavSeccionReportes.onclick = () => {
     ocultarSecciones();
     sectionReportes.classList.remove('is-hidden');
 }
@@ -67,9 +67,9 @@ navItemReportesSection.onclick = () => {
 
 // Funcionalidad Nav-Mobile
 
-burgerNavButton.onclick = () => {
-    burgerNavButton.classList.toggle('is-active');
-    burgerNavBarOpen.classList.toggle('is-active');
+botonMenuHamburguesa.onclick = () => {
+    botonMenuHamburguesa.classList.toggle('is-active');
+    abrirMenuHamburguesa.classList.toggle('is-active');
 }
 
 
@@ -102,7 +102,7 @@ let newCategoryOnFiltroCategoria = () => {
 
 
 
-let creatNewCategoryOnCategoriaSection = () => {
+let nuevaCategoriaEnHtml = () => {
     let li = document.createElement('li');
     li.innerHTML = `<div class="columns is-mobile is-vcentered mb-3">
     <div class="column">
@@ -120,7 +120,7 @@ let creatNewCategoryOnCategoriaSection = () => {
 }
 
 
-const abrirVentanaEditarCategoria = () => {
+let abrirVentanaEditarCategoria = () => {
     sectionCategorias.classList.add('is-hidden');
     sectionEditarCategoria.classList.remove('is-hidden');
 }
@@ -129,8 +129,6 @@ const abrirVentanaEditarCategoria = () => {
 for (let i = 0; i < openSectionEditarCategoria.length; i++) {
     openSectionEditarCategoria[i].onclick = abrirVentanaEditarCategoria;
 }
-
-
 
 
 
@@ -144,7 +142,7 @@ inputNuevaCategoria.oninput = () => {
 addNuevaCategoria.onclick = () => {
     
     if ( inputNuevaCategoria.value.length > 0) {
-        let nuevaCategoria = creatNewCategoryOnCategoriaSection()   
+        let nuevaCategoria = nuevaCategoriaEnHtml()   
         listCategorias.appendChild(nuevaCategoria)
         let nuevaCategoriaEnFiltros = newCategoryOnFiltroCategoria ();
         filtroCategoria.appendChild(nuevaCategoriaEnFiltros);
