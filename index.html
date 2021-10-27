@@ -86,9 +86,9 @@
                                 <div class="control">
                                     <div class="select is-fullwidth">
                                         <select id="filtro-todos">
-                                            <option>Todos</option>
-                                            <option>Gasto</option>
-                                            <option>Ganancia</option>
+                                            <option value="todos">Todos</option>
+                                            <option value="gasto">Gasto</option>
+                                            <option value="ganancia">Ganancia</option>
                                         </select>
                                     </div>
                                 </div>
@@ -124,12 +124,12 @@
                                 <div class="control">
                                     <div class="select is-fullwidth">
                                         <select id="filtro-ordenar">
-                                            <option>Más reciente</option>
-                                            <option>Menos reciente</option>
-                                            <option>Mayor monto</option>
-                                            <option>Menor monto</option>
-                                            <option>A/Z</option>
-                                            <option>Z/A</option>
+                                            <option value="recientes">Más reciente</option>
+                                            <option value="menos-recientes">Menos reciente</option>
+                                            <option value="mayor-monto">Mayor monto</option>
+                                            <option value="menor-monto">Menor monto</option>
+                                            <option value="a-z">A/Z</option>
+                                            <option value="z-a">Z/A</option>
                                         </select>
                                     </div>
                                 </div>
@@ -202,12 +202,12 @@
                                 <div class="control">
                                     <div class="select is-fullwidth">
                                         <select id="operation-category">
-                                            <option>Comida</option>
-                                            <option>Servicios</option>
-                                            <option>Salidas</option>
-                                            <option>Educación</option>
-                                            <option>Transporte</option>
-                                            <option>Trabajo</option>
+                                            <option value="comida">Comida</option>
+                                            <option value="servicios">Servicios</option>
+                                            <option value="salidas">Salidas</option>
+                                            <option value="educacion">Educación</option>
+                                            <option value="transporte">Transporte</option>
+                                            <option value="trabajo">Trabajo</option>
                                         </select>
                                     </div>
                                 </div>
@@ -244,23 +244,26 @@
                 <div class="column is-8-widescreen is-9-desktop is-12-tablet">
                     <article class="box pb-5">
                         <h2 class="title is-size-2 mb-6">Categorías</h2>
-                        <label class="label" for="nueva-categoria">Nombre</label>
-                        <div class="columns is-mobile">
-                            <div class="column is-10-tablet mb-5">
-                                <div class="field">
-                                    <div class="control">
-                                        <input class="input" id="input-nueva-categoria" type="text" required>
+                            <div class="columns is-mobile is-vcentered">
+                                <div class="column is-10-tablet mb-5">
+                                    <div class="field">
+                                        <label class="label" for="nueva-categoria">Nombre</label>
+                                        <div class="control has-icons-right">
+                                            <input class="input" id="input-nueva-categoria" type="text" required>
+                                            <span class="icon is-small is-right is-hidden requested-field">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </span>
+                                            </div>
+                                            <p class="help is-danger is-hidden requested-field">Elige un nombre para tu categoría</p>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="control">
+                                            <button type="button" class="button is-success" id="agregar-categoria">Agregar</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="column">
-                                <div class="field">
-                                    <div class="control">
-                                        <button class="button is-success" id="agregar-categoria">Agregar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         <ul id="lista-categorias">
                             <li>
                                 <div class="columns is-mobile is-vcentered mb-3">

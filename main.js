@@ -30,6 +30,7 @@ const cancelEditarCategoria = document.getElementById("cancel-editar-categoria")
 const addNuevaCategoria = document.getElementById("agregar-categoria");
 const inputNuevaCategoria = document.getElementById("input-nueva-categoria");
 const listCategorias = document.getElementById("lista-categorias");
+const alertsRequestField = document.querySelectorAll(".requested-field")
 
 
 //Variables Seccion Reportes 
@@ -37,13 +38,16 @@ const listCategorias = document.getElementById("lista-categorias");
 const sectionReportes = document.getElementById("section-reportes");
 
 
+//Funciones Auxiliares
+let ocultarSecciones = () => {
+    visibleSection.forEach((section) => {
+        section.classList.add('is-hidden')
+    })
+}
+
 // //Funcionalidad Header/Nav
 
-let ocultarSecciones = () => {
-    for (let i = 0; i < visibleSection.length; i++) {
-        visibleSection[i].classList.add('is-hidden');
-    }
-}
+
 
 navItemBalanceSection.onclick = () => {
     ocultarSecciones();
@@ -80,9 +84,8 @@ buttonOcultarFiltros.onclick = () => {
     if (buttonOcultarFiltros.innerText === "Mostrar filtros") {
         buttonOcultarFiltros.innerText = "Ocultar filtros";
         formBalanceSection.classList.remove('is-hidden');
-
-
     }
+
     else {
         buttonOcultarFiltros.innerText = "Mostrar filtros";
         formBalanceSection.classList.add('is-hidden');
@@ -128,15 +131,35 @@ for (let i = 0; i < openSectionEditarCategoria.length; i++) {
 }
 
 
+
+
+
+inputNuevaCategoria.oninput = () => {
+    alertsRequestField.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    })
+}
+
+
 addNuevaCategoria.onclick = () => {
-    let nuevaCategoria = creatNewCategoryOnCategoriaSection()   
-    listCategorias.appendChild(nuevaCategoria)
-    let nuevaCategoriaEnFiltros = newCategoryOnFiltroCategoria ();
-    filtroCategoria.appendChild(nuevaCategoriaEnFiltros);
-    let listaActualizada = document.querySelectorAll(".open-editar-categoria");
-    for (let i = 0; i < listaActualizada.length; i++) {
-        listaActualizada[i].onclick = abrirVentanaEditarCategoria;
+    
+    if ( inputNuevaCategoria.value.length > 0) {
+        let nuevaCategoria = creatNewCategoryOnCategoriaSection()   
+        listCategorias.appendChild(nuevaCategoria)
+        let nuevaCategoriaEnFiltros = newCategoryOnFiltroCategoria ();
+        filtroCategoria.appendChild(nuevaCategoriaEnFiltros);
+        let listaActualizada = document.querySelectorAll(".open-editar-categoria");
+        for (let i = 0; i < listaActualizada.length; i++) {
+            listaActualizada[i].onclick = abrirVentanaEditarCategoria;
+        }
+      }
+
+    else {
+        alertsRequestField.forEach((alertas) => {
+            alertas.classList.remove('is-hidden')
+        })
     }
+  
 }
 
 //botones editar
