@@ -10,7 +10,7 @@ const abrirMenuHamburguesa = document.getElementById("abrir-menu-hamburguesa");
 
 const seccionVisible = document.querySelectorAll(".seccion-visible")
 
-// //Variables Section-Balance
+// //Variables SECCION BALANCE
 
 const seccionBalance = document.getElementById("seccion-balance");
 const formularioSeccionBalance = document.getElementById("formulario-seccion-balance");
@@ -18,9 +18,10 @@ const ocultarFiltros = document.getElementById("ocultar-filtros");
 const seccionNuevaOperacion = document.getElementById("seccion-nueva-operacion");
 const abrirSeccionNuevaOperacion = document.getElementById("abrir-nueva-operacion");
 const filtroCategoria = document.getElementById("filtro-categoria");
+const categoriasEnNuevaOperacion = document.getElementById("categorias-seccion-nueva-operacion")
 
 
-// //Variables section-categorías
+// //Variables SECCION-CATEGORÍAS
 
 const sectionCategorias = document.getElementById("section-categorias");
 const sectionEditarCategoria = document.getElementById("section-editar-categoria")
@@ -33,9 +34,12 @@ const listCategorias = document.getElementById("lista-categorias");
 const alertsRequestField = document.querySelectorAll(".requested-field")
 
 
-//Variables Seccion Reportes 
+//Variables SECCION REPORTES
 
 const sectionReportes = document.getElementById("section-reportes");
+
+
+
 
 
 //Funciones Auxiliares
@@ -45,9 +49,16 @@ let ocultarSecciones = () => {
     })
 }
 
+let nuevasCategoriasEnSelects= () => {
+    let option = document.createElement('option')
+    option.innerText = `${inputNuevaCategoria.value}`
+    return option
+}
+
+
+
+
 // //Funcionalidad Header/Nav
-
-
 
 itemNavSeccionBalance.onclick = () => {
     ocultarSecciones();
@@ -94,15 +105,11 @@ ocultarFiltros.onclick = () => {
 
 // //--------------------FUNCIONALIDAD CATEGORÍAS-----------------///
 
-let newCategoryOnFiltroCategoria = () => {
-    let option = document.createElement('option')
-    option.innerText = `${inputNuevaCategoria.value}`
-    return option
-}
 
 
 
-let nuevaCategoriaEnHtml = () => {
+
+let HTMLnuevaCategoriaSeccionCategorias = () => {
     let li = document.createElement('li');
     li.innerHTML = `<div class="columns is-mobile is-vcentered mb-3">
     <div class="column">
@@ -142,9 +149,11 @@ inputNuevaCategoria.oninput = () => {
 addNuevaCategoria.onclick = () => {
     
     if ( inputNuevaCategoria.value.length > 0) {
-        let nuevaCategoria = nuevaCategoriaEnHtml()   
-        listCategorias.appendChild(nuevaCategoria)
-        let nuevaCategoriaEnFiltros = newCategoryOnFiltroCategoria ();
+        let nuevaCategoria = HTMLnuevaCategoriaSeccionCategorias()   
+        listCategorias.appendChild(nuevaCategoria);
+        let nuevaCategoriaEnNuevaOperacion = nuevasCategoriasEnSelects();
+        categoriasEnNuevaOperacion.appendChild(nuevaCategoriaEnNuevaOperacion);
+        let nuevaCategoriaEnFiltros = nuevasCategoriasEnSelects();
         filtroCategoria.appendChild(nuevaCategoriaEnFiltros);
         let listaActualizada = document.querySelectorAll(".open-editar-categoria");
         for (let i = 0; i < listaActualizada.length; i++) {
