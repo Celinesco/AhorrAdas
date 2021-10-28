@@ -12,11 +12,11 @@ const seccionVisible = document.querySelectorAll(".seccion-visible")
 
 // //Variables Section-Balance
 
-const sectionBalance = document.getElementById("section-balance");
-const formBalanceSection = document.getElementById("form-balance-section");
-const buttonOcultarFiltros = document.getElementById("ocultar-filtros");
-const sectionNuevaOperacion = document.getElementById("section-nueva-operacion");
-const openSectionNuevaOperacion = document.getElementById("button-nueva-operacion");
+const seccionBalance = document.getElementById("seccion-balance");
+const formularioSeccionBalance = document.getElementById("formulario-seccion-balance");
+const ocultarFiltros = document.getElementById("ocultar-filtros");
+const seccionNuevaOperacion = document.getElementById("seccion-nueva-operacion");
+const abrirSeccionNuevaOperacion = document.getElementById("abrir-nueva-operacion");
 const filtroCategoria = document.getElementById("filtro-categoria");
 
 
@@ -51,7 +51,7 @@ let ocultarSecciones = () => {
 
 itemNavSeccionBalance.onclick = () => {
     ocultarSecciones();
-    sectionBalance.classList.remove('is-hidden');
+    seccionBalance.classList.remove('is-hidden');
 }
 
 itemNavSeccionCategorias.onclick = () => {
@@ -75,20 +75,20 @@ botonMenuHamburguesa.onclick = () => {
 
 //---------------FFUNCIONALIDAD SECTION-BALANCE------------//////
 
-openSectionNuevaOperacion.onclick = () => {
+abrirSeccionNuevaOperacion.onclick = () => {
     ocultarSecciones();
-    sectionNuevaOperacion.classList.remove('is-hidden');
+    seccionNuevaOperacion.classList.remove('is-hidden');
 }
 
-buttonOcultarFiltros.onclick = () => {
-    if (buttonOcultarFiltros.innerText === "Mostrar filtros") {
-        buttonOcultarFiltros.innerText = "Ocultar filtros";
-        formBalanceSection.classList.remove('is-hidden');
+ocultarFiltros.onclick = () => {
+    if (ocultarFiltros.innerText === "Mostrar filtros") {
+        ocultarFiltros.innerText = "Ocultar filtros";
+        formularioSeccionBalance.classList.remove('is-hidden');
     }
 
     else {
-        buttonOcultarFiltros.innerText = "Mostrar filtros";
-        formBalanceSection.classList.add('is-hidden');
+        ocultarFiltros.innerText = "Mostrar filtros";
+        formularioSeccionBalance.classList.add('is-hidden');
     }
 }
 
