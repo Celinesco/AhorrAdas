@@ -44,6 +44,9 @@
             </div>
         </nav>
     </header>
+
+    <!--SECCION PRINCIPAL BALANCE-->
+
     <main class="section balance seccion-visible" id="seccion-balance">
         <div class="container">
             <div class="columns is-centered is-multiline">
@@ -74,8 +77,8 @@
                             <div class="column">
                                 <h4 class="title is-4">Filtros</h4>
                             </div>
-                            <div class="column">
-                                <button class="button is-ghost is-6" id="ocultar-filtros">
+                            <div class="column is-flex is-justify-content-flex-end">
+                                <button class="button is-ghost" id="ocultar-filtros">
                                     Ocultar filtros</button>
                             </div>
                         </div>
@@ -135,8 +138,6 @@
                                 </div>
                             </div>
                         </form>
-
-
                     </article>
                 </div>
                 <div class="column is-7-desktop is-8-desktop">
@@ -149,13 +150,28 @@
                                 <button class="button is-primary" id="abrir-nueva-operacion">+ Nueva Operación</button>
                             </div>
                         </div>
-                        <div class="columns is-centered my-6 py-6">
-                            <div class="column is-6">
-                                <div class="image">
-                                    <img src="images/undraw_Growing_re_olpi.svg">
+
+                        <div class="columns my-3 py-2 is-hidden" id="tabla-titulos-operaciones">
+                            <div class="column has-text-weight-semibold is-3">Descripción</div>
+                            <div class="column has-text-weight-semibold is-2">Categoría</div>
+                            <div class="column has-text-weight-semibold is-2">Fecha</div>
+                            <div class="column has-text-weight-semibold is-2">Monto</div>
+                            <div class="column has-text-weight-semibold is-2 has-text-centered">Acciones</div>
+                        </div>
+                        
+                            <div class="" id="contenedor-con-operaciones">
+                                
+
+                            </div>
+                
+                            <div class="columns is-centered my-6 py-6" id="contenedor-sin-operaciones">
+                                <div class="column is-6">
+                                    <div class="image">
+                                        <img src="images/undraw_Growing_re_olpi.svg">
+                                    </div>
+                                    <p class="title has-text-centered mt-6 is-4">Sin resultados</p>
+                                    <p class="has-text-centered">Cambia los filtros o agrega operaciones</p>
                                 </div>
-                                <p class="title has-text-centered mt-6 is-4">Sin resultados</p>
-                                <p class="has-text-centered">Cambia los filtros o agrega operaciones</p>
                             </div>
                         </div>
 
@@ -222,10 +238,10 @@
                             <div class="is-flex is-justify-content-flex-end">
                                 <div class="field is-grouped buttons mt-6">
                                     <div class="control">
-                                        <button class="button is-light">Cancelar</button>
+                                        <button type="button" class="button is-light" id="cancelar-nueva-operacion">Cancelar</button>
                                     </div>
                                     <div class="control">
-                                        <button class="button is-success">Agregar</button>
+                                        <button type="button" class="button is-success">Agregar</button>
                                     </div>
                                 </div>
                             </div>
@@ -236,7 +252,7 @@
         </div>
     </section>
 
-    <!--SECTION CATEGORÍAS-->
+    <!--SECCION CATEGORÍAS-->
 
     <section class="section is-hidden seccion-visible" id="section-categorias">
         <div class="container">
@@ -254,7 +270,7 @@
                                                 <i class="fas fa-exclamation-triangle"></i>
                                             </span>
                                             </div>
-                                            <p class="help is-danger is-hidden requested-field">Elige un nombre para tu categoría</p>
+                                            <p class="help is-danger is-hidden requested-field my-0">Elige un nombre para tu categoría</p>
                                         </div>
                                     </div>
                                     <div class="field">

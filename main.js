@@ -1,5 +1,7 @@
 // //VARIABLES HEADER/NAV
 
+
+
 const itemNavSeccionBalance = document.getElementById("item-nav-seccion-balance");
 const itemNavSeccionCategorias = document.getElementById("item-nav-seccion-categorias");
 const itemNavSeccionReportes = document.getElementById("item-nav-seccion-reportes");
@@ -8,7 +10,7 @@ const abrirMenuHamburguesa = document.getElementById("abrir-menu-hamburguesa");
 
 // Variables Visibilidad
 
-const seccionVisible = document.querySelectorAll(".seccion-visible")
+const seccionVisible = document.querySelectorAll(".seccion-visible");
 
 // //Variables SECCION BALANCE
 
@@ -18,20 +20,26 @@ const ocultarFiltros = document.getElementById("ocultar-filtros");
 const seccionNuevaOperacion = document.getElementById("seccion-nueva-operacion");
 const abrirSeccionNuevaOperacion = document.getElementById("abrir-nueva-operacion");
 const filtroCategoria = document.getElementById("filtro-categoria");
-const categoriasEnNuevaOperacion = document.getElementById("categorias-seccion-nueva-operacion")
+const categoriasEnNuevaOperacion = document.getElementById("categorias-seccion-nueva-operacion");
+const cancelarNuevaOperacion = document.getElementById("cancelar-nueva-operacion");
+const contenedorSinOperaciones = document.getElementById("contenedor-sin-operaciones");
+const contenedorOperaciones = document.getElementById("contenedor-operaciones");
+const contenedorConOperaciones = document.getElementById("contenedor-con-operaciones");
+const tablaDeTitulosOperaciones = document.getElementById("tabla-titulos-operaciones")
+
 
 
 // //Variables SECCION-CATEGORÍAS
 
 const sectionCategorias = document.getElementById("section-categorias");
-const sectionEditarCategoria = document.getElementById("section-editar-categoria")
+const sectionEditarCategoria = document.getElementById("section-editar-categoria");
 const openSectionEditarCategoria = document.querySelectorAll(".open-editar-categoria");
 const deleteCategoria = document.querySelectorAll(".delete-categoria");
 const cancelEditarCategoria = document.getElementById("cancel-editar-categoria");
 const addNuevaCategoria = document.getElementById("agregar-categoria");
 const inputNuevaCategoria = document.getElementById("input-nueva-categoria");
-const listCategorias = document.getElementById("lista-categorias");
-const alertsRequestField = document.querySelectorAll(".requested-field")
+const listaCategorias = document.getElementById("lista-categorias");
+const alertsRequestField = document.querySelectorAll(".requested-field");
 
 
 //Variables SECCION REPORTES
@@ -43,6 +51,8 @@ const sectionReportes = document.getElementById("section-reportes");
 
 
 //Funciones Auxiliares
+
+
 let ocultarSecciones = () => {
     seccionVisible.forEach((section) => {
         section.classList.add('is-hidden')
@@ -54,6 +64,8 @@ let nuevasCategoriasEnSelects= () => {
     option.innerText = `${inputNuevaCategoria.value}`
     return option
 }
+
+
 
 
 
@@ -76,6 +88,9 @@ itemNavSeccionReportes.onclick = () => {
 }
 
 
+
+
+
 // Funcionalidad Nav-Mobile
 
 botonMenuHamburguesa.onclick = () => {
@@ -84,12 +99,18 @@ botonMenuHamburguesa.onclick = () => {
 }
 
 
+
+
+
 //---------------FFUNCIONALIDAD SECTION-BALANCE------------//////
 
 abrirSeccionNuevaOperacion.onclick = () => {
     ocultarSecciones();
     seccionNuevaOperacion.classList.remove('is-hidden');
 }
+
+abrirSeccionNuevaOperacion.addEventListener('onkeypress', abrirSeccionNuevaOperacion)
+
 
 ocultarFiltros.onclick = () => {
     if (ocultarFiltros.innerText === "Mostrar filtros") {
@@ -103,9 +124,22 @@ ocultarFiltros.onclick = () => {
     }
 }
 
+
+
+//NUEVA OPERACIÓN
+
+cancelarNuevaOperacion.onclick = () => {
+    ocultarSecciones();
+    seccionBalance.classList.remove('is-hidden')
+}
+
+cancelarNuevaOperacion.addEventListener('onkeypress', cancelarNuevaOperacion.onclick);
+
+
+
+
+
 // //--------------------FUNCIONALIDAD CATEGORÍAS-----------------///
-
-
 
 
 
@@ -127,15 +161,17 @@ let HTMLnuevaCategoriaSeccionCategorias = () => {
 }
 
 
+
 let abrirVentanaEditarCategoria = () => {
     sectionCategorias.classList.add('is-hidden');
     sectionEditarCategoria.classList.remove('is-hidden');
 }
 
 
-for (let i = 0; i < openSectionEditarCategoria.length; i++) {
-    openSectionEditarCategoria[i].onclick = abrirVentanaEditarCategoria;
-}
+openSectionEditarCategoria.forEach((botonEditar) => {
+    botonEditar.onclick = abrirVentanaEditarCategoria;
+})
+
 
 
 
@@ -149,16 +185,14 @@ inputNuevaCategoria.oninput = () => {
 addNuevaCategoria.onclick = () => {
     
     if ( inputNuevaCategoria.value.length > 0) {
-        let nuevaCategoria = HTMLnuevaCategoriaSeccionCategorias()   
-        listCategorias.appendChild(nuevaCategoria);
-        let nuevaCategoriaEnNuevaOperacion = nuevasCategoriasEnSelects();
-        categoriasEnNuevaOperacion.appendChild(nuevaCategoriaEnNuevaOperacion);
-        let nuevaCategoriaEnFiltros = nuevasCategoriasEnSelects();
-        filtroCategoria.appendChild(nuevaCategoriaEnFiltros);
+        listaCategorias.appendChild(HTMLnuevaCategoriaSeccionCategorias());
+        categoriasEnNuevaOperacion.appendChild(nuevasCategoriasEnSelects());
+        filtroCategoria.appendChild(nuevasCategoriasEnSelects());
+        
         let listaActualizada = document.querySelectorAll(".open-editar-categoria");
-        for (let i = 0; i < listaActualizada.length; i++) {
-            listaActualizada[i].onclick = abrirVentanaEditarCategoria;
-        }
+        listaActualizada.forEach((botonEditar)=> {
+            botonEditar.onclick = abrirVentanaEditarCategoria
+        })
       }
 
     else {
@@ -176,6 +210,9 @@ cancelEditarCategoria.onclick = () => {
     sectionCategorias.classList.remove('is-hidden');
 }
 
+cancelEditarCategoria.addEventListener('onkeypress', cancelEditarCategoria.onclick);
+
+
 
 //botones eliminar 
 
@@ -189,3 +226,108 @@ cancelEditarCategoria.onclick = () => {
 //     }
     
 // }
+
+
+
+let arrayDeObjetosParaMaquetar = [
+
+  {
+    descripcion: 'Cena con amigos',
+    categoria: 'salidas',
+    fecha: '25/09/2021',
+    monto: 2500,
+    tipo: 'gasto',
+  },
+  {
+    descripcion: 'sueldo',
+    categoria: 'sueldo',
+    fecha: '01/09/2021',
+    monto: 50000,
+    tipo: 'ganancia',
+  },
+  {
+    descripcion: 'pagar monotributo',
+    categoria: 'sueldo',
+    fecha: '01/09/2021',
+    monto: 40000,
+    tipo: 'gasto',
+  },
+  {
+    descripcion: 'Aguinaldo',
+    categoria: 'sueldo',
+    fecha: '15/09/2021',
+    monto: 25000,
+    tipo: 'ganancia',
+  },
+  {
+    descripcion: 'Comida para gatos',
+    categoria: 'mascotas',
+    fecha: '25/09/2021',
+    monto: 3000,
+    tipo: 'gasto',
+  },
+  {
+    descripcion: 'alquiler',
+    categoria: 'alquiler',
+    fecha: '25/09/2021',
+    monto: 25000,
+    tipo: 'gasto',
+  },
+  {
+    descripcion: 'Expensas',
+    categoria: 'alquiler',
+    fecha: '01/09/2021',
+    monto: 5000,
+    tipo: 'gasto',
+  },
+
+]
+
+
+
+
+let arrayEnHtml = (array) => {
+    contenedorSinOperaciones.classList.add('is-hidden');
+    tablaDeTitulosOperaciones.classList.remove('is-hidden');
+
+    let div = document.createElement('div');
+    let acc = " ";
+
+    array.map((operacion)=> {
+        acc = acc + `
+        <div class="columns is-vcentered">
+            <div class="column  is-3">
+               <p class="has-text-weight-bold"> ${operacion.descripcion}</p>
+            </div>
+            <div class="column is-2">
+                <p class="tag is-primary is-light ">${operacion.categoria}</p>
+            </div>
+            <div class="column is-2">
+                ${operacion.fecha}
+            </div>
+            <div class="column is-2">
+                ${operacion.monto}
+            </div>
+            <div class="column is-3">
+                <div class="columns">
+                    <div class="column">
+                        <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                        <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+         </div>`
+    })
+
+    
+    div.innerHTML =`${acc}`
+    return div
+}
+
+
+// contenedorConOperaciones.appendChild(arrayEnHtml(arrayDeObjetosParaMaquetar))
+
+
+
+
+
