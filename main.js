@@ -60,9 +60,10 @@ let ocultarSecciones = () => {
 }
 
 let nuevasCategoriasEnSelects= () => {
-    let option = document.createElement('option')
-    option.innerText = `${inputNuevaCategoria.value}`
-    return option
+    let nuevaOpcion = document.createElement('option')
+    nuevaOpcion.innerText = `${inputNuevaCategoria.value}`
+    nuevaOpcion.setAttribute('value',inputNuevaCategoria.value)
+    return nuevaOpcion
 }
 
 
@@ -122,6 +123,11 @@ ocultarFiltros.onclick = () => {
         ocultarFiltros.innerText = "Mostrar filtros";
         formularioSeccionBalance.classList.add('is-hidden');
     }
+}
+
+
+let aplicarfiltros = () => {
+
 }
 
 
