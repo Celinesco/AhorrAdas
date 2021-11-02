@@ -154,7 +154,10 @@ filtroTipo.onclick = () => {
     arrayEnHtml(arrayFiltradoPorTipo)
 }
 
-
+filtroCategoria.onclick = () => {
+    let arrayFiltradoPorCategoria = aplicarfiltros()
+    arrayEnHtml(arrayFiltradoPorCategoria)
+}
 
 
 
