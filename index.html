@@ -188,24 +188,24 @@
                 <div class="column is-8-widescreen is-8-widescreen is-12-tablet">
                     <artcile class="box">
                         <h2 class="title is-size-2 mb-6">Nueva operación</h2>
-                        <form>
+                        <form method="post" id="form-nueva-operacion">
                             <div class="field">
-                                <label class="label" for="operation-description">Descripción</label>
+                                <label class="label" for="descripcion-operacion">Descripción</label>
                                 <div class="control">
-                                    <input class="input" type="text" id="operation-description">
+                                    <input class="input" type="text" id="descripcion-operacion">
                                 </div>
                             </div>
                             <div class="field">
-                                <label class="label" for="money-amount">Monto</label>
+                                <label class="label" for="monto-nueva-operacion">Monto</label>
                                 <div class="control">
-                                    <input class="input" type="number" id="money-amount">
+                                    <input class="input" type="number" id="monto-nueva-operacion">
                                 </div>
                             </div>
                             <div class="field">
-                                <label class="label" for="operation-type">Tipo</label>
+                                <label class="label" for="tipo-nueva-operacion">Tipo</label>
                                 <div class="control">
                                     <div class="select is-fullwidth">
-                                        <select id="operation-type">
+                                        <select id="tipo-nueva-operacion">
                                             <option>Gasto</option>
                                             <option>Ganancia</option>
                                         </select>
@@ -213,10 +213,10 @@
                                 </div>
                             </div>
                             <div class="field">
-                                <label class="label" for="categorias-seccion-nueva-operacion">Categoría</label>
+                                <label class="label" for="categorias-nueva-operacion">Categoría</label>
                                 <div class="control">
                                     <div class="select is-fullwidth">
-                                        <select id="categorias-seccion-nueva-operacion">
+                                        <select id="categorias-nueva-operacion">
                                             <option value="comida">Comida</option>
                                             <option value="servicios">Servicios</option>
                                             <option value="salidas">Salidas</option>
@@ -228,9 +228,9 @@
                                 </div>
                             </div>
                             <div class="field">
-                                <label class="label" for="operation-date">Fecha</label>
+                                <label class="label" for="fecha-nueva-operacion">Fecha</label>
                                 <div class="control">
-                                    <input class="input" id="operation-date" type="date">
+                                    <input class="input" id="fecha-nueva-operacion" type="date">
                                     </input>
                                 </div>
                             </div>
@@ -239,7 +239,7 @@
                                     <div class="control">
                                         <button type="button" class="button is-light" id="cancelar-nueva-operacion">Cancelar</button>
                                     </div>
-                                    <div class="control">
+                                    <div class="control" id="agregar-nueva-operacion">
                                         <button type="button" class="button is-success">Agregar</button>
                                     </div>
                                 </div>

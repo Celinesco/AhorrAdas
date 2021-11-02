@@ -21,9 +21,16 @@ const seccionNuevaOperacion = document.getElementById("seccion-nueva-operacion")
 const abrirSeccionNuevaOperacion = document.getElementById("abrir-nueva-operacion");
 const filtroTipo = document.getElementById("filtro-tipo");
 const filtroCategoria = document.getElementById("filtro-categoria");
-const categoriasEnNuevaOperacion = document.getElementById("categorias-seccion-nueva-operacion");
+const categoriasEnNuevaOperacion = document.getElementById("categorias-nueva-operacion");
 const cancelarNuevaOperacion = document.getElementById("cancelar-nueva-operacion");
 const contenedorOperaciones = document.getElementById("contenedor-operaciones");
+const agregarNuevaOperacion = document.getElementById("agregar-nueva-operacion");
+
+//nueva operación 
+const descripcionNuevaOperacion = document.getElementById("descripcion-operacion");
+const montoNuevaOperacion = document.getElementById("monto-nueva-operacion");
+const tipoNuevaOperacion = document.getElementById("tipo-nueva-operacion");
+const fechaNuevaOperacion = document.getElementById("fecha-nueva-operacion");
 
 
 
@@ -65,6 +72,71 @@ let nuevasCategoriasEnSelects= () => {
     nuevaOpcion.setAttribute('value',inputNuevaCategoria.value)
     return nuevaOpcion
 }
+
+let arrayDeObetos = []
+
+
+let nuevoObjeto = () => {
+    arrayDeObetos.push({
+        descripcion:descripcionNuevaOperacion.value,
+        monto: montoNuevaOperacion.value,
+        tipo: tipoNuevaOperacion.value,
+        categoria: categoriasEnNuevaOperacion.value,
+        fecha: fechaNuevaOperacion.value
+    })
+    
+    console.log(arrayDeObetos)
+    return arrayDeObetos
+}
+
+
+let arrayEnHtml = (array) => {
+   
+    let acc = " ";
+
+    array.map((operacion)=> {
+        acc = acc + `
+        <div class="columns is-vcentered">
+            <div class="column  is-3">
+               <p class="has-text-weight-bold"> ${operacion.descripcion}</p>
+            </div>
+            <div class="column is-2">
+                <p class="tag is-primary is-light ">${operacion.categoria}</p>
+            </div>
+            <div class="column is-2 has-text-grey has-text-right">
+                ${operacion.fecha}
+            </div>
+            <div class="column is-2 has-text-right">
+                ${operacion.monto}
+            </div>
+            <div class="column is-3">
+                <div class="columns">
+                    <div class="column is-flex is-justify-content-flex-end">
+                        <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
+                        <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+         </div>`
+    })
+
+    contenedorOperaciones.removeAttribute("class")
+    contenedorOperaciones.innerHTML =`
+    <div class="columns my-3 py-2" >
+        <div class="column has-text-weight-semibold is-3">Descripción</div>
+        <div class="column has-text-weight-semibold is-2">Categoría</div>
+        <div class="column has-text-weight-semibold is-2 has-text-right">Fecha</div>
+        <div class="column has-text-weight-semibold is-2 has-text-right">Monto</div>
+        <div class="column has-text-weight-semibold is-3 has-text-right">Acciones</div>
+    </div>
+
+    <div class="">
+        ${acc} 
+    </div> ` 
+
+}
+
+
 
 
 
@@ -135,7 +207,7 @@ let aplicarfiltros = () => {
             return operacion
         }
 
-        return operacion.tipo === valorFiltroSeleccionado 
+        return operacion.tipo == valorFiltroSeleccionado
     })
     
     const categoria = filtroCategoria.value 
@@ -143,10 +215,11 @@ let aplicarfiltros = () => {
       if (categoria === "todos") {
         return operacion
       }
-      return operacion.categoria === categoria
+      return operacion.categoria  == categoria 
     })
     return filtradoFinal
 }
+
 
 
 filtroTipo.onclick = () => {
@@ -162,6 +235,14 @@ filtroCategoria.onclick = () => {
 
 
 //NUEVA OPERACIÓN
+
+agregarNuevaOperacion.onclick = () => {
+    nuevoObjeto();
+    ocultarSecciones();
+    seccionBalance.classList.remove('is-hidden');
+    arrayEnHtml(arrayDeObetos)
+
+}
 
 cancelarNuevaOperacion.onclick = () => {
     ocultarSecciones();
@@ -264,113 +345,12 @@ cancelEditarCategoria.addEventListener('onkeypress', cancelEditarCategoria.oncli
 
 
 
-let arrayDeObjetosParaMaquetar = [
-
-  {
-    descripcion: 'Cena con amigos',
-    categoria: 'salidas',
-    fecha: '25/09/2021',
-    monto: 2500,
-    tipo: 'gasto',
-  },
-  {
-    descripcion: 'sueldo',
-    categoria: 'sueldo',
-    fecha: '01/09/2021',
-    monto: 50000,
-    tipo: 'ganancia',
-  },
-  {
-    descripcion: 'pagar monotributo',
-    categoria: 'sueldo',
-    fecha: '01/09/2021',
-    monto: 40000,
-    tipo: 'gasto',
-  },
-  {
-    descripcion: 'Aguinaldo',
-    categoria: 'sueldo',
-    fecha: '15/09/2021',
-    monto: 25000,
-    tipo: 'ganancia',
-  },
-  {
-    descripcion: 'Comida para gatos',
-    categoria: 'mascotas',
-    fecha: '25/09/2021',
-    monto: 3000,
-    tipo: 'gasto',
-  },
-  {
-    descripcion: 'alquiler',
-    categoria: 'alquiler',
-    fecha: '25/09/2021',
-    monto: 25000,
-    tipo: 'gasto',
-  },
-  {
-    descripcion: 'Expensas',
-    categoria: 'alquiler',
-    fecha: '01/09/2021',
-    monto: 5000,
-    tipo: 'gasto',
-  },
-
-]
 
 
 
 
-let arrayEnHtml = (array) => {
-   
-    let acc = " ";
-
-    array.map((operacion)=> {
-        acc = acc + `
-        <div class="columns is-vcentered">
-            <div class="column  is-3">
-               <p class="has-text-weight-bold"> ${operacion.descripcion}</p>
-            </div>
-            <div class="column is-2">
-                <p class="tag is-primary is-light ">${operacion.categoria}</p>
-            </div>
-            <div class="column is-2 has-text-grey has-text-right">
-                ${operacion.fecha}
-            </div>
-            <div class="column is-2 has-text-right">
-                ${operacion.monto}
-            </div>
-            <div class="column is-3">
-                <div class="columns">
-                    <div class="column is-flex is-justify-content-flex-end">
-                        <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                        <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
-                    </div>
-                </div>
-            </div>
-         </div>`
-    })
-
-    contenedorOperaciones.removeAttribute("class")
-    contenedorOperaciones.innerHTML =`
-    <div class="columns my-3 py-2" >
-        <div class="column has-text-weight-semibold is-3">Descripción</div>
-        <div class="column has-text-weight-semibold is-2">Categoría</div>
-        <div class="column has-text-weight-semibold is-2 has-text-right">Fecha</div>
-        <div class="column has-text-weight-semibold is-2 has-text-right">Monto</div>
-        <div class="column has-text-weight-semibold is-3 has-text-right">Acciones</div>
-    </div>
-
-    <div class="">
-        ${acc} 
-    </div> `
-
-    return contenedorOperaciones
-
-}
 
 
-console.log(arrayEnHtml(arrayDeObjetosParaMaquetar))
 
 
 
