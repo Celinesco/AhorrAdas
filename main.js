@@ -19,13 +19,13 @@ const formularioSeccionBalance = document.getElementById("formulario-seccion-bal
 const ocultarFiltros = document.getElementById("ocultar-filtros");
 const seccionNuevaOperacion = document.getElementById("seccion-nueva-operacion");
 const abrirSeccionNuevaOperacion = document.getElementById("abrir-nueva-operacion");
+const filtroTipo = document.getElementById("filtro-tipo");
 const filtroCategoria = document.getElementById("filtro-categoria");
 const categoriasEnNuevaOperacion = document.getElementById("categorias-seccion-nueva-operacion");
 const cancelarNuevaOperacion = document.getElementById("cancelar-nueva-operacion");
-const contenedorSinOperaciones = document.getElementById("contenedor-sin-operaciones");
 const contenedorOperaciones = document.getElementById("contenedor-operaciones");
-const contenedorConOperaciones = document.getElementById("contenedor-con-operaciones");
-const tablaDeTitulosOperaciones = document.getElementById("tabla-titulos-operaciones")
+
+
 
 
 
@@ -128,7 +128,33 @@ ocultarFiltros.onclick = () => {
 
 let aplicarfiltros = () => {
 
+    const valorFiltroSeleccionado = filtroTipo.value;
+    const filtradoPorTipo = arrayDeObjetosParaMaquetar.filter((operacion)=> {
+
+        if (filtroTipo.value === "todos") {
+            return operacion
+        }
+
+        return operacion.tipo === valorFiltroSeleccionado 
+    })
+    
+    const categoria = filtroCategoria.value 
+    const filtradoFinal = filtradoPorTipo.filter((operacion) => {
+      if (categoria === "todos") {
+        return operacion
+      }
+      return operacion.categoria === categoria
+    })
+    return filtradoFinal
 }
+
+
+filtroTipo.onclick = () => {
+    let arrayFiltradoPorTipo = aplicarfiltros()
+    arrayEnHtml(arrayFiltradoPorTipo)
+}
+
+
 
 
 
@@ -293,10 +319,7 @@ let arrayDeObjetosParaMaquetar = [
 
 
 let arrayEnHtml = (array) => {
-    contenedorSinOperaciones.classList.add('is-hidden');
-    tablaDeTitulosOperaciones.classList.remove('is-hidden');
-
-    let div = document.createElement('div');
+   
     let acc = " ";
 
     array.map((operacion)=> {
@@ -308,15 +331,15 @@ let arrayEnHtml = (array) => {
             <div class="column is-2">
                 <p class="tag is-primary is-light ">${operacion.categoria}</p>
             </div>
-            <div class="column is-2">
+            <div class="column is-2 has-text-grey has-text-right">
                 ${operacion.fecha}
             </div>
-            <div class="column is-2">
+            <div class="column is-2 has-text-right">
                 ${operacion.monto}
             </div>
             <div class="column is-3">
                 <div class="columns">
-                    <div class="column">
+                    <div class="column is-flex is-justify-content-flex-end">
                         <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
                         <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
                     </div>
@@ -325,13 +348,26 @@ let arrayEnHtml = (array) => {
          </div>`
     })
 
-    
-    div.innerHTML =`${acc}`
-    return div
+    contenedorOperaciones.removeAttribute("class")
+    contenedorOperaciones.innerHTML =`
+    <div class="columns my-3 py-2" >
+        <div class="column has-text-weight-semibold is-3">Descripción</div>
+        <div class="column has-text-weight-semibold is-2">Categoría</div>
+        <div class="column has-text-weight-semibold is-2 has-text-right">Fecha</div>
+        <div class="column has-text-weight-semibold is-2 has-text-right">Monto</div>
+        <div class="column has-text-weight-semibold is-3 has-text-right">Acciones</div>
+    </div>
+
+    <div class="">
+        ${acc} 
+    </div> `
+
+    return contenedorOperaciones
+
 }
 
 
-// contenedorConOperaciones.appendChild(arrayEnHtml(arrayDeObjetosParaMaquetar))
+console.log(arrayEnHtml(arrayDeObjetosParaMaquetar))
 
 
 
