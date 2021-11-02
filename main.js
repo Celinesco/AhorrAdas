@@ -90,7 +90,7 @@ let nuevoObjeto = () => {
 }
 
 
-let arrayEnHtml = (array) => {
+let arrayEnHtmlSeccionBalance = (array) => {
    
     let acc = " ";
 
@@ -201,7 +201,7 @@ ocultarFiltros.onclick = () => {
 let aplicarfiltros = () => {
 
     const valorFiltroSeleccionado = filtroTipo.value;
-    const filtradoPorTipo = arrayDeObjetosParaMaquetar.filter((operacion)=> {
+    const filtradoPorTipo = arrayDeObjetos.filter((operacion)=> {
 
         if (filtroTipo.value === "todos") {
             return operacion
@@ -224,12 +224,12 @@ let aplicarfiltros = () => {
 
 filtroTipo.onclick = () => {
     let arrayFiltradoPorTipo = aplicarfiltros()
-    arrayEnHtml(arrayFiltradoPorTipo)
+    arrayEnHtmlSeccionBalance(arrayFiltradoPorTipo)
 }
 
 filtroCategoria.onclick = () => {
     let arrayFiltradoPorCategoria = aplicarfiltros()
-    arrayEnHtml(arrayFiltradoPorCategoria)
+    arrayEnHtmlSeccionBalance(arrayFiltradoPorCategoria)
 }
 
 
@@ -240,7 +240,7 @@ agregarNuevaOperacion.onclick = () => {
     nuevoObjeto();
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
-    arrayEnHtml(arrayDeObetos)
+    arrayEnHtmlSeccionBalance(arrayDeObetos)
 
 }
 
