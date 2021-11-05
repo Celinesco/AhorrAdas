@@ -1,7 +1,5 @@
 // //VARIABLES HEADER/NAV
 
-
-
 const itemNavSeccionBalance = document.getElementById("item-nav-seccion-balance");
 const itemNavSeccionCategorias = document.getElementById("item-nav-seccion-categorias");
 const itemNavSeccionReportes = document.getElementById("item-nav-seccion-reportes");
@@ -26,14 +24,12 @@ const cancelarNuevaOperacion = document.getElementById("cancelar-nueva-operacion
 const contenedorOperaciones = document.getElementById("contenedor-operaciones");
 const agregarNuevaOperacion = document.getElementById("agregar-nueva-operacion");
 
-//nueva operación 
+//NUEVA OPERACION
+
 const descripcionNuevaOperacion = document.getElementById("descripcion-operacion");
 const montoNuevaOperacion = document.getElementById("monto-nueva-operacion");
 const tipoNuevaOperacion = document.getElementById("tipo-nueva-operacion");
 const fechaNuevaOperacion = document.getElementById("fecha-nueva-operacion");
-
-
-
 
 
 // //Variables SECCION-CATEGORÍAS
@@ -79,7 +75,6 @@ const leerDesdeLocalStorage = (clave) => {
 }
 
 
-
 let ocultarSecciones = () => {
     seccionVisible.forEach((section) => {
         section.classList.add('is-hidden')
@@ -96,9 +91,9 @@ let nuevasCategoriasEnSelects= () => {
 let arrayInputUsuario = []
 
 
-
 let nuevoObjeto = () => {
     arrayInputUsuario.push({
+        id: Date.now(),
         descripcion:descripcionNuevaOperacion.value,
         monto: montoNuevaOperacion.value,
         tipo: tipoNuevaOperacion.value,
@@ -108,8 +103,6 @@ let nuevoObjeto = () => {
 
     return arrayInputUsuario
 }
-
-
 
 
 //Chequea LocalStorage apenas carga la página
@@ -224,24 +217,21 @@ ocultarFiltros.onclick = () => {
 }
 
 
+
 let aplicarfiltros = () => {
 
-    const valorFiltroSeleccionado = filtroTipo.value;
-    const filtradoPorTipo = arrayDeObjetos.filter((operacion)=> {
-
+    const filtradoPorTipo = arrayInputUsuario.filter((operacion)=> {
         if (filtroTipo.value === "todos") {
             return operacion
         }
-
-        return operacion.tipo == valorFiltroSeleccionado
+        return operacion.tipo.toLowerCase() == filtroTipo.value
     })
     
-    const categoria = filtroCategoria.value 
     const filtradoFinal = filtradoPorTipo.filter((operacion) => {
-      if (categoria === "todos") {
+      if (filtroCategoria.value === "todos") {
         return operacion
       }
-      return operacion.categoria  == categoria 
+      return operacion.categoria == filtroCategoria.value
     })
     return filtradoFinal
 }
