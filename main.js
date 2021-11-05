@@ -54,10 +54,30 @@ const alertsRequestField = document.querySelectorAll(".requested-field");
 const sectionReportes = document.getElementById("section-reportes");
 
 
-
-
-
 //Funciones Auxiliares
+
+
+const convertirAJSON = (array) => {
+    let arrayConvertido = JSON.stringify(array);
+    return arrayConvertido
+}
+
+const guardarEnLocalStorage = (array, clave) => {
+    localStorage.setItem(clave, convertirAJSON(array))
+}
+
+const convertirDesdeJSON = (arrayJSON) => {
+    let JSONConvertido = JSON.parse(arrayJSON)
+    return JSONConvertido
+}
+
+
+const leerDesdeLocalStorage = (clave) => {
+    const json = localStorage.getItem(clave);
+    const array = convertirDesdeJSON(json);
+    return array
+}
+
 
 
 let ocultarSecciones = () => {
@@ -73,21 +93,75 @@ let nuevasCategoriasEnSelects= () => {
     return nuevaOpcion
 }
 
-let arrayDeObetos = []
+let arrayInputUsuario = []
+
 
 
 let nuevoObjeto = () => {
-    arrayDeObetos.push({
+    arrayInputUsuario.push({
         descripcion:descripcionNuevaOperacion.value,
         monto: montoNuevaOperacion.value,
         tipo: tipoNuevaOperacion.value,
         categoria: categoriasEnNuevaOperacion.value,
         fecha: fechaNuevaOperacion.value
     })
-    
-    console.log(arrayDeObetos)
-    return arrayDeObetos
+
+    return arrayInputUsuario
 }
+
+
+
+
+//Chequea LocalStorage apenas carga la página
+
+const infoAlmacenada = leerDesdeLocalStorage('operaciones_usuario')
+
+if (infoAlmacenada !== null) {
+  arrayInputUsuario = infoAlmacenada
+}
+
+
+
+// //Funcionalidad Header/Nav
+
+itemNavSeccionBalance.onclick = () => {
+    ocultarSecciones();
+    seccionBalance.classList.remove('is-hidden');
+}
+
+itemNavSeccionCategorias.onclick = () => {
+    ocultarSecciones();
+    sectionCategorias.classList.remove('is-hidden');
+}
+
+itemNavSeccionReportes.onclick = () => {
+    ocultarSecciones();
+    sectionReportes.classList.remove('is-hidden');
+}
+
+
+
+
+// Funcionalidad Nav-Mobile
+
+botonMenuHamburguesa.onclick = () => {
+    botonMenuHamburguesa.classList.toggle('is-active');
+    abrirMenuHamburguesa.classList.toggle('is-active');
+}
+
+
+
+
+
+//---------------FFUNCIONALIDAD SECTION-BALANCE------------//////
+
+abrirSeccionNuevaOperacion.onclick = () => {
+    ocultarSecciones();
+    seccionNuevaOperacion.classList.remove('is-hidden');
+    
+}
+
+abrirSeccionNuevaOperacion.addEventListener('onkeypress', abrirSeccionNuevaOperacion)
 
 
 let arrayEnHtmlSeccionBalance = (array) => {
@@ -97,7 +171,7 @@ let arrayEnHtmlSeccionBalance = (array) => {
     array.map((operacion)=> {
         acc = acc + `
         <div class="columns is-vcentered">
-            <div class="column  is-3">
+            <div class="column  is-3 is-3-tablet">
                <p class="has-text-weight-bold"> ${operacion.descripcion}</p>
             </div>
             <div class="column is-2">
@@ -135,54 +209,6 @@ let arrayEnHtmlSeccionBalance = (array) => {
     </div> ` 
 
 }
-
-
-
-
-
-
-
-
-// //Funcionalidad Header/Nav
-
-itemNavSeccionBalance.onclick = () => {
-    ocultarSecciones();
-    seccionBalance.classList.remove('is-hidden');
-}
-
-itemNavSeccionCategorias.onclick = () => {
-    ocultarSecciones();
-    sectionCategorias.classList.remove('is-hidden');
-}
-
-itemNavSeccionReportes.onclick = () => {
-    ocultarSecciones();
-    sectionReportes.classList.remove('is-hidden');
-}
-
-
-
-
-
-// Funcionalidad Nav-Mobile
-
-botonMenuHamburguesa.onclick = () => {
-    botonMenuHamburguesa.classList.toggle('is-active');
-    abrirMenuHamburguesa.classList.toggle('is-active');
-}
-
-
-
-
-
-//---------------FFUNCIONALIDAD SECTION-BALANCE------------//////
-
-abrirSeccionNuevaOperacion.onclick = () => {
-    ocultarSecciones();
-    seccionNuevaOperacion.classList.remove('is-hidden');
-}
-
-abrirSeccionNuevaOperacion.addEventListener('onkeypress', abrirSeccionNuevaOperacion)
 
 
 ocultarFiltros.onclick = () => {
@@ -237,11 +263,12 @@ filtroCategoria.onclick = () => {
 //NUEVA OPERACIÓN
 
 agregarNuevaOperacion.onclick = () => {
-    nuevoObjeto();
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
-    arrayEnHtmlSeccionBalance(arrayDeObetos)
 
+    nuevoObjeto();
+    arrayEnHtmlSeccionBalance(arrayInputUsuario);
+    guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
 }
 
 cancelarNuevaOperacion.onclick = () => {
@@ -256,7 +283,6 @@ cancelarNuevaOperacion.addEventListener('onkeypress', cancelarNuevaOperacion.onc
 
 
 // //--------------------FUNCIONALIDAD CATEGORÍAS-----------------///
-
 
 
 let HTMLnuevaCategoriaSeccionCategorias = () => {
