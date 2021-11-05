@@ -173,8 +173,8 @@ let arrayEnHtmlSeccionBalance = (array) => {
             <div class="column is-2 has-text-grey has-text-right">
                 ${operacion.fecha}
             </div>
-            <div class="column is-2 has-text-right">
-                ${operacion.monto}
+            <div class="column is-2 has-text-right has-text-weight-bold ${operacion.tipo === "Ganancia" ?"has-text-success":"has-text-danger"}"> 
+            ${operacion.tipo === "Ganancia" ?"+$":"-$"}${operacion.monto}
             </div>
             <div class="column is-3">
                 <div class="columns">
