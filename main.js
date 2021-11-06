@@ -28,6 +28,7 @@ const agregarNuevaOperacion = document.getElementById("agregar-nueva-operacion")
 const totalGananciasBoxBalance = document.getElementById("total-ganancias-box-balance");
 const totalGastosBoxBalance = document.getElementById("total-gastos-box-balance");
 const totalGastosGanancias = document.getElementById("total-gastos-ganancias");
+const filtroFecha = document.getElementById("filtro-fecha")
 
 //NUEVA OPERACION
 
@@ -55,6 +56,7 @@ const alertsRequestField = document.querySelectorAll(".requested-field");
 const sectionReportes = document.getElementById("section-reportes");
 
 /////////////////////////FIN DE DOM////////////////////////////FIN DE DOM//////////////////////////////////////FIN DE DOM/////////////////////////////
+
 
 
 //Funciones Auxiliares
@@ -111,14 +113,18 @@ let nuevoObjeto = () => {
     return arrayInputUsuario
 }
 
-
-//Chequea LocalStorage apenas carga la página
+// Comiezo de página
 
 const infoAlmacenada = leerDesdeLocalStorage('operaciones_usuario')
 
 if (infoAlmacenada !== null) {
   arrayInputUsuario = infoAlmacenada
 }
+
+fechaNuevaOperacion.valueAsDate = new Date()
+filtroFecha.valueAsDate = new Date()
+
+
 
 
 
@@ -163,16 +169,6 @@ let arrayDeGanancias = arrayInputUsuario.filter((operacion)=> {
 let arrayDeGastos = arrayInputUsuario.filter((operacion)=> {
     return operacion.tipo === "Gasto"
 })
-
-let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element)=> {
-    return acc + Number(element.monto)
-},0)
-
-let sumaTotalGastos = arrayDeGastos.reduce((acc,element)=> {
-    return acc + Number(element.monto)
-},0)
-
-
 
 
 abrirSeccionNuevaOperacion.onclick = () => {
@@ -287,8 +283,6 @@ let aplicarfiltros = () => {
     return filtradoFinal
 
 
-
-
     //fecha
 }
 
@@ -303,6 +297,10 @@ filtroCategoria.onclick = () => {
     let arrayFiltradoPorCategoria = aplicarfiltros()
     HTMLBalanceBoxOperaciones(arrayFiltradoPorCategoria)
 }
+
+
+
+
 
 
 
