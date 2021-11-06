@@ -175,20 +175,12 @@ let sumaTotalGastos = arrayDeGastos.reduce((acc,element)=> {
 
 
 
-totalGananciasBoxBalance.innerHTML = `+$${sumaTotalGanancias}`;
-totalGastosBoxBalance.innerHTML = `-$${sumaTotalGastos}`;
-totalGastosGanancias.innerHTML = `$${sumaTotalGanancias - sumaTotalGastos}`
-
-
 abrirSeccionNuevaOperacion.onclick = () => {
     ocultarSecciones();
-    seccionNuevaOperacion.classList.remove('is-hidden');
-    
+    seccionNuevaOperacion.classList.remove('is-hidden');   
 }
 
 abrirSeccionNuevaOperacion.addEventListener('onkeypress', abrirSeccionNuevaOperacion)
-
-
 
 
 
@@ -268,7 +260,36 @@ let aplicarfiltros = () => {
       }
       return operacion.categoria == filtroCategoria.value
     })
+
+
+    let arrayDeGanancias = filtradoFinal.filter((operacion)=> {
+        return operacion.tipo === "Ganancia"
+    })
+    
+    let arrayDeGastos = filtradoFinal.filter((operacion)=> {
+        return operacion.tipo === "Gasto"
+    })
+    
+    let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element)=> {
+        return acc + Number(element.monto)
+    },0)
+    
+    let sumaTotalGastos = arrayDeGastos.reduce((acc,element)=> {
+        return acc + Number(element.monto)
+    },0)
+
+
+    totalGananciasBoxBalance.innerHTML = `+$${sumaTotalGanancias}`;
+    totalGastosBoxBalance.innerHTML = `-$${sumaTotalGastos}`;
+    totalGastosGanancias.innerHTML = `$${sumaTotalGanancias - sumaTotalGastos}`
+
+
     return filtradoFinal
+
+
+
+
+    //fecha
 }
 
 
