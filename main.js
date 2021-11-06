@@ -1,4 +1,6 @@
-// //VARIABLES HEADER/NAV
+// // /////////////////////DOM //////////////////////////////////////DOM//////////////////////////DOM////////////////////////////////////
+
+//SHEADER/NAV
 
 const itemNavSeccionBalance = document.getElementById("item-nav-seccion-balance");
 const itemNavSeccionCategorias = document.getElementById("item-nav-seccion-categorias");
@@ -6,11 +8,11 @@ const itemNavSeccionReportes = document.getElementById("item-nav-seccion-reporte
 const botonMenuHamburguesa = document.getElementById("boton-menu-hamburguesa");
 const abrirMenuHamburguesa = document.getElementById("abrir-menu-hamburguesa");
 
-// Variables Visibilidad
+// Visibilidad
 
 const seccionVisible = document.querySelectorAll(".seccion-visible");
 
-// //Variables SECCION BALANCE
+//SECCION BALANCE
 
 const seccionBalance = document.getElementById("seccion-balance");
 const formularioSeccionBalance = document.getElementById("formulario-seccion-balance");
@@ -32,7 +34,7 @@ const tipoNuevaOperacion = document.getElementById("tipo-nueva-operacion");
 const fechaNuevaOperacion = document.getElementById("fecha-nueva-operacion");
 
 
-// //Variables SECCION-CATEGORÍAS
+// SECCION-CATEGORÍAS
 
 const sectionCategorias = document.getElementById("section-categorias");
 const sectionEditarCategoria = document.getElementById("section-editar-categoria");
@@ -45,9 +47,11 @@ const listaCategorias = document.getElementById("lista-categorias");
 const alertsRequestField = document.querySelectorAll(".requested-field");
 
 
-//Variables SECCION REPORTES
+//SECCION REPORTES
 
 const sectionReportes = document.getElementById("section-reportes");
+
+/////////////////////////FIN DE DOM////////////////////////////FIN DE DOM//////////////////////////////////////FIN DE DOM/////////////////////////////
 
 
 //Funciones Auxiliares
@@ -146,7 +150,26 @@ botonMenuHamburguesa.onclick = () => {
 
 
 
-//---------------FFUNCIONALIDAD SECTION-BALANCE------------//////
+//--------------SECCION-BALANCE------------//////
+
+
+
+//variables seccion balance
+
+let arrayDeGanancias = arrayInputUsuario.filter((operacion)=> {
+    return operacion.tipo === "Ganancia"
+})
+
+let arrayDeGastos = arrayInputUsuario.filter((operacion)=> {
+    return operacion.tipo === "Gasto"
+})
+
+
+let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element)=> {
+    return acc + element.monto
+})
+
+
 
 abrirSeccionNuevaOperacion.onclick = () => {
     ocultarSecciones();
@@ -157,7 +180,12 @@ abrirSeccionNuevaOperacion.onclick = () => {
 abrirSeccionNuevaOperacion.addEventListener('onkeypress', abrirSeccionNuevaOperacion)
 
 
-let arrayEnHtmlSeccionBalance = (array) => {
+
+
+
+
+
+let HTMLBalanceBoxOperaciones = (array) => {
    
     let acc = " ";
 
@@ -240,12 +268,12 @@ let aplicarfiltros = () => {
 
 filtroTipo.onclick = () => {
     let arrayFiltradoPorTipo = aplicarfiltros()
-    arrayEnHtmlSeccionBalance(arrayFiltradoPorTipo)
+    HTMLBalanceBoxOperaciones(arrayFiltradoPorTipo)
 }
 
 filtroCategoria.onclick = () => {
     let arrayFiltradoPorCategoria = aplicarfiltros()
-    arrayEnHtmlSeccionBalance(arrayFiltradoPorCategoria)
+    HTMLBalanceBoxOperaciones(arrayFiltradoPorCategoria)
 }
 
 
@@ -257,7 +285,7 @@ agregarNuevaOperacion.onclick = () => {
     seccionBalance.classList.remove('is-hidden');
 
     nuevoObjeto();
-    arrayEnHtmlSeccionBalance(arrayInputUsuario);
+    HTMLBalanceBoxOperaciones(arrayInputUsuario);
     guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
 }
 
