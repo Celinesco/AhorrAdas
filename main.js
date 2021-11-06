@@ -25,6 +25,9 @@ const categoriasEnNuevaOperacion = document.getElementById("categorias-nueva-ope
 const cancelarNuevaOperacion = document.getElementById("cancelar-nueva-operacion");
 const contenedorOperaciones = document.getElementById("contenedor-operaciones");
 const agregarNuevaOperacion = document.getElementById("agregar-nueva-operacion");
+const totalGananciasBoxBalance = document.getElementById("total-ganancias-box-balance");
+const totalGastosBoxBalance = document.getElementById("total-gastos-box-balance");
+const totalGastosGanancias = document.getElementById("total-gastos-ganancias");
 
 //NUEVA OPERACION
 
@@ -153,9 +156,6 @@ botonMenuHamburguesa.onclick = () => {
 //--------------SECCION-BALANCE------------//////
 
 
-
-//variables seccion balance
-
 let arrayDeGanancias = arrayInputUsuario.filter((operacion)=> {
     return operacion.tipo === "Ganancia"
 })
@@ -164,11 +164,20 @@ let arrayDeGastos = arrayInputUsuario.filter((operacion)=> {
     return operacion.tipo === "Gasto"
 })
 
-
 let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element)=> {
-    return acc + element.monto
-})
+    return acc + Number(element.monto)
+},0)
 
+let sumaTotalGastos = arrayDeGastos.reduce((acc,element)=> {
+    return acc + Number(element.monto)
+},0)
+
+
+
+
+totalGananciasBoxBalance.innerHTML = `+$${sumaTotalGanancias}`;
+totalGastosBoxBalance.innerHTML = `-$${sumaTotalGastos}`;
+totalGastosGanancias.innerHTML = `$${sumaTotalGanancias - sumaTotalGastos}`
 
 
 abrirSeccionNuevaOperacion.onclick = () => {
@@ -178,8 +187,6 @@ abrirSeccionNuevaOperacion.onclick = () => {
 }
 
 abrirSeccionNuevaOperacion.addEventListener('onkeypress', abrirSeccionNuevaOperacion)
-
-
 
 
 
