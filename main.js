@@ -258,11 +258,15 @@ let aplicarfiltros = () => {
         return operacion.tipo.toLowerCase() == filtroTipo.value
     })
     
-    const filtradoFinal = filtradoPorTipo.filter((operacion) => {
+    const filtradoCategoriayTipo = filtradoPorTipo.filter((operacion) => {
       if (filtroCategoria.value === "todos") {
         return operacion
       }
       return operacion.categoria == filtroCategoria.value
+    })
+
+    const filtradoFinal = filtradoCategoriayTipo.filter((operacion)=> {
+        return new Date (operacion.fecha) >= new Date (filtroFecha.value)
     })
 
 
@@ -315,14 +319,19 @@ let aplicarfiltros = () => {
 
 
 
-filtroTipo.onclick = () => {
+filtroTipo.onchange = () => {
     let arrayFiltradoPorTipo = aplicarfiltros()
     HTMLBalanceBoxOperaciones(arrayFiltradoPorTipo)
 }
 
-filtroCategoria.onclick = () => {
+filtroCategoria.onchange = () => {
     let arrayFiltradoPorCategoria = aplicarfiltros()
     HTMLBalanceBoxOperaciones(arrayFiltradoPorCategoria)
+};
+
+filtroFecha.onchange = () => {
+    let arrayFiltradoPorFecha = aplicarfiltros()
+    HTMLBalanceBoxOperaciones(arrayFiltradoPorFecha)
 }
 
 
