@@ -274,10 +274,29 @@ let aplicarfiltros = () => {
         return acc + Number(element.monto)
     },0)
 
+    let total = sumaTotalGanancias - sumaTotalGastos
+
 
     totalGananciasBoxBalance.innerHTML = `+$${sumaTotalGanancias}`;
     totalGastosBoxBalance.innerHTML = `-$${sumaTotalGastos}`;
-    totalGastosGanancias.innerHTML = `$${sumaTotalGanancias - sumaTotalGastos}`
+
+    if (total > 0) {
+        totalGastosGanancias.classList.add('has-text-success')
+        totalGastosGanancias.classList.remove('has-text-danger')
+        totalGastosGanancias.innerHTML = `+$${total}`
+    }
+    else if (total < 0) {
+        totalGastosGanancias.classList.add('has-text-danger');
+        totalGastosGanancias.classList.remove('has-text-success')
+        totalGastosGanancias.innerHTML = `-$${Math.abs(total)}`
+    }
+    else {
+        totalGastosGanancias.innerHTML = `$0`
+        totalGastosGanancias.classList.add('has-dark-text');
+        totalGastosGanancias.classList.remove('has-text-success');
+        totalGastosGanancias.classList.remove('has-text-danger');
+    }
+    
 
 
     return filtradoFinal
