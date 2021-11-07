@@ -99,6 +99,8 @@ let nuevasCategoriasEnSelects= () => {
 
 let arrayInputUsuario = []
 
+ 
+
 
 let nuevoObjeto = () => {
     arrayInputUsuario.push({
@@ -110,8 +112,14 @@ let nuevoObjeto = () => {
         fecha: fechaNuevaOperacion.value
     })
 
+    arrayInputUsuario.sort((a,b)=> {
+        return new Date(b.fecha) - new Date(a.fecha)
+    })
+
     return arrayInputUsuario
 }
+
+// arr.sort(function(a,b){return a - b;});
 
 // Comiezo de página
 
@@ -431,12 +439,6 @@ cancelEditarCategoria.addEventListener('onkeypress', cancelEditarCategoria.oncli
 //     }
     
 // }
-
-
-
-
-
-
 
 
 
