@@ -29,6 +29,7 @@ const totalGananciasBoxBalance = document.getElementById("total-ganancias-box-ba
 const totalGastosBoxBalance = document.getElementById("total-gastos-box-balance");
 const totalGastosGanancias = document.getElementById("total-gastos-ganancias");
 const filtroFecha = document.getElementById("filtro-fecha")
+const filtroOrdenarPor = document.getElementById("filtro-ordenar");
 
 //NUEVA OPERACION
 
@@ -42,7 +43,6 @@ const fechaNuevaOperacion = document.getElementById("fecha-nueva-operacion");
 
 const sectionCategorias = document.getElementById("seccion-categorias");
 const sectionEditarCategoria = document.getElementById("section-editar-categoria");
-// const abrirSeccionEditarCategoria = document.querySelectorAll(".open-editar-categoria");
 const deleteCategoria = document.querySelectorAll(".delete-categoria");
 const cancelEditarCategoria = document.getElementById("cancel-editar-categoria");
 const addNuevaCategoria = document.getElementById("agregar-categoria");
@@ -266,6 +266,7 @@ let HTMLBalanceBoxOperaciones = (array) => {
          </div>`
     })
 
+
     contenedorOperaciones.removeAttribute("class")
     contenedorOperaciones.innerHTML =`
     <div class="columns my-3 py-2" id="titulos-tabla-operaciones" >
@@ -358,16 +359,39 @@ let aplicarfiltros = () => {
         totalGastosGanancias.classList.remove('has-text-danger');
     }
     
-
-    
         return filtradoFinal
-    
-
-  
-    
-   
 
 }
+
+let filtroMayorMonto = () => {
+    
+    let arrayFiltradoDefiltros = aplicarfiltros ()
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a,b)=> {
+        return Number(b.monto)-Number(a.monto)
+    })
+    return arrayOrdenado
+}
+
+let filtroMenorMonto = () => {
+    let arrayFiltradoDefiltros = aplicarfiltros ()
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a,b)=> {
+        return Number(a.monto)-Number(b.monto)
+    })
+    return arrayOrdenado
+}
+
+
+
+
+filtroOrdenarPor.onchange = () => {
+    if (filtroOrdenarPor.value == "mayor-monto") {
+     HTMLBalanceBoxOperaciones(filtroMayorMonto())
+    }
+    else if (filtroOrdenarPor.value === "menor-monto") {
+        HTMLBalanceBoxOperaciones(filtroMenorMonto())
+    }
+}
+
 
 
 
