@@ -40,7 +40,7 @@ const fechaNuevaOperacion = document.getElementById("fecha-nueva-operacion");
 
 // SECCION-CATEGORÍAS
 
-const sectionCategorias = document.getElementById("section-categorias");
+const sectionCategorias = document.getElementById("seccion-categorias");
 const sectionEditarCategoria = document.getElementById("section-editar-categoria");
 // const abrirSeccionEditarCategoria = document.querySelectorAll(".open-editar-categoria");
 const deleteCategoria = document.querySelectorAll(".delete-categoria");
@@ -58,6 +58,10 @@ const sectionReportes = document.getElementById("section-reportes");
 
 /////////////////////////FIN DE DOM////////////////////////////FIN DE DOM//////////////////////////////////////FIN DE DOM/////////////////////////////
 
+
+let arrayInputUsuario = [];
+let arrayCategorias = ["Comida","Servicios","Salidas","Educación","Transporte","Trabajo"];
+ 
 
 
 //Funciones Auxiliares
@@ -85,22 +89,20 @@ const leerDesdeLocalStorage = (clave) => {
 }
 
 
+
 let ocultarSecciones = () => {
     seccionVisible.forEach((section) => {
         section.classList.add('is-hidden')
     })
 }
 
-let nuevasCategoriasEnSelects= () => {
-    let nuevaOpcion = document.createElement('option')
-    nuevaOpcion.innerText = `${inputNuevaCategoria.value}`
-    nuevaOpcion.setAttribute('value',inputNuevaCategoria.value)
-    return nuevaOpcion
+let categoriasEnSelects= (filtroEnSeccion) => {
+   filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc,element)=> {
+       return acc + ` <option value=${element}>${element}</option>`
+   },`<option value="todos">Todas</option>`)
 }
 
-let arrayInputUsuario = [];
-let arrayCategorias = ["Comida","Servicios","Salidas","Educación","Transporte","Trabajo"];
- 
+
 
 
 let nuevoObjeto = () => {
@@ -145,11 +147,11 @@ let actualizarBotonesEditarDom = () => {
 const operacionesAlmacenadas = leerDesdeLocalStorage('operaciones_usuario');
 const categoriasActualizadas = leerDesdeLocalStorage('categorias_actualizadas');
 
-if (operacionesAlmacenadas != null) {
+if (operacionesAlmacenadas !== null) {
   arrayInputUsuario = operacionesAlmacenadas
 }
 
-if (categoriasActualizadas != null) {
+if (categoriasActualizadas !== null) {
     arrayCategorias = categoriasActualizadas
 }
 
@@ -157,7 +159,8 @@ fechaNuevaOperacion.valueAsDate = new Date()
 filtroFecha.valueAsDate = new Date()
 
 
-
+categoriasEnSelects(filtroCategoria)
+categoriasEnSelects(categoriasEnNuevaOperacion)
 
 
 
@@ -406,27 +409,11 @@ let HTMLcategoriasSeccionCategorias = () => {
 
     listaCategorias.innerHTML = categoriasAMostrar
     actualizarBotonesEditarDom()
-   
 }
 
 HTMLcategoriasSeccionCategorias()
 
 
-
-
-
-
-
-
-
-
-// abrirSeccionEditarCategoria.forEach((botonEditar) => {
-//     botonEditar.onclick = () => {
-//         abrirVentanaEditarCategoria;
-//         console.log("HOLA")
-//     } 
-
-// })
 
 
 
@@ -442,18 +429,15 @@ addNuevaCategoria.onclick = () => {
     
 
     if ( inputNuevaCategoria.value.length > 0) {
-        categoriasEnNuevaOperacion.appendChild(nuevasCategoriasEnSelects());
-        filtroCategoria.appendChild(nuevasCategoriasEnSelects());
         arrayCategorias.push(inputNuevaCategoria.value);
         HTMLcategoriasSeccionCategorias();
+        categoriasEnSelects(categoriasEnNuevaOperacion)
+        categoriasEnSelects(filtroCategoria)
         guardarEnLocalStorage(arrayCategorias, 'categorias_actualizadas');
         inputNuevaCategoria.value = ""
         
         actualizarBotonesEditarDom()
-        // let listaActualizada = document.querySelectorAll(".open-editar-categoria");
-        // listaActualizada.forEach((botonEditar)=> {
-        //     botonEditar.onclick = abrirVentanaEditarCategoria
-        // })
+
       }
 
     else {
