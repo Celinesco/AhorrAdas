@@ -42,13 +42,14 @@ const fechaNuevaOperacion = document.getElementById("fecha-nueva-operacion");
 
 const sectionCategorias = document.getElementById("section-categorias");
 const sectionEditarCategoria = document.getElementById("section-editar-categoria");
-const openSectionEditarCategoria = document.querySelectorAll(".open-editar-categoria");
+// const abrirSeccionEditarCategoria = document.querySelectorAll(".open-editar-categoria");
 const deleteCategoria = document.querySelectorAll(".delete-categoria");
 const cancelEditarCategoria = document.getElementById("cancel-editar-categoria");
 const addNuevaCategoria = document.getElementById("agregar-categoria");
 const inputNuevaCategoria = document.getElementById("input-nueva-categoria");
 const listaCategorias = document.getElementById("lista-categorias");
 const alertsRequestField = document.querySelectorAll(".requested-field");
+const inputEditarNuevaCategoria = document.getElementById('editar-nueva-categoria')
 
 
 //SECCION REPORTES
@@ -97,8 +98,8 @@ let nuevasCategoriasEnSelects= () => {
     return nuevaOpcion
 }
 
-let arrayInputUsuario = []
-
+let arrayInputUsuario = [];
+let arrayCategorias = ["Comida","Servicios","Salidas","Educación","Transporte","Trabajo"];
  
 
 
@@ -119,18 +120,42 @@ let nuevoObjeto = () => {
     return arrayInputUsuario
 }
 
-// arr.sort(function(a,b){return a - b;});
+
+let abrirVentanaEditarCategoria = () => {
+    sectionCategorias.classList.add('is-hidden');
+    sectionEditarCategoria.classList.remove('is-hidden');
+   
+
+}
+
+let actualizarBotonesEditarDom = () => {
+    let arrayDeBotonesEditarEnDOM = document.querySelectorAll(".open-editar-categoria");
+    arrayDeBotonesEditarEnDOM.forEach((botonEditar)=> {
+        botonEditar.onclick = abrirVentanaEditarCategoria
+    })
+
+}
+
+
+
+
 
 // Comiezo de página
 
-const infoAlmacenada = leerDesdeLocalStorage('operaciones_usuario')
+const operacionesAlmacenadas = leerDesdeLocalStorage('operaciones_usuario');
+const categoriasActualizadas = leerDesdeLocalStorage('categorias_actualizadas');
 
-if (infoAlmacenada !== null) {
-  arrayInputUsuario = infoAlmacenada
+if (operacionesAlmacenadas != null) {
+  arrayInputUsuario = operacionesAlmacenadas
+}
+
+if (categoriasActualizadas != null) {
+    arrayCategorias = categoriasActualizadas
 }
 
 fechaNuevaOperacion.valueAsDate = new Date()
 filtroFecha.valueAsDate = new Date()
+
 
 
 
@@ -310,7 +335,7 @@ let aplicarfiltros = () => {
     }
     
 
-
+    
     return filtradoFinal
 
 
@@ -333,8 +358,6 @@ filtroFecha.onchange = () => {
     let arrayFiltradoPorFecha = aplicarfiltros()
     HTMLBalanceBoxOperaciones(arrayFiltradoPorFecha)
 }
-
-
 
 
 
@@ -364,35 +387,46 @@ cancelarNuevaOperacion.addEventListener('onkeypress', cancelarNuevaOperacion.onc
 
 // //--------------------FUNCIONALIDAD CATEGORÍAS-----------------///
 
-
-let HTMLnuevaCategoriaSeccionCategorias = () => {
-    let li = document.createElement('li');
-    li.innerHTML = `<div class="columns is-mobile is-vcentered mb-3">
-    <div class="column">
-        <p class="tag is-primary is-light">${inputNuevaCategoria.value}</p>
-    </div>
-    <div class="columns">
-        <div class="column">
-            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+let HTMLcategoriasSeccionCategorias = () => {
+    let categoriasAMostrar = arrayCategorias.reduce((acc,element,index)=> {
+        return acc + `<li>
+        <div class="columns is-mobile is-vcentered mb-3">
+            <div class="column">
+                <p class="tag is-primary is-light">${element}</p>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <button class="button is-ghost is-size-7 open-editar-categoria" id="editar-categorias-${index}">Editar</button>
+                    <button class="button is-ghost is-size-7 delete-categoria" id="eliminar-categorias-${index}">Eliminar</button>
+                </div>
+            </div>
         </div>
-    </div>
-</div>`
-    return li;
+    </li>`
+    },"")
 
+    listaCategorias.innerHTML = categoriasAMostrar
+    actualizarBotonesEditarDom()
+   
 }
 
+HTMLcategoriasSeccionCategorias()
 
 
-let abrirVentanaEditarCategoria = () => {
-    sectionCategorias.classList.add('is-hidden');
-    sectionEditarCategoria.classList.remove('is-hidden');
-}
 
 
-openSectionEditarCategoria.forEach((botonEditar) => {
-    botonEditar.onclick = abrirVentanaEditarCategoria;
-})
+
+
+
+
+
+
+// abrirSeccionEditarCategoria.forEach((botonEditar) => {
+//     botonEditar.onclick = () => {
+//         abrirVentanaEditarCategoria;
+//         console.log("HOLA")
+//     } 
+
+// })
 
 
 
@@ -406,15 +440,20 @@ inputNuevaCategoria.oninput = () => {
 
 addNuevaCategoria.onclick = () => {
     
+
     if ( inputNuevaCategoria.value.length > 0) {
-        listaCategorias.appendChild(HTMLnuevaCategoriaSeccionCategorias());
         categoriasEnNuevaOperacion.appendChild(nuevasCategoriasEnSelects());
         filtroCategoria.appendChild(nuevasCategoriasEnSelects());
+        arrayCategorias.push(inputNuevaCategoria.value);
+        HTMLcategoriasSeccionCategorias();
+        guardarEnLocalStorage(arrayCategorias, 'categorias_actualizadas');
+        inputNuevaCategoria.value = ""
         
-        let listaActualizada = document.querySelectorAll(".open-editar-categoria");
-        listaActualizada.forEach((botonEditar)=> {
-            botonEditar.onclick = abrirVentanaEditarCategoria
-        })
+        actualizarBotonesEditarDom()
+        // let listaActualizada = document.querySelectorAll(".open-editar-categoria");
+        // listaActualizada.forEach((botonEditar)=> {
+        //     botonEditar.onclick = abrirVentanaEditarCategoria
+        // })
       }
 
     else {
@@ -448,6 +487,7 @@ cancelEditarCategoria.addEventListener('onkeypress', cancelEditarCategoria.oncli
 //     }
     
 // }
+
 
 
 
