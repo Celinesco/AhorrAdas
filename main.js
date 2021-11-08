@@ -216,8 +216,28 @@ abrirSeccionNuevaOperacion.addEventListener('onkeypress', abrirSeccionNuevaOpera
 
 
 
+
+let htmlOperacionesSinResulados = () => {
+
+    contenedorOperaciones.innerHTML = `<div class="columns is-centered my-6 py-6" id="contenedor-operaciones">
+    <div class="column is-6">
+        <div class="image">
+            <img src="images/undraw_Growing_re_olpi.svg">
+        </div>
+        <p class="title has-text-centered mt-6 is-4">Sin resultados</p>
+        <p class="has-text-centered">Cambia los filtros o agrega operaciones</p>
+    </div>
+</div>`
+}
+
+
 let HTMLBalanceBoxOperaciones = (array) => {
-   
+  
+    if (array.length == 0) {
+       htmlOperacionesSinResulados()
+   }
+
+   else {
     let acc = " ";
 
     array.map((operacion)=> {
@@ -248,7 +268,7 @@ let HTMLBalanceBoxOperaciones = (array) => {
 
     contenedorOperaciones.removeAttribute("class")
     contenedorOperaciones.innerHTML =`
-    <div class="columns my-3 py-2" >
+    <div class="columns my-3 py-2" id="titulos-tabla-operaciones" >
         <div class="column has-text-weight-semibold is-3">Descripción</div>
         <div class="column has-text-weight-semibold is-2">Categoría</div>
         <div class="column has-text-weight-semibold is-2 has-text-right">Fecha</div>
@@ -259,6 +279,7 @@ let HTMLBalanceBoxOperaciones = (array) => {
     <div class="">
         ${acc} 
     </div> ` 
+    }
 
 }
 
@@ -339,10 +360,13 @@ let aplicarfiltros = () => {
     
 
     
-    return filtradoFinal
+        return filtradoFinal
+    
 
+  
+    
+   
 
-    //fecha
 }
 
 
