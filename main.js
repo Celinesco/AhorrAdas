@@ -164,6 +164,7 @@ categoriasEnSelects(categoriasEnNuevaOperacion)
 
 
 
+
 // //Funcionalidad Header/Nav
 
 itemNavSeccionBalance.onclick = () => {
@@ -218,22 +219,22 @@ abrirSeccionNuevaOperacion.addEventListener('onkeypress', abrirSeccionNuevaOpera
 
 
 let htmlOperacionesSinResulados = () => {
-
-    contenedorOperaciones.innerHTML = `<div class="columns is-centered my-6 py-6" id="contenedor-operaciones">
-    <div class="column is-6">
+    contenedorOperaciones.innerHTML = 
+    `<div class="column is-6">
         <div class="image">
             <img src="images/undraw_Growing_re_olpi.svg">
         </div>
         <p class="title has-text-centered mt-6 is-4">Sin resultados</p>
         <p class="has-text-centered">Cambia los filtros o agrega operaciones</p>
-    </div>
-</div>`
+    </div>`
 }
+
+htmlOperacionesSinResulados()
 
 
 let HTMLBalanceBoxOperaciones = (array) => {
   
-    if (array.length == 0) {
+    if (array.length === 0) {
        htmlOperacionesSinResulados()
    }
 
