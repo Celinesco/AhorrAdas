@@ -152,7 +152,6 @@ const resetearValoresInputs = () => {
     descripcionNuevaOperacion.value = "";
     montoNuevaOperacion.value = "";
     fechaNuevaOperacion.valueAsDate = new Date();
-    tipoNuevaOperacion.value = "gasto"
     categoriasEnNuevaOperacion.value = "Comida"
 }
 
@@ -253,6 +252,7 @@ htmlOperacionesSinResulados()
 let HTMLBalanceBoxOperaciones = (array) => {
   
     if (array.length == 0) {
+
        htmlOperacionesSinResulados()
    }
 
@@ -271,7 +271,7 @@ let HTMLBalanceBoxOperaciones = (array) => {
             <div class="column is-2 has-text-grey has-text-right">
                 ${operacion.fecha}
             </div>
-            <div class="column is-2 has-text-right has-text-weight-bold ${operacion.tipo === "Ganancia" ?"has-text-success":"has-text-danger"}"> 
+            <div class="column is-2 has-text-right has-text-weight-bold ${operacion.tipo === "ganancia" ?"has-text-success":"has-text-danger"}"> 
             ${operacion.tipo === "Ganancia" ?"+$":"-$"}${operacion.monto}
             </div>
             <div class="column is-3">
@@ -325,14 +325,14 @@ let aplicarfiltros = () => {
             return operacion
         }
         return operacion.tipo.toLowerCase() == filtroTipo.value
-    })
+    });
     
     const filtradoCategoriayTipo = filtradoPorTipo.filter((operacion) => {
       if (filtroCategoria.value === "todos") {
         return operacion
       }
       return operacion.categoria == filtroCategoria.value
-    })
+    });
 
     const filtradoFinal = filtradoCategoriayTipo.filter((operacion)=> {
         return new Date (operacion.fecha) >= new Date (filtroFecha.value)
@@ -340,11 +340,11 @@ let aplicarfiltros = () => {
 
 
     let arrayDeGanancias = filtradoFinal.filter((operacion)=> {
-        return operacion.tipo === "Ganancia"
+        return operacion.tipo === "ganancia"
     })
     
     let arrayDeGastos = filtradoFinal.filter((operacion)=> {
-        return operacion.tipo === "Gasto"
+        return operacion.tipo === "gasto"
     })
     
     let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element)=> {
@@ -355,6 +355,7 @@ let aplicarfiltros = () => {
         return acc + Number(element.monto)
     },0)
 
+    
     let total = sumaTotalGanancias - sumaTotalGastos
 
 
@@ -371,6 +372,7 @@ let aplicarfiltros = () => {
         totalGastosGanancias.classList.remove('has-text-success')
         totalGastosGanancias.innerHTML = `-$${Math.abs(total)}`
     }
+
     else {
         totalGastosGanancias.innerHTML = `$0`
         totalGastosGanancias.classList.add('has-dark-text');
@@ -381,6 +383,7 @@ let aplicarfiltros = () => {
         return filtradoFinal
 
 }
+
 
 let filtroMayorMonto = () => {
     
@@ -511,8 +514,7 @@ agregarNuevaOperacion.onclick = () => {
     HTMLBalanceBoxOperaciones(arrayInputUsuario);
     guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
     resetearValoresInputs()
-    
-
+    console.log(tipoNuevaOperacion.value)
     }
 
     else if (valorDescripcion.length === 0 && valorMonto == "" ){
@@ -536,8 +538,6 @@ agregarNuevaOperacion.onclick = () => {
         })
 
     }
-    
-    
     
 }
 
