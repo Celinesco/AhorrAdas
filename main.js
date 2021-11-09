@@ -219,6 +219,7 @@ abrirSeccionNuevaOperacion.addEventListener('onkeypress', abrirSeccionNuevaOpera
 
 
 let htmlOperacionesSinResulados = () => {
+    contenedorOperaciones.setAttribute('class', "columns is-centered my-6 py-6")
     contenedorOperaciones.innerHTML = 
     `<div class="column is-6">
         <div class="image">
@@ -234,7 +235,7 @@ htmlOperacionesSinResulados()
 
 let HTMLBalanceBoxOperaciones = (array) => {
   
-    if (array.length === 0) {
+    if (array.length == 0) {
        htmlOperacionesSinResulados()
    }
 
@@ -270,7 +271,7 @@ let HTMLBalanceBoxOperaciones = (array) => {
 
     contenedorOperaciones.removeAttribute("class")
     contenedorOperaciones.innerHTML =`
-    <div class="columns my-3 py-2" id="titulos-tabla-operaciones" >
+    <div class="columns my-3 py-2" id="contenedor-operaciones">
         <div class="column has-text-weight-semibold is-3">Descripción</div>
         <div class="column has-text-weight-semibold is-2">Categoría</div>
         <div class="column has-text-weight-semibold is-2 has-text-right">Fecha</div>
