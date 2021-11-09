@@ -97,9 +97,17 @@ let ocultarSecciones = () => {
 }
 
 let categoriasEnSelects= (filtroEnSeccion) => {
+    if (filtroEnSeccion !== categoriasEnNuevaOperacion)
    filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc,element)=> {
        return acc + ` <option value=${element}>${element}</option>`
    },`<option value="todos">Todas</option>`)
+
+   else {
+    filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc,element)=> {
+        return acc + ` <option value=${element}>${element}</option>`
+    },"")
+ 
+   }
 }
 
 
@@ -434,7 +442,7 @@ let filtroZA = () => {
 
 
 
-
+// FILTROS ORDENAR POR
 
 
 filtroOrdenarPor.onchange = () => {
