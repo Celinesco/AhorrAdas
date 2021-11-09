@@ -380,6 +380,58 @@ let filtroMenorMonto = () => {
     return arrayOrdenado
 }
 
+let filtroRecientes = () => {
+    let arrayFiltradoDefiltros = aplicarfiltros();
+    let arrayOrdenado = arrayFiltradoDefiltros.sort ((a,b)=> {
+        return new Date(b.fecha)- new Date(a.fecha)
+    })
+    return arrayOrdenado
+}
+
+let filtroMenosRecientes = () => {
+    let arrayFiltradoDefiltros = aplicarfiltros();
+    let arrayOrdenado = arrayFiltradoDefiltros.sort ((a,b)=> {
+        return new Date(a.fecha)- new Date(b.fecha)
+    })
+    return arrayOrdenado
+}
+
+let filtroAZ = () => {
+    let arrayFiltradoDefiltros = aplicarfiltros();
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a,b)=> {
+        const descripcionA = a.descripcion.toLowerCase();
+        const descripcionB = b.descripcion.toLowerCase();
+
+        if(descripcionA < descripcionB) {
+            return -1;
+        }
+        if(descripcionA > descripcionB) {
+            return 1
+        }
+        return 0
+    });
+    return arrayOrdenado
+}
+
+let filtroZA = () => {
+    let arrayFiltradoDefiltros = aplicarfiltros();
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a,b)=> {
+        const descripcionA = a.descripcion.toLowerCase();
+        const descripcionB = b.descripcion.toLowerCase();
+
+        if(descripcionA > descripcionB) {
+            return -1;
+        }
+        if(descripcionA < descripcionB) {
+            return 1
+        }
+        return 0
+    });
+    return arrayOrdenado
+}
+
+
+
 
 
 
@@ -389,6 +441,18 @@ filtroOrdenarPor.onchange = () => {
     }
     else if (filtroOrdenarPor.value === "menor-monto") {
         HTMLBalanceBoxOperaciones(filtroMenorMonto())
+    }
+    else if (filtroOrdenarPor.value === "recientes") {
+        HTMLBalanceBoxOperaciones(filtroRecientes())
+    }
+    else if (filtroOrdenarPor.value === "menos-recientes") {
+        HTMLBalanceBoxOperaciones(filtroMenosRecientes())
+    }
+    else if (filtroOrdenarPor.value === "a-z") {
+        HTMLBalanceBoxOperaciones(filtroAZ())
+    }
+    else if (filtroOrdenarPor.value === "z-a") {
+        HTMLBalanceBoxOperaciones(filtroZA())
     }
 }
 
