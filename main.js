@@ -291,7 +291,7 @@ let HTMLBalanceBoxOperaciones = (array) => {
                 ${operacion.fecha}
             </div>
             <div class="column is-2 has-text-right has-text-weight-bold ${operacion.tipo === "ganancia" ?"has-text-success":"has-text-danger"}"> 
-            ${operacion.tipo === "Ganancia" ?"+$":"-$"}${operacion.monto}
+            ${operacion.tipo === "ganancia" ?"+$":"-$"}${operacion.monto}
             </div>
             <div class="column is-3">
                 <div class="columns">
@@ -633,7 +633,7 @@ inputNuevaCategoria.oninput = () => {
 agregarNuevaCategoria.onclick = () => {
     
     let verificarCategoriaExistente = arrayCategorias.some((element)=> {
-        return element == inputNuevaCategoria.value
+        return element.toLocaleLowerCase() == inputNuevaCategoria.value.toLowerCase()
     })
   
 
