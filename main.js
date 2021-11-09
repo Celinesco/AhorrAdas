@@ -399,11 +399,40 @@ cancelEditarCategoria.addEventListener('onkeypress', cancelEditarCategoria.oncli
 
 
 
+//--------------SECCION-REPORTES------------//////
+
+// obtener mayor ganancia
+// obtener mayor gasto
+// categoria con mayor balance
+// mes con mayor ganancia
+// mes con mayor gasto
 
 
+//mayor ganancia, filtrar por ganancia/gasto monto categoria FILTER, sumar por categoria REDUCE
+// comparar los resultados del REDUCE y devolver el mayor 
+// arrayInputUsuario
 
 
+/* let arrayDeGanancias = arrayInputUsuario.filter((operacion)=> {
+    return operacion.tipo === "Ganancia"
+}) */
+console.log(arrayDeGanancias);
 
+let arrayGananciaPorCategoria = arrayDeGanancias.filter((operacion) => {
+    return operacion.categoria 
+})
+console.log(arrayGananciaPorCategoria);
 
+/* let arrayDeGastos = arrayInputUsuario.filter((operacion)=> {
+    return operacion.tipo === "Gasto"
+})
 
+let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element)=> {
+    return acc + Number(element.monto)
+},0)
 
+let sumaTotalGastos = arrayDeGastos.reduce((acc,element)=> {
+    return acc + Number(element.monto)
+},0)
+
+let arrayCategoria */
