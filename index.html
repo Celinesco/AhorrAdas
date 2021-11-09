@@ -164,22 +164,35 @@
                             <div class="field">
                                 <label class="label" for="descripcion-operacion">Descripción</label>
                                 <div class="control">
-                                    <input class="input" type="text" id="descripcion-operacion" required>
+                                    <div class="control has-icons-right">
+                                        <input class="input" type="text" id="descripcion-operacion" required>
+                                        <span class="icon is-small is-right is-hidden requested-field">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </span>
+                                        <p class="help is-danger is-hidden requested-field my-0">Ingresa una descripción</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label" for="monto-nueva-operacion">Monto</label>
                                 <div class="control">
-                                    <input class="input" type="number" id="monto-nueva-operacion" required>
+                                    <div class="control has-icons-right">
+                                        <input class="input" type="number" id="monto-nueva-operacion" min="0.01" required>  
+                                        <span class="icon is-small is-right is-hidden campo-requerido-monto" >
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </span>
+                                        <p class="help is-danger is-hidden campo-requerido-monto my-0">Ingresa un monto</p>
+                                    </div>
                                 </div>
+                             
                             </div>
                             <div class="field">
                                 <label class="label" for="tipo-nueva-operacion">Tipo</label>
                                 <div class="control">
                                     <div class="select is-fullwidth">
                                         <select id="tipo-nueva-operacion">
-                                            <option>Gasto</option>
-                                            <option>Ganancia</option>
+                                            <option value="gasto">Gasto</option>
+                                            <option value="ganancia">Ganancia</option>
                                         </select>
                                     </div>
                                 </div>
@@ -188,13 +201,7 @@
                                 <label class="label" for="categorias-nueva-operacion">Categoría</label>
                                 <div class="control">
                                     <div class="select is-fullwidth">
-                                        <select id="categorias-nueva-operacion" placeholder="Comida">
-                                            <option value="comida">Comida</option>
-                                            <option value="servicios">Servicios</option>
-                                            <option value="salidas">Salidas</option>
-                                            <option value="educacion">Educación</option>
-                                            <option value="transporte">Transporte</option>
-                                            <option value="trabajo">Trabajo</option>
+                                        <select id="categorias-nueva-operacion">
                                         </select>
                                     </div>
                                 </div>
