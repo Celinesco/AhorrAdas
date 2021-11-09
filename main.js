@@ -46,7 +46,7 @@ const sectionCategorias = document.getElementById("seccion-categorias");
 const sectionEditarCategoria = document.getElementById("section-editar-categoria");
 const deleteCategoria = document.querySelectorAll(".delete-categoria");
 const cancelEditarCategoria = document.getElementById("cancel-editar-categoria");
-const addNuevaCategoria = document.getElementById("agregar-categoria");
+const agregarNuevaCategoria = document.getElementById("agregar-categoria");
 const inputNuevaCategoria = document.getElementById("input-nueva-categoria");
 const listaCategorias = document.getElementById("lista-categorias");
 const alertaCampoRequerido = document.querySelectorAll(".requested-field");
@@ -630,10 +630,14 @@ inputNuevaCategoria.oninput = () => {
 }
 
 
-addNuevaCategoria.onclick = () => {
+agregarNuevaCategoria.onclick = () => {
     
+    let verificarCategoriaExistente = arrayCategorias.some((element)=> {
+        return element == inputNuevaCategoria.value
+    })
+  
 
-    if ( inputNuevaCategoria.value.length > 0) {
+    if ( inputNuevaCategoria.value.length > 0 && !verificarCategoriaExistente) {
         arrayCategorias.push(inputNuevaCategoria.value);
         HTMLcategoriasSeccionCategorias();
         categoriasEnSelects(categoriasEnNuevaOperacion)
@@ -645,10 +649,14 @@ addNuevaCategoria.onclick = () => {
 
       }
 
-    else {
+    else if (inputNuevaCategoria.value.length == 0) {
         alertaCampoRequerido.forEach((alertas) => {
             alertas.classList.remove('is-hidden')
         })
+
+    else {
+        //aca tengo que escribir "esa cateogría ya existe"
+    }
     }
   
 }
