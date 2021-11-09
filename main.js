@@ -654,9 +654,9 @@ agregarNuevaCategoria.onclick = () => {
             alertas.classList.remove('is-hidden')
         })
 
-    else {
-        //aca tengo que escribir "esa cateogría ya existe"
-    }
+    // else {
+    //     //aca tengo que escribir "esa cateogría ya existe"
+    // }
     }
   
 }
