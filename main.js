@@ -160,19 +160,39 @@ const resetearValoresInputs = () => {
 
 // Comiezo de página
 
+
+
 const operacionesAlmacenadas = leerDesdeLocalStorage('operaciones_usuario');
 const categoriasActualizadas = leerDesdeLocalStorage('categorias_actualizadas');
 
-if (operacionesAlmacenadas !== null) {
-  arrayInputUsuario = operacionesAlmacenadas
-}
+
 
 if (categoriasActualizadas !== null) {
     arrayCategorias = categoriasActualizadas
 }
 
+
 fechaNuevaOperacion.valueAsDate = new Date()
 filtroFecha.valueAsDate = new Date()
+
+
+let arrayFechaDeHoy = () => { 
+    if (operacionesAlmacenadas !== null) {
+        arrayInputUsuario = operacionesAlmacenadas
+    let nuevoArray =  operacionesAlmacenadas.filter((element)=> {
+        return element.fecha === filtroFecha.value
+    })
+
+    return nuevoArray
+
+    }
+    
+    return arrayInputUsuario
+   
+   
+} 
+
+
 
 
 categoriasEnSelects(filtroCategoria)
@@ -252,7 +272,6 @@ htmlOperacionesSinResulados()
 let HTMLBalanceBoxOperaciones = (array) => {
   
     if (array.length == 0) {
-
        htmlOperacionesSinResulados()
    }
 
@@ -662,7 +681,4 @@ cancelEditarCategoria.addEventListener('onkeypress', cancelEditarCategoria.oncli
 
 
 
-
-
-
-
+HTMLBalanceBoxOperaciones(arrayFechaDeHoy())
