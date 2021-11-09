@@ -37,6 +37,7 @@ const descripcionNuevaOperacion = document.getElementById("descripcion-operacion
 const montoNuevaOperacion = document.getElementById("monto-nueva-operacion");
 const tipoNuevaOperacion = document.getElementById("tipo-nueva-operacion");
 const fechaNuevaOperacion = document.getElementById("fecha-nueva-operacion");
+const montoCampoRequerido = document.querySelectorAll(".campo-requerido-monto");
 
 
 // SECCION-CATEGORÍAS
@@ -48,7 +49,7 @@ const cancelEditarCategoria = document.getElementById("cancel-editar-categoria")
 const addNuevaCategoria = document.getElementById("agregar-categoria");
 const inputNuevaCategoria = document.getElementById("input-nueva-categoria");
 const listaCategorias = document.getElementById("lista-categorias");
-const alertsRequestField = document.querySelectorAll(".requested-field");
+const alertaCampoRequerido = document.querySelectorAll(".requested-field");
 const inputEditarNuevaCategoria = document.getElementById('editar-nueva-categoria')
 
 
@@ -146,6 +147,14 @@ let actualizarBotonesEditarDom = () => {
 
 }
 
+
+const resetearValoresInputs = () => {
+    descripcionNuevaOperacion.value = "";
+    montoNuevaOperacion.value = "";
+    fechaNuevaOperacion.valueAsDate = new Date();
+    tipoNuevaOperacion.value = "gasto"
+    categoriasEnNuevaOperacion.value = "Comida"
+}
 
 
 
@@ -423,6 +432,7 @@ let filtroAZ = () => {
     return arrayOrdenado
 }
 
+
 let filtroZA = () => {
     let arrayFiltradoDefiltros = aplicarfiltros();
     let arrayOrdenado = arrayFiltradoDefiltros.sort((a,b)=> {
@@ -491,17 +501,61 @@ filtroFecha.onchange = () => {
 //NUEVA OPERACIÓN
 
 agregarNuevaOperacion.onclick = () => {
+    const valorDescripcion = descripcionNuevaOperacion.value 
+    const valorMonto = montoNuevaOperacion.value
+
+    if (valorDescripcion.length > 0 && valorMonto > 0){
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
-
     nuevoObjeto();
     HTMLBalanceBoxOperaciones(arrayInputUsuario);
     guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
+    resetearValoresInputs()
+    
+
+    }
+
+    else if (valorDescripcion.length === 0 && valorMonto == "" ){
+        alertaCampoRequerido.forEach((alertas) => {
+            alertas.classList.remove('is-hidden')
+        })
+        montoCampoRequerido.forEach((alertas) => {
+            alertas.classList.remove('is-hidden')
+        })
+    }
+
+    else if (valorDescripcion.length > 0 && valorMonto == 0) {
+        montoCampoRequerido.forEach((alertas) => {
+            alertas.classList.remove('is-hidden')
+        })
+    }
+
+    else if (valorMonto > 0 && valorDescripcion.length == 0) {
+        alertaCampoRequerido.forEach((alertas) => {
+            alertas.classList.remove('is-hidden')
+        })
+
+    }
+    
+    
+    
 }
+
+
 
 cancelarNuevaOperacion.onclick = () => {
     ocultarSecciones();
-    seccionBalance.classList.remove('is-hidden')
+    seccionBalance.classList.remove('is-hidden');
+    resetearValoresInputs();
+
+
+    alertaCampoRequerido.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    });
+
+    montoCampoRequerido.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    })
 }
 
 cancelarNuevaOperacion.addEventListener('onkeypress', cancelarNuevaOperacion.onclick);
@@ -536,12 +590,22 @@ let HTMLcategoriasSeccionCategorias = () => {
 HTMLcategoriasSeccionCategorias()
 
 
+//Alertas Campos obligatorios
 
+descripcionNuevaOperacion.oninput = () => {
+    alertaCampoRequerido.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    })
+}
 
-
+montoNuevaOperacion.oninput = () => {
+    montoCampoRequerido.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    })
+}
 
 inputNuevaCategoria.oninput = () => {
-    alertsRequestField.forEach((alertas) => {
+    alertaCampoRequerido.forEach((alertas) => {
         alertas.classList.add('is-hidden')
     })
 }
@@ -563,7 +627,7 @@ addNuevaCategoria.onclick = () => {
       }
 
     else {
-        alertsRequestField.forEach((alertas) => {
+        alertaCampoRequerido.forEach((alertas) => {
             alertas.classList.remove('is-hidden')
         })
     }
