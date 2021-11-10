@@ -555,7 +555,6 @@ agregarNuevaOperacion.onclick = () => {
         alertaCampoRequerido.forEach((alertas) => {
             alertas.classList.remove('is-hidden')
         })
-
     }
     
 }
@@ -627,13 +626,17 @@ inputNuevaCategoria.oninput = () => {
     alertaCampoRequerido.forEach((alertas) => {
         alertas.classList.add('is-hidden')
     })
+    categoriaRepetida.forEach((alertas)=> {
+        alertas.classList.add('is-hidden')
+    })
 }
 
 
 agregarNuevaCategoria.onclick = () => {
 
     let valorNuevaCategoria = inputNuevaCategoria.value
-    
+
+
     let verificarCategoriaExistente = arrayCategorias.some((element)=> {
         return element.toLocaleLowerCase() == valorNuevaCategoria.toLowerCase()
     })
