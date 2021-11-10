@@ -532,7 +532,9 @@ agregarNuevaOperacion.onclick = () => {
     nuevoObjeto();
     HTMLBalanceBoxOperaciones(arrayInputUsuario);
     guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
-    resetearValoresInputs()
+    resetearValoresInputs();
+    aplicarfiltros()
+
     
     }
 
