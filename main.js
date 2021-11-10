@@ -44,13 +44,13 @@ const montoCampoRequerido = document.querySelectorAll(".campo-requerido-monto");
 
 const sectionCategorias = document.getElementById("seccion-categorias");
 const sectionEditarCategoria = document.getElementById("section-editar-categoria");
-const deleteCategoria = document.querySelectorAll(".delete-categoria");
-const cancelEditarCategoria = document.getElementById("cancel-editar-categoria");
+const cancelarEditarCategoria = document.getElementById("cancelar-editar-categoria");
 const agregarNuevaCategoria = document.getElementById("agregar-categoria");
 const inputNuevaCategoria = document.getElementById("input-nueva-categoria");
 const listaCategorias = document.getElementById("lista-categorias");
 const alertaCampoRequerido = document.querySelectorAll(".requested-field");
-const inputEditarNuevaCategoria = document.getElementById('editar-nueva-categoria')
+const inputEditarNuevaCategoria = document.getElementById("editar-nueva-categoria");
+const categoriaRepetida = document.querySelectorAll(".categoria-repetida")
 
 
 //SECCION REPORTES
@@ -533,7 +533,7 @@ agregarNuevaOperacion.onclick = () => {
     HTMLBalanceBoxOperaciones(arrayInputUsuario);
     guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
     resetearValoresInputs()
-    console.log(tipoNuevaOperacion.value)
+    
     }
 
     else if (valorDescripcion.length === 0 && valorMonto == "" ){
@@ -631,13 +631,15 @@ inputNuevaCategoria.oninput = () => {
 
 
 agregarNuevaCategoria.onclick = () => {
+
+    let valorNuevaCategoria = inputNuevaCategoria.value
     
     let verificarCategoriaExistente = arrayCategorias.some((element)=> {
-        return element.toLocaleLowerCase() == inputNuevaCategoria.value.toLowerCase()
+        return element.toLocaleLowerCase() == valorNuevaCategoria.toLowerCase()
     })
   
 
-    if ( inputNuevaCategoria.value.length > 0 && !verificarCategoriaExistente) {
+    if ( valorNuevaCategoria.length > 0 && !verificarCategoriaExistente) {
         arrayCategorias.push(inputNuevaCategoria.value);
         HTMLcategoriasSeccionCategorias();
         categoriasEnSelects(categoriasEnNuevaOperacion)
@@ -649,26 +651,31 @@ agregarNuevaCategoria.onclick = () => {
 
       }
 
-    else if (inputNuevaCategoria.value.length == 0) {
+    else if (valorNuevaCategoria.length == 0) {
         alertaCampoRequerido.forEach((alertas) => {
             alertas.classList.remove('is-hidden')
         })
 
-    // else {
-    //     //aca tengo que escribir "esa cateogría ya existe"
-    // }
     }
+
+    else if (verificarCategoriaExistente){
+        categoriaRepetida.forEach((alertas)=> {
+            alertas.classList.remove('is-hidden')
+        })
+        
+    }
+    
   
 }
 
 //botones editar
 
-cancelEditarCategoria.onclick = () => {
+cancelarEditarCategoria.onclick = () => {
     ocultarSecciones();
     sectionCategorias.classList.remove('is-hidden');
 }
 
-cancelEditarCategoria.addEventListener('onkeypress', cancelEditarCategoria.onclick);
+cancelarEditarCategoria.addEventListener('onkeypress', cancelarEditarCategoria.onclick);
 
 
 
@@ -690,3 +697,4 @@ cancelEditarCategoria.addEventListener('onkeypress', cancelEditarCategoria.oncli
 
 
 HTMLBalanceBoxOperaciones(arrayFechaDeHoy())
+aplicarfiltros()

@@ -234,31 +234,29 @@
 
     <section class="section is-hidden seccion-visible" id="seccion-categorias">
         <div class="container">
-            <div class="columns is-centered is-mobile">
+            <div class="columns is-centered is-mobile is-multiline">
                 <div class="column is-8-widescreen is-9-desktop is-12-tablet">
-                    <article class="box pb-5">
-                        <h2 class="title is-size-2 mb-6">Categorías</h2>
-                            <div class="columns is-mobile is-vcentered">
-                                <div class="column is-10-tablet mb-5">
-                                    <div class="field">
-                                        <label class="label" for="nueva-categoria">Nombre</label>
-                                        <div class="control has-icons-right">
-                                            <input class="input" id="input-nueva-categoria" type="text" required>
-                                            <span class="icon is-small is-right is-hidden requested-field">
-                                                <i class="fas fa-exclamation-triangle"></i>
-                                            </span>
-                                            </div>
-                                            <p class="help is-danger is-hidden requested-field my-0">Elige un nombre para tu categoría</p>
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="control">
-                                            <button type="button" class="button is-success" id="agregar-categoria">Agregar</button>
-                                        </div>
-                                    </div>
+                    <article class="box">
+                        <h2 class="title is-size-2">Categorías</h2>
+                        <label class="label mt-6" for="nueva-categoria">Nombre</label>
+                            <div class="field is-grouped">
+                                <div class="control is-expanded has-icons-right">       
+                                    <input class="input" id="input-nueva-categoria" type="text" required>
+                                    <span class="icon is-small is-hidden is-right requested-field">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </span>
+                                </div>     
+                                <div class="control">
+                                    <button type="button" class="button is-success" id="agregar-categoria">Agregar</button>
+                                </div>  
+                            </div>
+                            <div class="columns is-mobile">
+                                <div class="column pt-0">
+                                    <p class="help is-danger is-hidden requested-field my-0">Elige un nombre para tu categoría</p>
                                 </div>
+                            </div>
 
-                        <ul id="lista-categorias">
+                        <ul class="mt-5" id="lista-categorias">
                             
                         </ul>
                     </article>
@@ -286,7 +284,7 @@
                         <div class="is-flex is-justify-content-flex-end">
                             <div class="field is-grouped buttons mt-3">
                                 <div class="control">
-                                    <button class="button is-light" id="cancel-editar-categoria">Cancelar</button>
+                                    <button class="button is-light" id="cancelar-editar-categoria">Cancelar</button>
                                 </div>
                                 <div class="control">
                                     <button class="button is-success">Editar</button>
