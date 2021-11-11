@@ -42,7 +42,7 @@ const montoCampoRequerido = document.querySelectorAll(".campo-requerido-monto");
 
 // SECCION-CATEGORÍAS
 
-const sectionCategorias = document.getElementById("seccion-categorias");
+const seccionCategorias = document.getElementById("seccion-categorias");
 const sectionEditarCategoria = document.getElementById("section-editar-categoria");
 const cancelarEditarCategoria = document.getElementById("cancelar-editar-categoria");
 const agregarNuevaCategoria = document.getElementById("agregar-categoria");
@@ -50,7 +50,11 @@ const inputNuevaCategoria = document.getElementById("input-nueva-categoria");
 const listaCategorias = document.getElementById("lista-categorias");
 const alertaCampoRequerido = document.querySelectorAll(".requested-field");
 const inputEditarNuevaCategoria = document.getElementById("editar-nueva-categoria");
-const categoriaRepetida = document.querySelectorAll(".categoria-repetida")
+const categoriaRepetida = document.querySelectorAll(".categoria-repetida");
+
+// SECCION EDITAR CATEGORIA
+
+const botonEditarCategoria = document.getElementById("boton-editar-categoria")
 
 
 //SECCION REPORTES
@@ -90,12 +94,13 @@ const leerDesdeLocalStorage = (clave) => {
 }
 
 
-
 let ocultarSecciones = () => {
     seccionVisible.forEach((section) => {
         section.classList.add('is-hidden')
     })
 }
+
+
 
 let categoriasEnSelects= (filtroEnSeccion) => {
     if (filtroEnSeccion !== categoriasEnNuevaOperacion)
@@ -133,18 +138,15 @@ let nuevoObjeto = () => {
 
 
 let abrirVentanaEditarCategoria = () => {
-    sectionCategorias.classList.add('is-hidden');
+    seccionCategorias.classList.add('is-hidden');
     sectionEditarCategoria.classList.remove('is-hidden');
    
 
 }
 
-let actualizarBotonesEditarDom = () => {
+let actualizarBotonesEditarCategorias = () => {
     let arrayDeBotonesEditarEnDOM = document.querySelectorAll(".open-editar-categoria");
-    arrayDeBotonesEditarEnDOM.forEach((botonEditar)=> {
-        botonEditar.onclick = abrirVentanaEditarCategoria
-    })
-
+    return arrayDeBotonesEditarEnDOM
 }
 
 let actualizarListaBotonEliminarCategoria = () => {
@@ -208,7 +210,7 @@ itemNavSeccionBalance.onclick = () => {
 
 itemNavSeccionCategorias.onclick = () => {
     ocultarSecciones();
-    sectionCategorias.classList.remove('is-hidden');
+    seccionCategorias.classList.remove('is-hidden');
 }
 
 itemNavSeccionReportes.onclick = () => {
@@ -252,7 +254,7 @@ abrirSeccionNuevaOperacion.addEventListener('onkeypress', abrirSeccionNuevaOpera
 
 
 
-let htmlOperacionesSinResulados = () => {
+const htmlOperacionesSinResulados = () => {
     contenedorOperaciones.setAttribute('class', "columns is-centered my-6 py-6")
     contenedorOperaciones.innerHTML = 
     `<div class="column is-6">
@@ -267,7 +269,7 @@ let htmlOperacionesSinResulados = () => {
 htmlOperacionesSinResulados()
 
 
-let HTMLBalanceBoxOperaciones = (array) => {
+const HTMLBalanceBoxOperaciones = (array) => {
   
     if (array.length == 0) {
        htmlOperacionesSinResulados()
@@ -335,7 +337,7 @@ ocultarFiltros.onclick = () => {
 
 
 
-let aplicarfiltros = () => {
+const aplicarfiltros = () => {
 
     const filtradoPorTipo = arrayInputUsuario.filter((operacion)=> {
         if (filtroTipo.value === "todos") {
@@ -612,6 +614,28 @@ let botonEliminarCategoria = () => {
     
 }
 
+let botonEditarCategoriaSeccionCategoria = () => {
+    arrayDeBotonesEditarEnDOM = actualizarBotonesEditarCategorias()
+    arrayDeBotonesEditarEnDOM.forEach((boton)=> {
+        boton.onclick = () => {
+            botonEditarCategoriaSeccionCategoria()
+            abrirVentanaEditarCategoria()
+            const cantidadLetrasCortadasDelId = 6
+            const idRecortado = Number(boton.id.slice(cantidadLetrasCortadasDelId))
+            console.log(idRecortado)
+            inputEditarNuevaCategoria.value = arrayCategorias[idRecortado]
+        } 
+    })
+}
+
+
+cancelarEditarCategoria.onclick = () => {
+    ocultarSecciones()
+    seccionCategorias.classList.remove('is-hidden');
+}
+
+
+
 let HTMLcategoriasSeccionCategorias = () => {
     let categoriasAMostrar = arrayCategorias.reduce((acc,element,index)=> {
         return acc + `<li>
@@ -631,11 +655,17 @@ let HTMLcategoriasSeccionCategorias = () => {
 
     listaCategorias.innerHTML = categoriasAMostrar
     botonEliminarCategoria()
-    actualizarBotonesEditarDom();
+    botonEditarCategoriaSeccionCategoria();
 }
 
 HTMLcategoriasSeccionCategorias()
 
+
+// seccion editar nueva categoria 
+
+botonEditarCategoria.onclick = () => {
+    
+}
 
 
 
@@ -681,7 +711,7 @@ agregarNuevaCategoria.onclick = () => {
         guardarEnLocalStorage(arrayCategorias, 'categorias_actualizadas');
         inputNuevaCategoria.value = ""
         
-        actualizarBotonesEditarDom()
+        actualizarBotonesEditarCategorias()
 
       }
 
@@ -702,16 +732,11 @@ agregarNuevaCategoria.onclick = () => {
   
 }
 
-
+inputNuevaCategoria.addEventListener('onkeydown', agregarNuevaCategoria.onclick)
 
 //botones editar
 
-cancelarEditarCategoria.onclick = () => {
-    ocultarSecciones();
-    sectionCategorias.classList.remove('is-hidden');
-}
 
-cancelarEditarCategoria.addEventListener('onkeypress', cancelarEditarCategoria.onclick);
 
 
 
