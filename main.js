@@ -49,12 +49,12 @@ const agregarNuevaCategoria = document.getElementById("agregar-categoria");
 const inputNuevaCategoria = document.getElementById("input-nueva-categoria");
 const listaCategorias = document.getElementById("lista-categorias");
 const alertaCampoRequerido = document.querySelectorAll(".requested-field");
-const inputEditarNuevaCategoria = document.getElementById("editar-nueva-categoria");
+const inputEditarCategoria = document.getElementById("editar-nueva-categoria");
 const categoriaRepetida = document.querySelectorAll(".categoria-repetida");
 
 // SECCION EDITAR CATEGORIA
 
-const botonEditarCategoria = document.getElementById("boton-editar-categoria")
+const botonEditarCategoriaSeccionEditarCategoria = document.getElementById("boton-editar-categoria")
 
 
 //SECCION REPORTES
@@ -163,6 +163,14 @@ const resetearValoresInputs = () => {
 }
 
 
+const cargarValores = () => {
+    HTMLBalanceBoxOperaciones(arrayInputUsuario)
+    HTMLcategoriasSeccionCategorias()
+    guardarEnLocalStorage(arrayCategorias, 'categorias_actualizadas');
+    guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario');
+    categoriasEnSelects(filtroCategoria)
+    categoriasEnSelects(categoriasEnNuevaOperacion)
+}
 
 
 // Comiezo de página
@@ -594,24 +602,23 @@ let botonEliminarCategoria = () => {
             botonEliminarCategoria()
             const idRecortado = Number(boton.id.slice(8))
             
-            arrayInputUsuario = arrayInputUsuario.filter((operacion,i)=> {
+            arrayInputUsuario = arrayInputUsuario.filter((operacion)=> {
                 return operacion.categoria !== arrayCategorias[idRecortado] 
            })
 
             arrayCategorias = arrayCategorias.filter((element,index)=> {
                 return index !== idRecortado
             });
-            
-            HTMLBalanceBoxOperaciones(arrayInputUsuario)
-            HTMLcategoriasSeccionCategorias(arrayCategorias)
-            guardarEnLocalStorage(arrayCategorias, 'categorias_actualizadas');
-            guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario');
-            categoriasEnSelects(filtroCategoria)
-            categoriasEnSelects(categoriasEnNuevaOperacion)
-
+           cargarValores()
         };
     })
     
+}
+
+let cajita = []
+
+let guardaVariable = (valor) => {
+    cajita.push(valor)
 }
 
 let botonEditarCategoriaSeccionCategoria = () => {
@@ -622,11 +629,12 @@ let botonEditarCategoriaSeccionCategoria = () => {
             abrirVentanaEditarCategoria()
             const cantidadLetrasCortadasDelId = 6
             const idRecortado = Number(boton.id.slice(cantidadLetrasCortadasDelId))
-            console.log(idRecortado)
-            inputEditarNuevaCategoria.value = arrayCategorias[idRecortado]
-        } 
-    })
+            inputEditarCategoria.value = arrayCategorias[idRecortado]
+            guardaVariable(inputEditarCategoria.value)
+        }  
+    }) 
 }
+
 
 
 cancelarEditarCategoria.onclick = () => {
@@ -663,8 +671,27 @@ HTMLcategoriasSeccionCategorias()
 
 // seccion editar nueva categoria 
 
-botonEditarCategoria.onclick = () => {
+botonEditarCategoriaSeccionEditarCategoria.onclick = (e) => {
+    e.preventDefault()
+
+    for (let i = 0; i < arrayCategorias.length; i++) {
+        if (arrayCategorias[i] === cajita[0]) {
+            arrayCategorias[i] = inputEditarCategoria.value
+        }
+    }
     
+    arrayInputUsuario.forEach((objeto)=> {
+        if (objeto.categoria === cajita[0]) {
+            objeto.categoria = inputEditarCategoria.value
+        }
+    })
+   
+ 
+    cargarValores()
+    ocultarSecciones()
+    seccionCategorias.classList.remove('is-hidden')
+    cajita = []
+
 }
 
 
@@ -705,10 +732,7 @@ agregarNuevaCategoria.onclick = () => {
 
     if ( valorNuevaCategoria.length > 0 && !verificarCategoriaExistente) {
         arrayCategorias.push(inputNuevaCategoria.value);
-        HTMLcategoriasSeccionCategorias();
-        categoriasEnSelects(categoriasEnNuevaOperacion)
-        categoriasEnSelects(filtroCategoria)
-        guardarEnLocalStorage(arrayCategorias, 'categorias_actualizadas');
+        cargarValores()
         inputNuevaCategoria.value = ""
         
         actualizarBotonesEditarCategorias()
@@ -731,8 +755,6 @@ agregarNuevaCategoria.onclick = () => {
     
   
 }
-
-inputNuevaCategoria.addEventListener('onkeydown', agregarNuevaCategoria.onclick)
 
 //botones editar
 
