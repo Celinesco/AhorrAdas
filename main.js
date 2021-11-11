@@ -147,6 +147,11 @@ let actualizarBotonesEditarDom = () => {
 
 }
 
+let actualizarListaBotonEliminarCategoria = () => {
+    let arrayDeBotonesEliminarDom = document.querySelectorAll(".eliminar-categoria");
+    return arrayDeBotonesEliminarDom
+}
+
 
 const resetearValoresInputs = () => {
     descripcionNuevaOperacion.value = "";
@@ -296,8 +301,8 @@ let HTMLBalanceBoxOperaciones = (array) => {
             <div class="column is-3">
                 <div class="columns">
                     <div class="column is-flex is-justify-content-flex-end">
-                        <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                        <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
+                        <button class="button is-ghost is-size-7 open-editar-categoria" id="editar${operacion.id}">Editar</button>
+                        <button class="button is-ghost is-size-7 eliminar-categoria" id="eliminar${operacion.id}">Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -535,7 +540,6 @@ agregarNuevaOperacion.onclick = () => {
     resetearValoresInputs();
     aplicarfiltros()
 
-    
     }
 
     else if (valorDescripcion.length === 0 && valorMonto == "" ){
@@ -586,6 +590,27 @@ cancelarNuevaOperacion.addEventListener('onkeypress', cancelarNuevaOperacion.onc
 
 // //--------------------FUNCIONALIDAD CATEGORÍAS-----------------///
 
+let botonEliminarCategoria = () => {
+
+    const listaBotonesEliminarCategoria = actualizarListaBotonEliminarCategoria();
+
+    listaBotonesEliminarCategoria.forEach((boton)=> {
+        boton.onclick = () => {
+            botonEliminarCategoria()
+            const idRecortado = Number(boton.id.slice(8))
+            
+            const arrayFiltrado = arrayCategorias.filter((element,index)=> {
+                return index !== idRecortado
+            });
+            
+            arrayCategorias = arrayFiltrado;
+            HTMLcategoriasSeccionCategorias(arrayFiltrado)
+            guardarEnLocalStorage(arrayCategorias, 'categorias_actualizadas');
+        };
+    })
+    
+}
+
 let HTMLcategoriasSeccionCategorias = () => {
     let categoriasAMostrar = arrayCategorias.reduce((acc,element,index)=> {
         return acc + `<li>
@@ -595,8 +620,8 @@ let HTMLcategoriasSeccionCategorias = () => {
             </div>
             <div class="columns">
                 <div class="column">
-                    <button class="button is-ghost is-size-7 open-editar-categoria" id="editar-categorias-${index}">Editar</button>
-                    <button class="button is-ghost is-size-7 delete-categoria" id="eliminar-categorias-${index}">Eliminar</button>
+                    <button class="button is-ghost is-size-7 open-editar-categoria" id="editar${index}">Editar</button>
+                    <button class="button is-ghost is-size-7 eliminar-categoria" id="eliminar${index}">Eliminar</button>
                 </div>
             </div>
         </div>
@@ -604,10 +629,16 @@ let HTMLcategoriasSeccionCategorias = () => {
     },"")
 
     listaCategorias.innerHTML = categoriasAMostrar
-    actualizarBotonesEditarDom()
+    botonEliminarCategoria()
+    actualizarBotonesEditarDom();
+    
+   
+
 }
 
 HTMLcategoriasSeccionCategorias()
+
+
 
 
 //Alertas Campos obligatorios
@@ -681,21 +712,6 @@ cancelarEditarCategoria.onclick = () => {
 }
 
 cancelarEditarCategoria.addEventListener('onkeypress', cancelarEditarCategoria.onclick);
-
-
-
-//botones eliminar 
-
-// eliminarCategoria = () => {
-
-// }
-
-// for (let i = 0; i < deleteCategoria.length; i++) {
-//     deleteCategoria[i].onclick = () => {
-
-//     }
-    
-// }
 
 
 
