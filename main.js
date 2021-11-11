@@ -187,17 +187,10 @@ let arrayFechaDeHoy = () => {
     let nuevoArray =  operacionesAlmacenadas.filter((element)=> {
         return element.fecha === filtroFecha.value
     })
-
     return nuevoArray
-
     }
-    
     return arrayInputUsuario
-   
-   
 } 
-
-
 
 
 categoriasEnSelects(filtroCategoria)
@@ -599,13 +592,21 @@ let botonEliminarCategoria = () => {
             botonEliminarCategoria()
             const idRecortado = Number(boton.id.slice(8))
             
-            const arrayFiltrado = arrayCategorias.filter((element,index)=> {
+            arrayInputUsuario = arrayInputUsuario.filter((operacion,i)=> {
+                return operacion.categoria !== arrayCategorias[idRecortado] 
+           })
+
+            arrayCategorias = arrayCategorias.filter((element,index)=> {
                 return index !== idRecortado
             });
             
-            arrayCategorias = arrayFiltrado;
-            HTMLcategoriasSeccionCategorias(arrayFiltrado)
+            HTMLBalanceBoxOperaciones(arrayInputUsuario)
+            HTMLcategoriasSeccionCategorias(arrayCategorias)
             guardarEnLocalStorage(arrayCategorias, 'categorias_actualizadas');
+            guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario');
+            categoriasEnSelects(filtroCategoria)
+            categoriasEnSelects(categoriasEnNuevaOperacion)
+
         };
     })
     
@@ -631,9 +632,6 @@ let HTMLcategoriasSeccionCategorias = () => {
     listaCategorias.innerHTML = categoriasAMostrar
     botonEliminarCategoria()
     actualizarBotonesEditarDom();
-    
-   
-
 }
 
 HTMLcategoriasSeccionCategorias()
@@ -703,6 +701,8 @@ agregarNuevaCategoria.onclick = () => {
     
   
 }
+
+
 
 //botones editar
 
