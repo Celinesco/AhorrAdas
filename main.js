@@ -28,8 +28,9 @@ const agregarNuevaOperacion = document.getElementById("agregar-nueva-operacion")
 const totalGananciasBoxBalance = document.getElementById("total-ganancias-box-balance");
 const totalGastosBoxBalance = document.getElementById("total-gastos-box-balance");
 const totalGastosGanancias = document.getElementById("total-gastos-ganancias");
-const filtroFecha = document.getElementById("filtro-fecha")
+const filtroFecha = document.getElementById("filtro-fecha");
 const filtroOrdenarPor = document.getElementById("filtro-ordenar");
+
 
 //NUEVA OPERACION
 
@@ -154,6 +155,11 @@ let actualizarListaBotonEliminarCategoria = () => {
     return arrayDeBotonesEliminarDom
 }
 
+let actualizarListaBotonesEliminarOperacion = () => {
+    let botonesEliminarOperacion = document.querySelectorAll(".eliminar-operacion")
+    return botonesEliminarOperacion
+}
+
 
 const resetearValoresInputs = () => {
     descripcionNuevaOperacion.value = "";
@@ -163,7 +169,7 @@ const resetearValoresInputs = () => {
 }
 
 
-const cargarValores = () => {
+const actualizarInfoUsuario = () => {
     HTMLBalanceBoxOperaciones(arrayInputUsuario)
     HTMLcategoriasSeccionCategorias()
     guardarEnLocalStorage(arrayCategorias, 'categorias_actualizadas');
@@ -185,6 +191,8 @@ const ocultarAdvertenciaRepetida = () => {
         alertas.classList.add('is-hidden')
     })
 }
+
+
 
 // Comiezo de página
 
@@ -270,9 +278,6 @@ abrirSeccionNuevaOperacion.onclick = () => {
     seccionNuevaOperacion.classList.remove('is-hidden');   
 }
 
-abrirSeccionNuevaOperacion.addEventListener('onkeypress', abrirSeccionNuevaOperacion)
-
-
 
 
 const htmlOperacionesSinResulados = () => {
@@ -317,8 +322,8 @@ const HTMLBalanceBoxOperaciones = (array) => {
             <div class="column is-3">
                 <div class="columns">
                     <div class="column is-flex is-justify-content-flex-end">
-                        <button class="button is-ghost is-size-7 open-editar-categoria" id="editar${operacion.id}">Editar</button>
-                        <button class="button is-ghost is-size-7 eliminar-categoria" id="eliminar${operacion.id}">Eliminar</button>
+                        <button class="button is-ghost is-size-7 abrir-editar-operacion" id="editar${operacion.id}">Editar</button>
+                        <button class="button is-ghost is-size-7 eliminar-operacion" id="eliminar${operacion.id}">Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -339,9 +344,14 @@ const HTMLBalanceBoxOperaciones = (array) => {
     <div class="">
         ${acc} 
     </div> ` 
+
+    eliminarOperacion()
+
     }
 
 }
+
+
 
 
 ocultarFiltros.onclick = () => {
@@ -548,6 +558,7 @@ agregarNuevaOperacion.onclick = () => {
     const valorMonto = montoNuevaOperacion.value
 
     if (valorDescripcion.length > 0 && valorMonto > 0){
+    actualizarListaBotonesEliminarOperacion()
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
     nuevoObjeto();
@@ -587,16 +598,40 @@ cancelarNuevaOperacion.onclick = () => {
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
     resetearValoresInputs();
-
-
     ocultarAdvertenciaCamposRequeridos()
-
     montoCampoRequerido.forEach((alertas) => {
         alertas.classList.add('is-hidden')
     })
 }
 
-cancelarNuevaOperacion.addEventListener('onkeypress', cancelarNuevaOperacion.onclick);
+
+const botonesEditarOperacion = () => {
+
+}
+
+
+
+const eliminarOperacion = () => {
+    listaDeBotonesActualizada = actualizarListaBotonesEliminarOperacion()
+
+    listaDeBotonesActualizada.forEach((boton)=> {
+        boton.onclick = () => {
+            eliminarOperacion();
+            const cantidadLetrasEliminar = 8
+            const idRecortado = Number =(boton.id.slice(cantidadLetrasEliminar))
+            
+            arrayInputUsuario = arrayInputUsuario.filter((operacion)=> {
+                return operacion.id != idRecortado
+            })
+
+                  
+            // actualizarInfoUsuario()
+            // console.log(arrayInputUsuario)
+        }
+    })
+}
+
+
 
 
 
@@ -620,7 +655,7 @@ let botonEliminarCategoria = () => {
             arrayCategorias = arrayCategorias.filter((element,index)=> {
                 return index !== idRecortado
             });
-           cargarValores()
+           actualizarInfoUsuario()
         };
     })
     
@@ -651,6 +686,8 @@ let botonEditarCategoriaSeccionCategoria = () => {
 
 
 cancelarEditarCategoria.onclick = () => {
+    ocultarAdvertenciaCamposRequeridos()
+    ocultarAdvertenciaRepetida()
     ocultarSecciones()
     seccionCategorias.classList.remove('is-hidden');
 }
@@ -692,7 +729,7 @@ const agregarOEditarCategoria = (input) => {
     if ( valorNuevaCategoria.length > 0 && !verificarCategoriaExistente) {
         if (input === inputNuevaCategoria) {
         arrayCategorias.push(input.value);
-        cargarValores()
+        actualizarInfoUsuario()
         input.value = ""
         actualizarBotonesEditarCategorias()
       }
@@ -710,7 +747,7 @@ const agregarOEditarCategoria = (input) => {
             }
         })
 
-        cargarValores()
+        actualizarInfoUsuario()
         ocultarSecciones()
         seccionCategorias.classList.remove('is-hidden')
         ocultarAdvertenciaCamposRequeridos()
@@ -736,8 +773,6 @@ const agregarOEditarCategoria = (input) => {
 
 
 }
-
-
 
 
 
@@ -782,8 +817,6 @@ agregarNuevaCategoria.onclick = (e) => {
 }
 
 //botones editar
-
-
 
 
 
