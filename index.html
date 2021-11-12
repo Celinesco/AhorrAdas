@@ -238,6 +238,7 @@
                 <div class="column is-8-widescreen is-9-desktop is-12-tablet">
                     <article class="box">
                         <h2 class="title is-size-2">Categorías</h2>
+                        <form>
                         <label class="label mt-6" for="nueva-categoria">Nombre</label>
                             <div class="field is-grouped">
                                 <div class="control is-expanded has-icons-right">       
@@ -247,7 +248,7 @@
                                     </span>
                                 </div>     
                                 <div class="control">
-                                    <button type="button" class="button is-success" id="agregar-categoria">Agregar</button>
+                                    <button class="button is-success" id="agregar-categoria">Agregar</button>
                                 </div>  
                             </div>
                             <div class="columns is-mobile">
@@ -256,6 +257,7 @@
                                     <p class="help is-danger is-hidden my-0 categoria-repetida">La categoría ya existe</p>
                                 </div>
                             </div>
+                        </form>
 
                         <ul class="mt-5" id="lista-categorias">
                             
@@ -279,8 +281,16 @@
                         <div class="columns is-mobile">
                             <div class="column is-fullwidth mb-5">
                                 <div class="field">
-                                    <div class="control">
+                                    <div class="control has-icons-right">
                                         <input class="input" id="editar-nueva-categoria" type="text" required>
+                                        <span class="icon is-small is-right is-hidden requested-field">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </span>
+                                        <span class="icon is-small is-right is-hidden categoria-repetida">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </span>
+                                        <p class="help is-danger is-hidden requested-field my-0">Ingresa una descripción</p>
+                                        <p class="help is-danger is-hidden categoria-repetida my-0">La categoría ya existe</p>
                                     </div>
                                 </div>
                             </div>
