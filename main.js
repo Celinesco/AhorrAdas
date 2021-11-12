@@ -570,7 +570,6 @@ agregarNuevaOperacion.onclick = () => {
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
     nuevoObjeto();
-    filtroFecha.valueAsDate = new Date()
     resetearValoresInputs();
     HTMLBalanceBoxOperaciones(aplicarfiltros());
     guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
