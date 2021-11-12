@@ -95,7 +95,7 @@ const leerDesdeLocalStorage = (clave) => {
 }
 
 
-let ocultarSecciones = () => {
+const ocultarSecciones = () => {
     seccionVisible.forEach((section) => {
         section.classList.add('is-hidden')
     })
@@ -103,7 +103,7 @@ let ocultarSecciones = () => {
 
 
 
-let categoriasEnSelects= (filtroEnSeccion) => {
+const categoriasEnSelects= (filtroEnSeccion) => {
     if (filtroEnSeccion !== categoriasEnNuevaOperacion)
    filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc,element)=> {
        return acc + ` <option value=${element}>${element}</option>`
@@ -120,7 +120,7 @@ let categoriasEnSelects= (filtroEnSeccion) => {
 
 
 
-let nuevoObjeto = () => {
+const nuevoObjeto = () => {
     arrayInputUsuario.push({
         id: Date.now(),
         descripcion:descripcionNuevaOperacion.value,
@@ -138,24 +138,24 @@ let nuevoObjeto = () => {
 }
 
 
-let abrirVentanaEditarCategoria = () => {
+const abrirVentanaEditarCategoria = () => {
     seccionCategorias.classList.add('is-hidden');
     sectionEditarCategoria.classList.remove('is-hidden');
    
 
 }
 
-let actualizarBotonesEditarCategorias = () => {
+const actualizarBotonesEditarCategorias = () => {
     let arrayDeBotonesEditarEnDOM = document.querySelectorAll(".open-editar-categoria");
     return arrayDeBotonesEditarEnDOM
 }
 
-let actualizarListaBotonEliminarCategoria = () => {
+const actualizarListaBotonEliminarCategoria = () => {
     let arrayDeBotonesEliminarDom = document.querySelectorAll(".eliminar-categoria");
     return arrayDeBotonesEliminarDom
 }
 
-let actualizarListaBotonesEliminarOperacion = () => {
+const actualizarListaBotonesEliminarOperacion = () => {
     let botonesEliminarOperacion = document.querySelectorAll(".eliminar-operacion")
     return botonesEliminarOperacion
 }
@@ -232,19 +232,28 @@ categoriasEnSelects(categoriasEnNuevaOperacion)
 
 // //Funcionalidad Header/Nav
 
+const menuHambuguesa = () => {
+    abrirMenuHamburguesa.classList.toggle('is-active')
+    botonMenuHamburguesa.classList.toggle('is-active')
+}
+
 itemNavSeccionBalance.onclick = () => {
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
+    menuHambuguesa()
+    
 }
 
 itemNavSeccionCategorias.onclick = () => {
     ocultarSecciones();
     seccionCategorias.classList.remove('is-hidden');
+    menuHambuguesa()
 }
 
 itemNavSeccionReportes.onclick = () => {
     ocultarSecciones();
     sectionReportes.classList.remove('is-hidden');
+    menuHambuguesa()
 }
 
 
@@ -253,8 +262,7 @@ itemNavSeccionReportes.onclick = () => {
 // Funcionalidad Nav-Mobile
 
 botonMenuHamburguesa.onclick = () => {
-    botonMenuHamburguesa.classList.toggle('is-active');
-    abrirMenuHamburguesa.classList.toggle('is-active');
+   menuHambuguesa()
 }
 
 
@@ -398,11 +406,12 @@ const aplicarfiltros = () => {
     })
     
     let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element)=> {
-        return acc + Number(element.monto)
+        console.log(element)
+        return acc + parseInt(element.monto)
     },0)
     
     let sumaTotalGastos = arrayDeGastos.reduce((acc,element)=> {
-        return acc + Number(element.monto)
+        return acc + parseInt(element.monto)
     },0)
 
     
@@ -790,7 +799,9 @@ botonEditarCategoriaSeccionEditarCategoria.onclick = (e) => {
 
 
 
-//Alertas Campos obligatorios
+//Alertas 
+
+
 
 montoNuevaOperacion.oninput = () => {
     montoCampoRequerido.forEach((alertas) => {
@@ -819,6 +830,11 @@ agregarNuevaCategoria.onclick = (e) => {
 //botones editar
 
 
+montoNuevaOperacion.oninput = () => {
+    if(montoNuevaOperacion.value > 9999999) {
+        montoNuevaOperacion.value = 0
+    }
+}
 
 
 
