@@ -625,8 +625,8 @@ const eliminarOperacion = () => {
             })
 
                   
-            // actualizarInfoUsuario()
-            // console.log(arrayInputUsuario)
+            actualizarInfoUsuario()
+            aplicarfiltros()
         }
     })
 }
