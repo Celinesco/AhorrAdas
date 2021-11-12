@@ -669,40 +669,91 @@ let HTMLcategoriasSeccionCategorias = () => {
 HTMLcategoriasSeccionCategorias()
 
 
-// seccion editar nueva categoria 
+const agregarOEditarCategoria = (input) => {
+
+    let valorNuevaCategoria = input.value
+    let verificarCategoriaExistente = arrayCategorias.some((element)=> {
+        return element.toLocaleLowerCase() === valorNuevaCategoria.toLowerCase()
+    })
+  
+    if ( valorNuevaCategoria.length > 0 && !verificarCategoriaExistente) {
+        if (input === inputNuevaCategoria) {
+        arrayCategorias.push(input.value);
+        cargarValores()
+        input.value = ""
+        actualizarBotonesEditarCategorias()
+      }
+
+      else {
+        for (let i = 0; i < arrayCategorias.length; i++) {
+            if (arrayCategorias[i] === cajita[0]) {
+                arrayCategorias[i] = inputEditarCategoria.value
+            }
+        }
+        
+        arrayInputUsuario.forEach((objeto)=> {
+            if (objeto.categoria === cajita[0]) {
+                objeto.categoria = inputEditarCategoria.value
+            }
+        })
+
+        cargarValores()
+        ocultarSecciones()
+        seccionCategorias.classList.remove('is-hidden')
+        ocultarAdvertenciaCamposRequeridos()
+        ocultarAdvertenciaRepetida()
+        cajita = []
+        
+      }
+    }
+
+    if (valorNuevaCategoria.length == 0) {
+        alertaCampoRequerido.forEach((alertas) => {
+            alertas.classList.remove('is-hidden')
+        })
+
+    }
+
+    if (verificarCategoriaExistente){
+        categoriaRepetida.forEach((alertas)=> {
+            alertas.classList.remove('is-hidden')
+        })
+        
+    }
+
+
+}
+
+
+const ocultarAdvertenciaCamposRequeridos = () => {
+    alertaCampoRequerido.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    })
+}
+
+const ocultarAdvertenciaRepetida = () => {
+    categoriaRepetida.forEach((alertas)=> {
+        alertas.classList.add('is-hidden')
+    })
+}
+
+
+
+inputEditarCategoria.oninput = () => {
+    ocultarAdvertenciaRepetida()
+    ocultarAdvertenciaCamposRequeridos()
+}
+
+// Seccion editar nueva categoria 
 
 botonEditarCategoriaSeccionEditarCategoria.onclick = (e) => {
     e.preventDefault()
-
-    for (let i = 0; i < arrayCategorias.length; i++) {
-        if (arrayCategorias[i] === cajita[0]) {
-            arrayCategorias[i] = inputEditarCategoria.value
-        }
-    }
-    
-    arrayInputUsuario.forEach((objeto)=> {
-        if (objeto.categoria === cajita[0]) {
-            objeto.categoria = inputEditarCategoria.value
-        }
-    })
-   
- 
-    cargarValores()
-    ocultarSecciones()
-    seccionCategorias.classList.remove('is-hidden')
-    cajita = []
-
+    agregarOEditarCategoria(inputEditarCategoria)
 }
 
 
 
 //Alertas Campos obligatorios
-
-descripcionNuevaOperacion.oninput = () => {
-    alertaCampoRequerido.forEach((alertas) => {
-        alertas.classList.add('is-hidden')
-    })
-}
 
 montoNuevaOperacion.oninput = () => {
     montoCampoRequerido.forEach((alertas) => {
@@ -710,50 +761,22 @@ montoNuevaOperacion.oninput = () => {
     })
 }
 
-inputNuevaCategoria.oninput = () => {
-    alertaCampoRequerido.forEach((alertas) => {
-        alertas.classList.add('is-hidden')
-    })
-    categoriaRepetida.forEach((alertas)=> {
-        alertas.classList.add('is-hidden')
-    })
+descripcionNuevaOperacion.oninput = () => {
+  ocultarAdvertenciaCamposRequeridos()
 }
 
 
-agregarNuevaCategoria.onclick = () => {
 
-    let valorNuevaCategoria = inputNuevaCategoria.value
-
-
-    let verificarCategoriaExistente = arrayCategorias.some((element)=> {
-        return element.toLocaleLowerCase() == valorNuevaCategoria.toLowerCase()
-    })
-  
-
-    if ( valorNuevaCategoria.length > 0 && !verificarCategoriaExistente) {
-        arrayCategorias.push(inputNuevaCategoria.value);
-        cargarValores()
-        inputNuevaCategoria.value = ""
-        
-        actualizarBotonesEditarCategorias()
-
-      }
-
-    else if (valorNuevaCategoria.length == 0) {
-        alertaCampoRequerido.forEach((alertas) => {
-            alertas.classList.remove('is-hidden')
-        })
-
-    }
-
-    else if (verificarCategoriaExistente){
-        categoriaRepetida.forEach((alertas)=> {
-            alertas.classList.remove('is-hidden')
-        })
-        
-    }
+inputNuevaCategoria.oninput = () => {
+  ocultarAdvertenciaCamposRequeridos()
+  ocultarAdvertenciaRepetida()
     
-  
+}
+
+
+agregarNuevaCategoria.onclick = (e) => {
+    e.preventDefault()
+    agregarOEditarCategoria(inputNuevaCategoria)
 }
 
 //botones editar
