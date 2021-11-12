@@ -173,6 +173,19 @@ const cargarValores = () => {
 }
 
 
+
+const ocultarAdvertenciaCamposRequeridos = () => {
+    alertaCampoRequerido.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    })
+}
+
+const ocultarAdvertenciaRepetida = () => {
+    categoriaRepetida.forEach((alertas)=> {
+        alertas.classList.add('is-hidden')
+    })
+}
+
 // Comiezo de página
 
 
@@ -576,9 +589,7 @@ cancelarNuevaOperacion.onclick = () => {
     resetearValoresInputs();
 
 
-    alertaCampoRequerido.forEach((alertas) => {
-        alertas.classList.add('is-hidden')
-    });
+    ocultarAdvertenciaCamposRequeridos()
 
     montoCampoRequerido.forEach((alertas) => {
         alertas.classList.add('is-hidden')
@@ -625,6 +636,8 @@ let botonEditarCategoriaSeccionCategoria = () => {
     arrayDeBotonesEditarEnDOM = actualizarBotonesEditarCategorias()
     arrayDeBotonesEditarEnDOM.forEach((boton)=> {
         boton.onclick = () => {
+            ocultarAdvertenciaCamposRequeridos()
+            ocultarAdvertenciaRepetida()
             botonEditarCategoriaSeccionCategoria()
             abrirVentanaEditarCategoria()
             const cantidadLetrasCortadasDelId = 6
@@ -725,17 +738,6 @@ const agregarOEditarCategoria = (input) => {
 }
 
 
-const ocultarAdvertenciaCamposRequeridos = () => {
-    alertaCampoRequerido.forEach((alertas) => {
-        alertas.classList.add('is-hidden')
-    })
-}
-
-const ocultarAdvertenciaRepetida = () => {
-    categoriaRepetida.forEach((alertas)=> {
-        alertas.classList.add('is-hidden')
-    })
-}
 
 
 
