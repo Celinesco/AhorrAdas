@@ -406,7 +406,6 @@ const aplicarfiltros = () => {
     })
     
     let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element)=> {
-        console.log(element)
         return acc + parseInt(element.monto)
     },0)
     
@@ -571,11 +570,12 @@ agregarNuevaOperacion.onclick = () => {
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
     nuevoObjeto();
-    HTMLBalanceBoxOperaciones(arrayInputUsuario);
-    guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
+    filtroFecha.valueAsDate = new Date()
     resetearValoresInputs();
-    aplicarfiltros()
-
+    HTMLBalanceBoxOperaciones(aplicarfiltros());
+    guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
+    
+    
     }
 
     else if (valorDescripcion.length === 0 && valorMonto == "" ){
