@@ -24,7 +24,7 @@ const filtroCategoria = document.getElementById("filtro-categoria");
 const categoriasEnNuevaOperacion = document.getElementById("categorias-nueva-operacion");
 const cancelarNuevaOperacion = document.getElementById("cancelar-nueva-operacion");
 const contenedorOperaciones = document.getElementById("contenedor-operaciones");
-const agregarNuevaOperacion = document.getElementById("agregar-nueva-operacion");
+const botonAgregarNuevaOperacion = document.getElementById("agregar-nueva-operacion");
 const totalGananciasBoxBalance = document.getElementById("total-ganancias-box-balance");
 const totalGastosBoxBalance = document.getElementById("total-gastos-box-balance");
 const totalGastosGanancias = document.getElementById("total-gastos-ganancias");
@@ -39,6 +39,7 @@ const montoNuevaOperacion = document.getElementById("monto-nueva-operacion");
 const tipoNuevaOperacion = document.getElementById("tipo-nueva-operacion");
 const fechaNuevaOperacion = document.getElementById("fecha-nueva-operacion");
 const montoCampoRequerido = document.querySelectorAll(".campo-requerido-monto");
+const tituloModalEditarCrearOperacion = document.getElementById("titulo-modal-editar-crear-operacion");
 
 
 // SECCION-CATEGORÍAS
@@ -53,6 +54,7 @@ const alertaCampoRequerido = document.querySelectorAll(".requested-field");
 const inputEditarCategoria = document.getElementById("editar-nueva-categoria");
 const categoriaRepetida = document.querySelectorAll(".categoria-repetida");
 
+
 // SECCION EDITAR CATEGORIA
 
 const botonEditarCategoriaSeccionEditarCategoria = document.getElementById("boton-editar-categoria")
@@ -65,9 +67,14 @@ const sectionReportes = document.getElementById("section-reportes");
 /////////////////////////FIN DE DOM////////////////////////////FIN DE DOM//////////////////////////////////////FIN DE DOM/////////////////////////////
 
 
+
+
 let arrayInputUsuario = [];
-let arrayCategorias = ["Comida","Servicios","Salidas","Educación","Transporte","Trabajo"];
- 
+let arrayCategorias = ["Comida", "Servicios", "Salidas", "Educación", "Transporte", "Trabajo"];
+let guardaValorInputPrevio = [];
+let valorIdABorrar = [];
+let edicion = false;
+
 
 
 //Funciones Auxiliares
@@ -102,35 +109,33 @@ const ocultarSecciones = () => {
 }
 
 
-
-const categoriasEnSelects= (filtroEnSeccion) => {
+const categoriasEnSelects = (filtroEnSeccion) => {
     if (filtroEnSeccion !== categoriasEnNuevaOperacion)
-   filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc,element)=> {
-       return acc + ` <option value=${element}>${element}</option>`
-   },`<option value="todos">Todas</option>`)
+        filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc, element) => {
+            return acc + ` <option value="${element}">${element}</option>`
+        }, `<option value="todos">Todas</option>`)
 
-   else {
-    filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc,element)=> {
-        return acc + ` <option value=${element}>${element}</option>`
-    },"")
- 
-   }
+    else {
+        filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc, element) => {
+            return acc + ` <option value="${element}">${element}</option>`
+        }, "")
+
+    }
 }
-
 
 
 
 const nuevoObjeto = () => {
     arrayInputUsuario.push({
         id: Date.now(),
-        descripcion:descripcionNuevaOperacion.value,
-        monto: montoNuevaOperacion.value,
+        descripcion: descripcionNuevaOperacion.value,
+        monto: Number(montoNuevaOperacion.value),
         tipo: tipoNuevaOperacion.value,
         categoria: categoriasEnNuevaOperacion.value,
         fecha: fechaNuevaOperacion.value
     })
 
-    arrayInputUsuario.sort((a,b)=> {
+    arrayInputUsuario.sort((a, b) => {
         return new Date(b.fecha) - new Date(a.fecha)
     })
 
@@ -138,26 +143,31 @@ const nuevoObjeto = () => {
 }
 
 
+
+
 const abrirVentanaEditarCategoria = () => {
     seccionCategorias.classList.add('is-hidden');
     sectionEditarCategoria.classList.remove('is-hidden');
-   
-
-}
+};
 
 const actualizarBotonesEditarCategorias = () => {
     let arrayDeBotonesEditarEnDOM = document.querySelectorAll(".open-editar-categoria");
     return arrayDeBotonesEditarEnDOM
-}
+};
 
 const actualizarListaBotonEliminarCategoria = () => {
     let arrayDeBotonesEliminarDom = document.querySelectorAll(".eliminar-categoria");
     return arrayDeBotonesEliminarDom
-}
+};
 
 const actualizarListaBotonesEliminarOperacion = () => {
     let botonesEliminarOperacion = document.querySelectorAll(".eliminar-operacion")
     return botonesEliminarOperacion
+};
+
+const actualizarListaBotonesEditarOperacion = () => {
+    let botonesEditarOperacion = document.querySelectorAll(".abrir-editar-operacion")
+    return botonesEditarOperacion
 }
 
 
@@ -165,12 +175,12 @@ const resetearValoresInputs = () => {
     descripcionNuevaOperacion.value = "";
     montoNuevaOperacion.value = "";
     fechaNuevaOperacion.valueAsDate = new Date();
-    categoriasEnNuevaOperacion.value = "Comida"
-}
+    categoriasEnNuevaOperacion.value = arrayCategorias[0]
+};
 
 
 const actualizarInfoUsuario = () => {
-    HTMLBalanceBoxOperaciones(arrayInputUsuario)
+    HTMLBalanceBoxOperaciones(aplicarFiltros())
     HTMLcategoriasSeccionCategorias()
     guardarEnLocalStorage(arrayCategorias, 'categorias_actualizadas');
     guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario');
@@ -187,7 +197,7 @@ const ocultarAdvertenciaCamposRequeridos = () => {
 }
 
 const ocultarAdvertenciaRepetida = () => {
-    categoriaRepetida.forEach((alertas)=> {
+    categoriaRepetida.forEach((alertas) => {
         alertas.classList.add('is-hidden')
     })
 }
@@ -212,16 +222,17 @@ fechaNuevaOperacion.valueAsDate = new Date()
 filtroFecha.valueAsDate = new Date()
 
 
-let arrayFechaDeHoy = () => { 
+let arrayFechaDeHoy = () => {
     if (operacionesAlmacenadas !== null) {
         arrayInputUsuario = operacionesAlmacenadas
-    let nuevoArray =  operacionesAlmacenadas.filter((element)=> {
-        return element.fecha === filtroFecha.value
-    })
-    return nuevoArray
+        let nuevoArray = operacionesAlmacenadas.filter((element) => {
+            return element.fecha === filtroFecha.value
+        })
+
+        return nuevoArray
     }
     return arrayInputUsuario
-} 
+}
 
 
 categoriasEnSelects(filtroCategoria)
@@ -235,36 +246,30 @@ categoriasEnSelects(categoriasEnNuevaOperacion)
 const menuHambuguesa = () => {
     abrirMenuHamburguesa.classList.toggle('is-active')
     botonMenuHamburguesa.classList.toggle('is-active')
-}
+};
 
 itemNavSeccionBalance.onclick = () => {
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
     menuHambuguesa()
-    
-}
+
+};
 
 itemNavSeccionCategorias.onclick = () => {
     ocultarSecciones();
     seccionCategorias.classList.remove('is-hidden');
     menuHambuguesa()
-}
+};
 
 itemNavSeccionReportes.onclick = () => {
     ocultarSecciones();
     sectionReportes.classList.remove('is-hidden');
     menuHambuguesa()
-}
-
-
-
-
-// Funcionalidad Nav-Mobile
+};
 
 botonMenuHamburguesa.onclick = () => {
-   menuHambuguesa()
+    menuHambuguesa()
 }
-
 
 
 
@@ -272,48 +277,43 @@ botonMenuHamburguesa.onclick = () => {
 //--------------SECCION-BALANCE------------//////
 
 
-let arrayDeGanancias = arrayInputUsuario.filter((operacion)=> {
-    return operacion.tipo === "Ganancia"
-})
-
-let arrayDeGastos = arrayInputUsuario.filter((operacion)=> {
-    return operacion.tipo === "Gasto"
-})
-
 
 abrirSeccionNuevaOperacion.onclick = () => {
+    edicion = false;
     ocultarSecciones();
-    seccionNuevaOperacion.classList.remove('is-hidden');   
+    seccionNuevaOperacion.classList.remove('is-hidden');
+    tituloModalEditarCrearOperacion.textContent = `Nueva operación`;
+    botonAgregarNuevaOperacion.innerHTML = `<button type="button" class="button is-success">Agregar</button>`; 
+    
 }
-
 
 
 const htmlOperacionesSinResulados = () => {
     contenedorOperaciones.setAttribute('class', "columns is-centered my-6 py-6")
-    contenedorOperaciones.innerHTML = 
-    `<div class="column is-6">
+    contenedorOperaciones.innerHTML =
+        `<div class="column is-6">
         <div class="image">
             <img src="images/undraw_Growing_re_olpi.svg">
         </div>
         <p class="title has-text-centered mt-6 is-4">Sin resultados</p>
         <p class="has-text-centered">Cambia los filtros o agrega operaciones</p>
     </div>`
-}
+};
 
 htmlOperacionesSinResulados()
 
 
 const HTMLBalanceBoxOperaciones = (array) => {
-  
+
     if (array.length == 0) {
-       htmlOperacionesSinResulados()
-   }
+        htmlOperacionesSinResulados()
+    }
 
-   else {
-    let acc = " ";
+    else {
+        let acc = " ";
 
-    array.map((operacion)=> {
-        acc = acc + `
+        array.map((operacion) => {
+            acc = acc + `
         <div class="columns is-vcentered">
             <div class="column  is-3 is-3-tablet">
                <p class="has-text-weight-bold"> ${operacion.descripcion}</p>
@@ -324,8 +324,8 @@ const HTMLBalanceBoxOperaciones = (array) => {
             <div class="column is-2 has-text-grey has-text-right">
                 ${operacion.fecha}
             </div>
-            <div class="column is-2 has-text-right has-text-weight-bold ${operacion.tipo === "ganancia" ?"has-text-success":"has-text-danger"}"> 
-            ${operacion.tipo === "ganancia" ?"+$":"-$"}${operacion.monto}
+            <div class="column is-2 has-text-right has-text-weight-bold ${operacion.tipo === "ganancia" ? "has-text-success" : "has-text-danger"}"> 
+            ${operacion.tipo === "ganancia" ? "+$" : "-$"}${operacion.monto}
             </div>
             <div class="column is-3">
                 <div class="columns">
@@ -336,11 +336,11 @@ const HTMLBalanceBoxOperaciones = (array) => {
                 </div>
             </div>
          </div>`
-    })
+        })
 
 
-    contenedorOperaciones.removeAttribute("class")
-    contenedorOperaciones.innerHTML =`
+        contenedorOperaciones.removeAttribute("class")
+        contenedorOperaciones.innerHTML = `
     <div class="columns my-3 py-2" id="contenedor-operaciones">
         <div class="column has-text-weight-semibold is-3">Descripción</div>
         <div class="column has-text-weight-semibold is-2">Categoría</div>
@@ -351,14 +351,13 @@ const HTMLBalanceBoxOperaciones = (array) => {
 
     <div class="">
         ${acc} 
-    </div> ` 
+    </div> `
 
-    eliminarOperacion()
+        eliminarOperacion()
+        editarOperacion()
 
     }
-
-}
-
+};
 
 
 
@@ -376,44 +375,44 @@ ocultarFiltros.onclick = () => {
 
 
 
-const aplicarfiltros = () => {
+const aplicarFiltros = () => {
 
-    const filtradoPorTipo = arrayInputUsuario.filter((operacion)=> {
+    let filtradoPorTipo = arrayInputUsuario.filter((operacion) => {
         if (filtroTipo.value === "todos") {
             return operacion
         }
         return operacion.tipo.toLowerCase() == filtroTipo.value
     });
-    
-    const filtradoCategoriayTipo = filtradoPorTipo.filter((operacion) => {
-      if (filtroCategoria.value === "todos") {
-        return operacion
-      }
-      return operacion.categoria == filtroCategoria.value
+
+    let filtradoCategoriayTipo = filtradoPorTipo.filter((operacion) => {
+        if (filtroCategoria.value === "todos") {
+            return operacion
+        }
+        return operacion.categoria == filtroCategoria.value
     });
 
-    const filtradoFinal = filtradoCategoriayTipo.filter((operacion)=> {
-        return new Date (operacion.fecha) >= new Date (filtroFecha.value)
+    let filtradoFinal = filtradoCategoriayTipo.filter((operacion) => {
+        return new Date(operacion.fecha) >= new Date(filtroFecha.value)
     })
 
 
-    let arrayDeGanancias = filtradoFinal.filter((operacion)=> {
+    let arrayDeGanancias = filtradoFinal.filter((operacion) => {
         return operacion.tipo === "ganancia"
     })
-    
-    let arrayDeGastos = filtradoFinal.filter((operacion)=> {
+
+    let arrayDeGastos = filtradoFinal.filter((operacion) => {
         return operacion.tipo === "gasto"
     })
-    
-    let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element)=> {
-        return acc + parseInt(element.monto)
-    },0)
-    
-    let sumaTotalGastos = arrayDeGastos.reduce((acc,element)=> {
-        return acc + parseInt(element.monto)
-    },0)
 
-    
+    let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element) => {
+        return acc + element.monto
+    }, 0)
+
+    let sumaTotalGastos = arrayDeGastos.reduce((acc, element) => {
+        return acc + element.monto
+    }, 0)
+
+
     let total = sumaTotalGanancias - sumaTotalGastos
 
 
@@ -437,55 +436,55 @@ const aplicarfiltros = () => {
         totalGastosGanancias.classList.remove('has-text-success');
         totalGastosGanancias.classList.remove('has-text-danger');
     }
-    
-        return filtradoFinal
+
+    return filtradoFinal
 
 }
 
 
-let filtroMayorMonto = () => {
-    
-    let arrayFiltradoDefiltros = aplicarfiltros ()
-    let arrayOrdenado = arrayFiltradoDefiltros.sort((a,b)=> {
-        return Number(b.monto)-Number(a.monto)
+const filtroMayorMonto = () => {
+
+    let arrayFiltradoDefiltros = aplicarFiltros()
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        return b.monto - a.monto
     })
     return arrayOrdenado
 }
 
-let filtroMenorMonto = () => {
-    let arrayFiltradoDefiltros = aplicarfiltros ()
-    let arrayOrdenado = arrayFiltradoDefiltros.sort((a,b)=> {
-        return Number(a.monto)-Number(b.monto)
+const filtroMenorMonto = () => {
+    let arrayFiltradoDefiltros = aplicarFiltros()
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        return a.monto - b.monto
     })
     return arrayOrdenado
 }
 
 let filtroRecientes = () => {
-    let arrayFiltradoDefiltros = aplicarfiltros();
-    let arrayOrdenado = arrayFiltradoDefiltros.sort ((a,b)=> {
-        return new Date(b.fecha)- new Date(a.fecha)
+    let arrayFiltradoDefiltros = aplicarFiltros();
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        return new Date(b.fecha) - new Date(a.fecha)
     })
     return arrayOrdenado
 }
 
-let filtroMenosRecientes = () => {
-    let arrayFiltradoDefiltros = aplicarfiltros();
-    let arrayOrdenado = arrayFiltradoDefiltros.sort ((a,b)=> {
-        return new Date(a.fecha)- new Date(b.fecha)
+const filtroMenosRecientes = () => {
+    let arrayFiltradoDefiltros = aplicarFiltros();
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        return new Date(a.fecha) - new Date(b.fecha)
     })
     return arrayOrdenado
 }
 
-let filtroAZ = () => {
-    let arrayFiltradoDefiltros = aplicarfiltros();
-    let arrayOrdenado = arrayFiltradoDefiltros.sort((a,b)=> {
-        const descripcionA = a.descripcion.toLowerCase();
-        const descripcionB = b.descripcion.toLowerCase();
+const filtroAZ = () => {
+    let arrayFiltradoDefiltros = aplicarFiltros();
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        let descripcionA = a.descripcion.toLowerCase();
+        let descripcionB = b.descripcion.toLowerCase();
 
-        if(descripcionA < descripcionB) {
+        if (descripcionA < descripcionB) {
             return -1;
         }
-        if(descripcionA > descripcionB) {
+        if (descripcionA > descripcionB) {
             return 1
         }
         return 0
@@ -494,16 +493,16 @@ let filtroAZ = () => {
 }
 
 
-let filtroZA = () => {
-    let arrayFiltradoDefiltros = aplicarfiltros();
-    let arrayOrdenado = arrayFiltradoDefiltros.sort((a,b)=> {
-        const descripcionA = a.descripcion.toLowerCase();
-        const descripcionB = b.descripcion.toLowerCase();
+const filtroZA = () => {
+    let arrayFiltradoDefiltros = aplicarFiltros();
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        let descripcionA = a.descripcion.toLowerCase();
+        let descripcionB = b.descripcion.toLowerCase();
 
-        if(descripcionA > descripcionB) {
+        if (descripcionA > descripcionB) {
             return -1;
         }
-        if(descripcionA < descripcionB) {
+        if (descripcionA < descripcionB) {
             return 1
         }
         return 0
@@ -518,7 +517,7 @@ let filtroZA = () => {
 
 filtroOrdenarPor.onchange = () => {
     if (filtroOrdenarPor.value == "mayor-monto") {
-     HTMLBalanceBoxOperaciones(filtroMayorMonto())
+        HTMLBalanceBoxOperaciones(filtroMayorMonto())
     }
     else if (filtroOrdenarPor.value === "menor-monto") {
         HTMLBalanceBoxOperaciones(filtroMenorMonto())
@@ -541,17 +540,17 @@ filtroOrdenarPor.onchange = () => {
 
 
 filtroTipo.onchange = () => {
-    let arrayFiltradoPorTipo = aplicarfiltros()
+    let arrayFiltradoPorTipo = aplicarFiltros()
     HTMLBalanceBoxOperaciones(arrayFiltradoPorTipo)
 }
 
 filtroCategoria.onchange = () => {
-    let arrayFiltradoPorCategoria = aplicarfiltros()
+    let arrayFiltradoPorCategoria = aplicarFiltros()
     HTMLBalanceBoxOperaciones(arrayFiltradoPorCategoria)
 };
 
 filtroFecha.onchange = () => {
-    let arrayFiltradoPorFecha = aplicarfiltros()
+    let arrayFiltradoPorFecha = aplicarFiltros()
     HTMLBalanceBoxOperaciones(arrayFiltradoPorFecha)
 }
 
@@ -561,23 +560,35 @@ filtroFecha.onchange = () => {
 
 //NUEVA OPERACIÓN
 
-agregarNuevaOperacion.onclick = () => {
-    const valorDescripcion = descripcionNuevaOperacion.value 
-    const valorMonto = montoNuevaOperacion.value
+const agregarOEditarOperacion = () => {  
+    
 
-    if (valorDescripcion.length > 0 && valorMonto > 0){
-    actualizarListaBotonesEliminarOperacion()
-    ocultarSecciones();
-    seccionBalance.classList.remove('is-hidden');
-    nuevoObjeto();
-    resetearValoresInputs();
-    HTMLBalanceBoxOperaciones(aplicarfiltros());
-    guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
-    
-    
+    let valorDescripcion = descripcionNuevaOperacion.value
+    let valorMonto = montoNuevaOperacion.value
+
+        
+    if (valorDescripcion.length > 0 && valorMonto > 0) {
+
+        if (edicion === true) {
+            arrayInputUsuario = arrayInputUsuario.filter ((operacion)=> {
+                return operacion.id != valorIdABorrar[0]
+            })
+        }
+
+        valorIdABorrar = []
+        ocultarSecciones();
+        seccionBalance.classList.remove('is-hidden');
+        nuevoObjeto();
+        resetearValoresInputs();
+        HTMLBalanceBoxOperaciones(aplicarFiltros());
+        guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
+        actualizarListaBotonesEliminarOperacion()
+        actualizarListaBotonesEditarOperacion() 
     }
 
-    else if (valorDescripcion.length === 0 && valorMonto == "" ){
+    
+
+    else if (valorDescripcion.length === 0 && valorMonto == "") {
         alertaCampoRequerido.forEach((alertas) => {
             alertas.classList.remove('is-hidden')
         })
@@ -597,8 +608,13 @@ agregarNuevaOperacion.onclick = () => {
             alertas.classList.remove('is-hidden')
         })
     }
-    
+
+
 }
+
+botonAgregarNuevaOperacion.onclick = () => {
+    agregarOEditarOperacion()
+};
 
 
 
@@ -613,28 +629,50 @@ cancelarNuevaOperacion.onclick = () => {
 }
 
 
-const botonesEditarOperacion = () => {
+const editarOperacion = () => {
+    let listaBotonesEditarOperaciones = actualizarListaBotonesEditarOperacion()
+    
+    listaBotonesEditarOperaciones.forEach((boton)=> {
+        boton.onclick = () => {
+            edicion = true
+            editarOperacion()
+            ocultarSecciones()
+            seccionNuevaOperacion.classList.remove('is-hidden')
+            tituloModalEditarCrearOperacion.textContent = `Editar operación`
+            botonAgregarNuevaOperacion.innerHTML = `<button type="button" class="button is-success">Editar</button>`; 
 
+            let cantidadLetrasEditar = 6
+            let idRecortado = Number(boton.id.slice(cantidadLetrasEditar));
+            valorIdABorrar.push(idRecortado)
+
+            let operacionAEditar = arrayInputUsuario.filter((operacion)=> {
+                return operacion.id == idRecortado
+            })
+
+            descripcionNuevaOperacion.value = operacionAEditar[0].descripcion
+            montoNuevaOperacion.value = operacionAEditar[0].monto;
+            tipoNuevaOperacion.value = operacionAEditar[0].tipo;
+            categoriasEnNuevaOperacion.value = operacionAEditar[0].categoria
+            fechaNuevaOperacion.value = operacionAEditar[0].fecha;
+        }
+    })
 }
 
 
 
 const eliminarOperacion = () => {
-    listaDeBotonesActualizada = actualizarListaBotonesEliminarOperacion()
+   let listaDeBotonesActualizada = actualizarListaBotonesEliminarOperacion()
 
-    listaDeBotonesActualizada.forEach((boton)=> {
+    listaDeBotonesActualizada.forEach((boton) => {
         boton.onclick = () => {
             eliminarOperacion();
-            const cantidadLetrasEliminar = 8
-            const idRecortado = Number =(boton.id.slice(cantidadLetrasEliminar))
-            
-            arrayInputUsuario = arrayInputUsuario.filter((operacion)=> {
+            let cantidadLetrasEliminar = 8
+            let idRecortado = Number(boton.id.slice(cantidadLetrasEliminar))
+
+            arrayInputUsuario = arrayInputUsuario.filter((operacion) => {
                 return operacion.id != idRecortado
             })
-
-                  
             actualizarInfoUsuario()
-            aplicarfiltros()
         }
     })
 }
@@ -642,53 +680,50 @@ const eliminarOperacion = () => {
 
 
 
-
-
-
 // //--------------------FUNCIONALIDAD CATEGORÍAS-----------------///
 
-let botonEliminarCategoria = () => {
+const botonEliminarCategoria = () => {
 
-    const listaBotonesEliminarCategoria = actualizarListaBotonEliminarCategoria();
+    let listaBotonesEliminarCategoria = actualizarListaBotonEliminarCategoria();
 
-    listaBotonesEliminarCategoria.forEach((boton)=> {
+    listaBotonesEliminarCategoria.forEach((boton) => {
         boton.onclick = () => {
             botonEliminarCategoria()
-            const idRecortado = Number(boton.id.slice(8))
-            
-            arrayInputUsuario = arrayInputUsuario.filter((operacion)=> {
-                return operacion.categoria !== arrayCategorias[idRecortado] 
-           })
+            let idRecortado = Number(boton.id.slice(8))
 
-            arrayCategorias = arrayCategorias.filter((element,index)=> {
+            arrayInputUsuario = arrayInputUsuario.filter((operacion) => {
+                return operacion.categoria !== arrayCategorias[idRecortado]
+            });
+            arrayCategorias = arrayCategorias.filter((element, index) => {
                 return index !== idRecortado
             });
-           actualizarInfoUsuario()
+            actualizarInfoUsuario()
+
         };
     })
-    
+
 }
 
-let cajita = []
 
-let guardaVariable = (valor) => {
-    cajita.push(valor)
+
+const guardaVariable = (valor) => {
+    guardaValorInputPrevio.push(valor)
 }
 
-let botonEditarCategoriaSeccionCategoria = () => {
+const botonEditarCategoriaSeccionCategoria = () => {
     arrayDeBotonesEditarEnDOM = actualizarBotonesEditarCategorias()
-    arrayDeBotonesEditarEnDOM.forEach((boton)=> {
+    arrayDeBotonesEditarEnDOM.forEach((boton) => {
         boton.onclick = () => {
             ocultarAdvertenciaCamposRequeridos()
             ocultarAdvertenciaRepetida()
             botonEditarCategoriaSeccionCategoria()
             abrirVentanaEditarCategoria()
-            const cantidadLetrasCortadasDelId = 6
-            const idRecortado = Number(boton.id.slice(cantidadLetrasCortadasDelId))
+            let cantidadLetrasCortadasDelId = 6
+            let idRecortado = Number(boton.id.slice(cantidadLetrasCortadasDelId))
             inputEditarCategoria.value = arrayCategorias[idRecortado]
             guardaVariable(inputEditarCategoria.value)
-        }  
-    }) 
+        }
+    })
 }
 
 
@@ -702,8 +737,8 @@ cancelarEditarCategoria.onclick = () => {
 
 
 
-let HTMLcategoriasSeccionCategorias = () => {
-    let categoriasAMostrar = arrayCategorias.reduce((acc,element,index)=> {
+const HTMLcategoriasSeccionCategorias = () => {
+    let categoriasAMostrar = arrayCategorias.reduce((acc, element, index) => {
         return acc + `<li>
         <div class="columns is-mobile is-vcentered mb-3">
             <div class="column">
@@ -717,7 +752,7 @@ let HTMLcategoriasSeccionCategorias = () => {
             </div>
         </div>
     </li>`
-    },"")
+    }, "")
 
     listaCategorias.innerHTML = categoriasAMostrar
     botonEliminarCategoria()
@@ -730,39 +765,39 @@ HTMLcategoriasSeccionCategorias()
 const agregarOEditarCategoria = (input) => {
 
     let valorNuevaCategoria = input.value
-    let verificarCategoriaExistente = arrayCategorias.some((element)=> {
+    let verificarCategoriaExistente = arrayCategorias.some((element) => {
         return element.toLocaleLowerCase() === valorNuevaCategoria.toLowerCase()
     })
-  
-    if ( valorNuevaCategoria.length > 0 && !verificarCategoriaExistente) {
+
+    if (valorNuevaCategoria.length > 0 && !verificarCategoriaExistente) {
         if (input === inputNuevaCategoria) {
-        arrayCategorias.push(input.value);
-        actualizarInfoUsuario()
-        input.value = ""
-        actualizarBotonesEditarCategorias()
-      }
-
-      else {
-        for (let i = 0; i < arrayCategorias.length; i++) {
-            if (arrayCategorias[i] === cajita[0]) {
-                arrayCategorias[i] = inputEditarCategoria.value
-            }
+            arrayCategorias.push(input.value);
+            actualizarInfoUsuario()
+            input.value = ""
+            actualizarBotonesEditarCategorias()
         }
-        
-        arrayInputUsuario.forEach((objeto)=> {
-            if (objeto.categoria === cajita[0]) {
-                objeto.categoria = inputEditarCategoria.value
-            }
-        })
 
-        actualizarInfoUsuario()
-        ocultarSecciones()
-        seccionCategorias.classList.remove('is-hidden')
-        ocultarAdvertenciaCamposRequeridos()
-        ocultarAdvertenciaRepetida()
-        cajita = []
-        
-      }
+        else {
+            for (let i = 0; i < arrayCategorias.length; i++) {
+                if (arrayCategorias[i] === guardaValorInputPrevio[0]) {
+                    arrayCategorias[i] = inputEditarCategoria.value
+                }
+            }
+
+            arrayInputUsuario.forEach((objeto) => {
+                if (objeto.categoria === guardaValorInputPrevio[0]) {
+                    objeto.categoria = inputEditarCategoria.value
+                }
+            })
+
+            actualizarInfoUsuario()
+            ocultarSecciones()
+            seccionCategorias.classList.remove('is-hidden')
+            ocultarAdvertenciaCamposRequeridos()
+            ocultarAdvertenciaRepetida()
+            guardaValorInputPrevio = []
+
+        }
     }
 
     if (valorNuevaCategoria.length == 0) {
@@ -772,14 +807,11 @@ const agregarOEditarCategoria = (input) => {
 
     }
 
-    if (verificarCategoriaExistente){
-        categoriaRepetida.forEach((alertas)=> {
+    if (verificarCategoriaExistente) {
+        categoriaRepetida.forEach((alertas) => {
             alertas.classList.remove('is-hidden')
         })
-        
     }
-
-
 }
 
 
@@ -809,15 +841,15 @@ montoNuevaOperacion.oninput = () => {
 }
 
 descripcionNuevaOperacion.oninput = () => {
-  ocultarAdvertenciaCamposRequeridos()
+    ocultarAdvertenciaCamposRequeridos()
 }
 
 
 
 inputNuevaCategoria.oninput = () => {
-  ocultarAdvertenciaCamposRequeridos()
-  ocultarAdvertenciaRepetida()
-    
+    ocultarAdvertenciaCamposRequeridos()
+    ocultarAdvertenciaRepetida()
+
 }
 
 
@@ -826,16 +858,9 @@ agregarNuevaCategoria.onclick = (e) => {
     agregarOEditarCategoria(inputNuevaCategoria)
 }
 
-//botones editar
 
-
-montoNuevaOperacion.oninput = () => {
-    if(montoNuevaOperacion.value > 9999999) {
-        montoNuevaOperacion.value = 0
-    }
-}
 
 
 
 HTMLBalanceBoxOperaciones(arrayFechaDeHoy())
-aplicarfiltros()
+aplicarFiltros()
