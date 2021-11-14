@@ -291,9 +291,6 @@ agregarNuevaOperacion.onclick = () => {
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
 
-    nuevoObjeto();
-    HTMLBalanceBoxOperaciones(arrayInputUsuario);
-        guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
 }
 
 cancelarNuevaOperacion.onclick = () => {
