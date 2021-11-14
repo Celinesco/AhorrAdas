@@ -385,27 +385,27 @@ cancelEditarCategoria.addEventListener('onkeypress', cancelEditarCategoria.oncli
     ///////
 
     let categorias = ["salida", "comida", "gato"]
-    
-    let probandoReduce = categorias.reduce((acc, elemento) => {
-        let objetosReduce = objetos.reduce((acc1, elemento1) => {
-            if (elemento1.tipo === "ganancia" && elemento1.categoria === elemento) {
-                acc1.monto = acc1.monto + elemento1.monto
-                acc1.categoria = elemento
+    console.log(arrayInputUsuario);
+    let categoriaConMayorGanancia = categorias.reduce((acc, elemento) => {
+        let buscarCategoriaConMayorGanancia = arrayInputUsuario.reduce((accb, elementob) => {
+            if (elementob.tipo === "Ganancia" && elementob.categoria === elemento) {
+                accb.monto = accb.monto + elementob.monto
+                accb.categoria = elemento
             
             }
-            return acc1
+            return accb
 
-        }, {tipo:"ganancia", monto: 0, categoria: ""})
+        }, {tipo:"Ganancia", monto: 0, categoria: ""})
         //console.log(objetosReduce);
         
-        if (objetosReduce.monto > acc.monto) {
-            acc = objetosReduce
+        if (buscarCategoriaConMayorGanancia.monto > acc.monto) {
+            acc = buscarCategoriaConMayorGanancia
             //console.log(acc);
         }
         return acc
-    }, {tipo:"ganancia", monto: 0, categoria: ""})
+    }, {tipo:"Ganancia", monto: 0, categoria: ""})
     
-   console.log(probandoReduce);
+   console.log(categoriaConMayorGanancia);
 
 
     
