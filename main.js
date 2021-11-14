@@ -381,58 +381,33 @@ cancelEditarCategoria.addEventListener('onkeypress', cancelEditarCategoria.oncli
 
 
 
-//botones eliminar 
 
-// eliminarCategoria = () => {
+    ///////
 
-// }
-
-// for (let i = 0; i < deleteCategoria.length; i++) {
-//     deleteCategoria[i].onclick = () => {
-
-//     }
+    let categorias = ["salida", "comida", "gato"]
     
-// }
+    let probandoReduce = categorias.reduce((acc, elemento) => {
+        let objetosReduce = objetos.reduce((acc1, elemento1) => {
+            if (elemento1.tipo === "ganancia" && elemento1.categoria === elemento) {
+                acc1.monto = acc1.monto + elemento1.monto
+                acc1.categoria = elemento
+            
+            }
+            return acc1
+
+        }, {tipo:"ganancia", monto: 0, categoria: ""})
+        //console.log(objetosReduce);
+        
+        if (objetosReduce.monto > acc.monto) {
+            acc = objetosReduce
+            //console.log(acc);
+        }
+        return acc
+    }, {tipo:"ganancia", monto: 0, categoria: ""})
+    
+   console.log(probandoReduce);
 
 
+    
 
-
-
-
-//--------------SECCION-REPORTES------------//////
-
-// obtener mayor ganancia
-// obtener mayor gasto
-// categoria con mayor balance
-// mes con mayor ganancia
-// mes con mayor gasto
-
-
-//mayor ganancia, filtrar por ganancia/gasto monto categoria FILTER, sumar por categoria REDUCE
-// comparar los resultados del REDUCE y devolver el mayor 
-// arrayInputUsuario
-
-
-/* let arrayDeGanancias = arrayInputUsuario.filter((operacion)=> {
-    return operacion.tipo === "Ganancia"
-}) */
-console.log(arrayDeGanancias);
-
-let arrayGananciaPorCategoria = arrayDeGanancias.filter((operacion) => {
-    return operacion.categoria 
-})
-console.log(arrayGananciaPorCategoria);
-
-/* let arrayDeGastos = arrayInputUsuario.filter((operacion)=> {
-    return operacion.tipo === "Gasto"
-})
-
-let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element)=> {
-    return acc + Number(element.monto)
-},0)
-
-let sumaTotalGastos = arrayDeGastos.reduce((acc,element)=> {
-    return acc + Number(element.monto)
-},0)
-
-let arrayCategoria */
+   
