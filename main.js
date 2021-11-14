@@ -611,7 +611,8 @@ const agregarOEditarOperacion = () => {
 
 }
 
-botonAgregarNuevaOperacion.onclick = () => {
+botonAgregarNuevaOperacion.onclick = (e) => {
+    e.preventDefault()
     agregarOEditarOperacion()
 };
 
@@ -675,7 +676,6 @@ const eliminarOperacion = () => {
         }
     })
 }
-
 
 
 
@@ -863,3 +863,15 @@ agregarNuevaCategoria.onclick = (e) => {
 
 HTMLBalanceBoxOperaciones(arrayFechaDeHoy())
 aplicarFiltros()
+
+
+
+
+montoNuevaOperacion.oninput = () => {
+    if (montoNuevaOperacion.value.length > 10) {
+    let numeroAstring = String(montoNuevaOperacion.value)
+    let cortarString = numeroAstring.slice(0,10)
+    let volverANumero = Number(cortarString)
+    montoNuevaOperacion.value = volverANumero
+    }
+}
