@@ -109,21 +109,6 @@ const ocultarSecciones = () => {
 }
 
 
-const categoriasEnSelects = (filtroEnSeccion) => {
-    if (filtroEnSeccion !== categoriasEnNuevaOperacion)
-        filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc, element) => {
-            return acc + ` <option value="${element}">${element}</option>`
-        }, `<option value="todos">Todas</option>`)
-
-    else {
-        filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc, element) => {
-            return acc + ` <option value="${element}">${element}</option>`
-        }, "")
-
-    }
-}
-
-
 
 const nuevoObjeto = () => {
     arrayInputUsuario.push({
@@ -235,10 +220,6 @@ let arrayFechaDeHoy = () => {
 }
 
 
-categoriasEnSelects(filtroCategoria)
-categoriasEnSelects(categoriasEnNuevaOperacion)
-
-
 
 
 // //Funcionalidad Header/Nav
@@ -277,7 +258,6 @@ botonMenuHamburguesa.onclick = () => {
 //--------------SECCION-BALANCE------------//////
 
 
-
 abrirSeccionNuevaOperacion.onclick = () => {
     edicion = false;
     ocultarSecciones();
@@ -287,78 +267,24 @@ abrirSeccionNuevaOperacion.onclick = () => {
     
 }
 
+//filtros
 
-const htmlOperacionesSinResulados = () => {
-    contenedorOperaciones.setAttribute('class', "columns is-centered my-6 py-6")
-    contenedorOperaciones.innerHTML =
-        `<div class="column is-6">
-        <div class="image">
-            <img src="images/undraw_Growing_re_olpi.svg">
-        </div>
-        <p class="title has-text-centered mt-6 is-4">Sin resultados</p>
-        <p class="has-text-centered">Cambia los filtros o agrega operaciones</p>
-    </div>`
-};
-
-htmlOperacionesSinResulados()
-
-
-const HTMLBalanceBoxOperaciones = (array) => {
-
-    if (array.length == 0) {
-        htmlOperacionesSinResulados()
-    }
+const categoriasEnSelects = (filtroEnSeccion) => {
+    if (filtroEnSeccion !== categoriasEnNuevaOperacion)
+        filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc, element) => {
+            return acc + ` <option value="${element}">${element}</option>`
+        }, `<option value="todos">Todas</option>`)
 
     else {
-        let acc = " ";
-
-        array.map((operacion) => {
-            acc = acc + `
-        <div class="columns is-vcentered">
-            <div class="column  is-3 is-3-tablet">
-               <p class="has-text-weight-bold"> ${operacion.descripcion}</p>
-            </div>
-            <div class="column is-2">
-                <p class="tag is-primary is-light ">${operacion.categoria}</p>
-            </div>
-            <div class="column is-2 has-text-grey has-text-right">
-                ${operacion.fecha}
-            </div>
-            <div class="column is-2 has-text-right has-text-weight-bold ${operacion.tipo === "ganancia" ? "has-text-success" : "has-text-danger"}"> 
-            ${operacion.tipo === "ganancia" ? "+$" : "-$"}${operacion.monto}
-            </div>
-            <div class="column is-3">
-                <div class="columns">
-                    <div class="column is-flex is-justify-content-flex-end">
-                        <button class="button is-ghost is-size-7 abrir-editar-operacion" id="editar${operacion.id}">Editar</button>
-                        <button class="button is-ghost is-size-7 eliminar-operacion" id="eliminar${operacion.id}">Eliminar</button>
-                    </div>
-                </div>
-            </div>
-         </div>`
-        })
-
-
-        contenedorOperaciones.removeAttribute("class")
-        contenedorOperaciones.innerHTML = `
-    <div class="columns my-3 py-2" id="contenedor-operaciones">
-        <div class="column has-text-weight-semibold is-3">Descripción</div>
-        <div class="column has-text-weight-semibold is-2">Categoría</div>
-        <div class="column has-text-weight-semibold is-2 has-text-right">Fecha</div>
-        <div class="column has-text-weight-semibold is-2 has-text-right">Monto</div>
-        <div class="column has-text-weight-semibold is-3 has-text-right">Acciones</div>
-    </div>
-
-    <div class="">
-        ${acc} 
-    </div> `
-
-        eliminarOperacion()
-        editarOperacion()
+        filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc, element) => {
+            return acc + ` <option value="${element}">${element}</option>`
+        }, "")
 
     }
-};
+}
 
+categoriasEnSelects(filtroCategoria)
+categoriasEnSelects(categoriasEnNuevaOperacion)
 
 
 ocultarFiltros.onclick = () => {
@@ -538,7 +464,6 @@ filtroOrdenarPor.onchange = () => {
 
 
 
-
 filtroTipo.onchange = () => {
     let arrayFiltradoPorTipo = aplicarFiltros()
     HTMLBalanceBoxOperaciones(arrayFiltradoPorTipo)
@@ -555,6 +480,80 @@ filtroFecha.onchange = () => {
 }
 
 
+
+//box operaciones
+
+const htmlOperacionesSinResulados = () => {
+    contenedorOperaciones.setAttribute('class', "columns is-centered my-6 py-6")
+    contenedorOperaciones.innerHTML =
+        `<div class="column is-6">
+        <div class="image">
+            <img src="images/undraw_Growing_re_olpi.svg">
+        </div>
+        <p class="title has-text-centered mt-6 is-4">Sin resultados</p>
+        <p class="has-text-centered">Cambia los filtros o agrega operaciones</p>
+    </div>`
+};
+
+htmlOperacionesSinResulados()
+
+
+
+const HTMLBalanceBoxOperaciones = (array) => {
+
+    if (array.length == 0) {
+        htmlOperacionesSinResulados()
+    }
+
+    else {
+        let acc = " ";
+
+        array.map((operacion) => {
+            acc = acc + `
+        <div class="columns is-vcentered">
+            <div class="column  is-3 is-3-tablet">
+               <p class="has-text-weight-bold"> ${operacion.descripcion}</p>
+            </div>
+            <div class="column is-2">
+                <p class="tag is-primary is-light ">${operacion.categoria}</p>
+            </div>
+            <div class="column is-2 has-text-grey has-text-right">
+                ${operacion.fecha}
+            </div>
+            <div class="column is-2 has-text-right has-text-weight-bold ${operacion.tipo === "ganancia" ? "has-text-success" : "has-text-danger"}"> 
+            ${operacion.tipo === "ganancia" ? "+$" : "-$"}${operacion.monto}
+            </div>
+            <div class="column is-3">
+                <div class="columns">
+                    <div class="column is-flex is-justify-content-flex-end">
+                        <button class="button is-ghost is-size-7 abrir-editar-operacion" id="editar${operacion.id}">Editar</button>
+                        <button class="button is-ghost is-size-7 eliminar-operacion" id="eliminar${operacion.id}">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+         </div>`
+        })
+
+
+        contenedorOperaciones.removeAttribute("class")
+        contenedorOperaciones.innerHTML = `
+    <div class="columns my-3 py-2" id="contenedor-operaciones">
+        <div class="column has-text-weight-semibold is-3">Descripción</div>
+        <div class="column has-text-weight-semibold is-2">Categoría</div>
+        <div class="column has-text-weight-semibold is-2 has-text-right">Fecha</div>
+        <div class="column has-text-weight-semibold is-2 has-text-right">Monto</div>
+        <div class="column has-text-weight-semibold is-3 has-text-right">Acciones</div>
+    </div>
+
+    <div class="">
+        ${acc} 
+    </div> `
+
+        eliminarOperacion()
+        editarOperacion()
+
+    }
+};
 
 
 
@@ -617,7 +616,6 @@ botonAgregarNuevaOperacion.onclick = () => {
 };
 
 
-
 cancelarNuevaOperacion.onclick = () => {
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
@@ -630,6 +628,7 @@ cancelarNuevaOperacion.onclick = () => {
 
 
 const editarOperacion = () => {
+
     let listaBotonesEditarOperaciones = actualizarListaBotonesEditarOperacion()
     
     listaBotonesEditarOperaciones.forEach((boton)=> {
@@ -682,6 +681,11 @@ const eliminarOperacion = () => {
 
 // //--------------------FUNCIONALIDAD CATEGORÍAS-----------------///
 
+
+const guardaVariable = (valor) => {
+    guardaValorInputPrevio.push(valor)
+}
+
 const botonEliminarCategoria = () => {
 
     let listaBotonesEliminarCategoria = actualizarListaBotonEliminarCategoria();
@@ -698,17 +702,10 @@ const botonEliminarCategoria = () => {
                 return index !== idRecortado
             });
             actualizarInfoUsuario()
-
         };
     })
-
 }
 
-
-
-const guardaVariable = (valor) => {
-    guardaValorInputPrevio.push(valor)
-}
 
 const botonEditarCategoriaSeccionCategoria = () => {
     arrayDeBotonesEditarEnDOM = actualizarBotonesEditarCategorias()
@@ -816,12 +813,14 @@ const agregarOEditarCategoria = (input) => {
 
 
 
+
+// Seccion editar nueva categoria 
+
 inputEditarCategoria.oninput = () => {
     ocultarAdvertenciaRepetida()
     ocultarAdvertenciaCamposRequeridos()
 }
 
-// Seccion editar nueva categoria 
 
 botonEditarCategoriaSeccionEditarCategoria.onclick = (e) => {
     e.preventDefault()
