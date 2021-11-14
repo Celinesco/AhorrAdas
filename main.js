@@ -875,3 +875,93 @@ montoNuevaOperacion.oninput = () => {
     montoNuevaOperacion.value = volverANumero
     }
 }
+
+
+
+//--------------SECCION-REPORTES------------//////
+
+const probandoFiltrarCategorias = arrayInputUsuario.map((objeto) => {
+    return objeto.categoria
+})
+console.log(probandoFiltrarCategorias);
+
+let categoriasFiltradas = probandoFiltrarCategorias.filter((elemento,index)=>{
+    return probandoFiltrarCategorias.indexOf(elemento) === index;
+  })
+  console.log(categoriasFiltradas)
+
+let categorias = ["salida", "comida", "gato"]
+console.log(arrayInputUsuario);
+
+
+
+// Reporte Categoria con Mayor Ganancia
+
+let categoriaConMayorGanancia = categoriasFiltradas.reduce((acc, elemento) => {
+    let buscarCategoriaConMayorGanancia = arrayInputUsuario.reduce((accb, elementob) => {
+        if (elementob.tipo === "Ganancia" && elementob.categoria === elemento) {
+            accb.monto = Number(accb.monto) + Number(elementob.monto)
+            accb.categoria = elemento
+        
+        }
+        return accb
+
+    }, {tipo:"Ganancia", monto: 0, categoria: ""})
+    //console.log(objetosReduce);
+    
+    if (buscarCategoriaConMayorGanancia.monto > acc.monto) {
+        acc = buscarCategoriaConMayorGanancia
+        //console.log(acc);
+    }
+    return acc
+}, {tipo:"Ganancia", monto: 0, categoria: ""})
+
+console.log(categoriaConMayorGanancia);
+
+
+// Reporte Categoria con Mayor Gasto
+
+let categoriaConMayorGasto = categoriasFiltradas.reduce((acc, elemento) => {
+    let buscarCategoriaConMayorGasto = arrayInputUsuario.reduce((accb, elementob) => {
+        if (elementob.tipo === "Gasto" && elementob.categoria === elemento) {
+            accb.monto = Number(accb.monto) + Number(elementob.monto)
+            accb.categoria = elemento
+        
+        }
+        return accb
+
+    }, {tipo:"Gasto", monto: 0, categoria: ""})
+    
+    
+    if (buscarCategoriaConMayorGasto.monto > acc.monto) {
+        acc = buscarCategoriaConMayorGasto
+       
+    }
+    return acc
+}, {tipo:"Gasto", monto: 0, categoria: ""})
+
+console.log(categoriaConMayorGasto);
+
+
+//Reporte Categoria con Mayor Balance
+
+let categoriaConMayorBalance = categoriasFiltradas.reduce((acc, elemento) => {
+    let buscarCategoriaConMayorBalance = arrayInputUsuario.reduce((accb, elementob) => {
+        if (elementob.categoria === elemento) {
+            accb.monto = Number(accb.monto) + Number(elementob.monto)
+            accb.categoria = elemento
+        
+        }
+        return accb
+
+    }, {monto: 0, categoria: ""})
+    
+    
+    if (buscarCategoriaConMayorBalance.monto > acc.monto) {
+        acc = buscarCategoriaConMayorBalance
+       
+    }
+    return acc
+}, {monto: 0, categoria: ""})
+
+console.log(categoriaConMayorBalance);
