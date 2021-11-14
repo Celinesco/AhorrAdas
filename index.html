@@ -51,7 +51,7 @@
         <div class="container">
             <div class="columns is-centered is-multiline">
 
-                <div class="column is-offset-1-widescreen is-3-desktop is-12-tablet">
+                <div class="column is-3-widescreen is-4-desktop is-12-tablet">
                     <article class="box">
                         <h3 class="title is-3 has-text-dark">Balance</h3>
                         <div class="columns is-mobile">
@@ -60,7 +60,7 @@
                             </div>
                         </div>
                         <div class="columns is-mobile">
-                            <p class="column is-size-5 ">Gastos</p>
+                            <p class="column is-size-5">Gastos</p>
                             <div class="column has-text-danger has-text-right" id="total-gastos-box-balance">
                                 -$0</div>
                         </div>
@@ -74,7 +74,7 @@
 
                     <article class="box my-5">
                         <div class="columns is-mobile is-vcentered">
-                            <div class="column">
+                            <div class="column is-5">
                                 <h4 class="title is-4">Filtros</h4>
                             </div>
                             <div class="column is-flex is-justify-content-flex-end">
@@ -102,13 +102,6 @@
                                 <div class="control">
                                     <div class="select is-fullwidth">
                                         <select id="filtro-categoria">
-                                            <option value="todos">Todas</option>
-                                            <option value="comida">Comida</option>
-                                            <option value="servicios">Servicios</option>
-                                            <option value="salidas">Salidas</option>
-                                            <option value="educacion">Educación</option>
-                                            <option value="transporte">Transporte</option>
-                                            <option value="trabajo">Trabajo</option>
                                         </select>
                                     </div>
                                 </div>
@@ -140,7 +133,7 @@
                         </form>
                     </article>
                 </div>
-                <div class="column is-7-desktop is-8-desktop">
+                <div class="column is-7-desktop">
                     <article class="box">
                         <div class="columns is-mobile">
                             <div class="column">
@@ -150,28 +143,7 @@
                                 <button class="button is-primary" id="abrir-nueva-operacion">+ Nueva Operación</button>
                             </div>
                         </div>
-
-                        <!-- <div class="columns my-3 py-2 " id="tabla-titulos-operaciones">
-                            <div class="column has-text-weight-semibold is-3">Descripción</div>
-                            <div class="column has-text-weight-semibold is-2">Categoría</div>
-                            <div class="column has-text-weight-semibold is-2 has-text-right">Fecha</div>
-                            <div class="column has-text-weight-semibold is-2 has-text-right">Monto</div>
-                            <div class="column has-text-weight-semibold is-3 has-text-right">Acciones</div>
-                        </div>
-                        
-                            <div class="">
-                                
-                            </div>  -->
-                
-                            <div class="columns is-centered my-6 py-6" id="contenedor-operaciones">
-                                <div class="column is-6">
-                                    <div class="image">
-                                        <img src="images/undraw_Growing_re_olpi.svg">
-                                    </div>
-                                    <p class="title has-text-centered mt-6 is-4">Sin resultados</p>
-                                    <p class="has-text-centered">Cambia los filtros o agrega operaciones</p>
-                                </div>
-                            </div>
+                        <div id="contenedor-operaciones">
                         </div>
 
                     </article>
@@ -180,34 +152,47 @@
         </div>
     </main>
 
-    <!--SECTION NUEVA OPERACION-->
+    <!--SECCION NUEVA OPERACION-->
 
     <section class="section is-hidden seccion-visible" id="seccion-nueva-operacion">
         <div class="container">
             <div class="columns is-centered is-mobile">
                 <div class="column is-8-widescreen is-8-widescreen is-12-tablet">
                     <artcile class="box">
-                        <h2 class="title is-size-2 mb-6">Nueva operación</h2>
+                        <h2 class="title is-size-2 mb-6" id="titulo-modal-editar-crear-operacion">Nueva operación</h2>
                         <form method="post" id="form-nueva-operacion">
                             <div class="field">
                                 <label class="label" for="descripcion-operacion">Descripción</label>
                                 <div class="control">
-                                    <input class="input" type="text" id="descripcion-operacion">
+                                    <div class="control has-icons-right">
+                                        <input class="input" type="text" id="descripcion-operacion" maxlength="50" required>
+                                        <span class="icon is-small is-right is-hidden requested-field">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </span>
+                                        <p class="help is-danger is-hidden requested-field my-0">Ingresa una descripción</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label" for="monto-nueva-operacion">Monto</label>
                                 <div class="control">
-                                    <input class="input" type="number" id="monto-nueva-operacion">
+                                    <div class="control has-icons-right">
+                                        <input class="input" type="number" id="monto-nueva-operacion" min="0.01" max="9999999999" required>  
+                                        <span class="icon is-small is-right is-hidden campo-requerido-monto" >
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </span>
+                                        <p class="help is-danger is-hidden campo-requerido-monto my-0">Ingresa un monto</p>
+                                    </div>
                                 </div>
+                             
                             </div>
                             <div class="field">
                                 <label class="label" for="tipo-nueva-operacion">Tipo</label>
                                 <div class="control">
                                     <div class="select is-fullwidth">
                                         <select id="tipo-nueva-operacion">
-                                            <option>Gasto</option>
-                                            <option>Ganancia</option>
+                                            <option value="gasto">Gasto</option>
+                                            <option value="ganancia">Ganancia</option>
                                         </select>
                                     </div>
                                 </div>
@@ -216,13 +201,7 @@
                                 <label class="label" for="categorias-nueva-operacion">Categoría</label>
                                 <div class="control">
                                     <div class="select is-fullwidth">
-                                        <select id="categorias-nueva-operacion">
-                                            <option value="comida">Comida</option>
-                                            <option value="servicios">Servicios</option>
-                                            <option value="salidas">Salidas</option>
-                                            <option value="educacion">Educación</option>
-                                            <option value="transporte">Transporte</option>
-                                            <option value="trabajo">Trabajo</option>
+                                        <select id="categorias-nueva-operacion" required>
                                         </select>
                                     </div>
                                 </div>
@@ -240,7 +219,7 @@
                                         <button type="button" class="button is-light" id="cancelar-nueva-operacion">Cancelar</button>
                                     </div>
                                     <div class="control" id="agregar-nueva-operacion">
-                                        <button type="button" class="button is-success">Agregar</button>
+                                        <button class="button is-success">Agregar</button>
                                     </div>
                                 </div>
                             </div>
@@ -251,115 +230,39 @@
         </div>
     </section>
 
+
+
     <!--SECCION CATEGORÍAS-->
 
-    <section class="section is-hidden seccion-visible" id="section-categorias">
+    <section class="section is-hidden seccion-visible" id="seccion-categorias">
         <div class="container">
-            <div class="columns is-centered is-mobile">
+            <div class="columns is-centered is-mobile is-multiline">
                 <div class="column is-8-widescreen is-9-desktop is-12-tablet">
-                    <article class="box pb-5">
-                        <h2 class="title is-size-2 mb-6">Categorías</h2>
-                            <div class="columns is-mobile is-vcentered">
-                                <div class="column is-10-tablet mb-5">
-                                    <div class="field">
-                                        <label class="label" for="nueva-categoria">Nombre</label>
-                                        <div class="control has-icons-right">
-                                            <input class="input" id="input-nueva-categoria" type="text" required>
-                                            <span class="icon is-small is-right is-hidden requested-field">
-                                                <i class="fas fa-exclamation-triangle"></i>
-                                            </span>
-                                            </div>
-                                            <p class="help is-danger is-hidden requested-field my-0">Elige un nombre para tu categoría</p>
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="control">
-                                            <button type="button" class="button is-success" id="agregar-categoria">Agregar</button>
-                                        </div>
-                                    </div>
+                    <article class="box">
+                        <h2 class="title is-size-2">Categorías</h2>
+                        <form>
+                        <label class="label mt-6" for="nueva-categoria">Nombre</label>
+                            <div class="field is-grouped">
+                                <div class="control is-expanded has-icons-right">       
+                                    <input class="input" id="input-nueva-categoria" type="text" maxlength="50" required>
+                                    <span class="icon is-small is-hidden is-right requested-field categoria-repetida">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </span>
+                                </div>     
+                                <div class="control">
+                                    <button class="button is-success" id="agregar-categoria">Agregar</button>
+                                </div>  
+                            </div>
+                            <div class="columns is-mobile">
+                                <div class="column pt-0">
+                                    <p class="help is-danger is-hidden requested-field my-0">Elige un nombre para tu categoría</p>
+                                    <p class="help is-danger is-hidden my-0 categoria-repetida">La categoría ya existe</p>
                                 </div>
+                            </div>
+                        </form>
 
-                        <ul id="lista-categorias">
-                            <li>
-                                <div class="columns is-mobile is-vcentered mb-3">
-                                    <div class="column">
-                                        <p class="tag is-primary is-light">Comida</p>
-                                    </div>
-                                    <div class="columns">
-                                        <div class="column">
-                                            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                                            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="columns is-mobile is-vcentered mb-3">
-                                    <div class="column">
-                                        <p class="tag is-primary is-light">Servicios</p>
-                                    </div>
-                                    <div class="columns">
-                                        <div class="column">
-                                            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                                            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="columns is-mobile is-vcentered mb-3">
-                                    <div class="column">
-                                        <p class="tag is-primary is-light">Salidas</p>
-                                    </div>
-                                    <div class="columns">
-                                        <div class="column">
-                                            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                                            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="columns is-mobile is-vcentered mb-3">
-                                    <div class="column">
-                                        <p class="tag is-primary is-light">Educación</p>
-                                    </div>
-                                    <div class="columns">
-                                        <div class="column">
-                                            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                                            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="columns is-mobile is-vcentered mb-3">
-                                    <div class="column">
-                                        <p class="tag is-primary is-light">Transporte</p>
-                                    </div>
-                                    <div class="columns">
-                                        <div class="column">
-                                            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                                            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="columns is-mobile is-vcentered mb-3">
-                                    <div class="column">
-                                        <p class="tag is-primary is-light">Trabajo</p>
-                                    </div>
-                                    <div class="columns">
-                                        <div class="column">
-                                            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                                            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                        <ul class="mt-5" id="lista-categorias">
+                            
                         </ul>
                     </article>
                 </div>
@@ -367,18 +270,29 @@
         </div>
     </section>
 
+    <!--SECCION EDITAR CATEGORÍA-->
+
     <section class="section is-hidden seccion-visible" id="section-editar-categoria">
         <div class="container">
             <div class="columns is-centered is-mobile">
                 <div class="column is-8-widescreen is-9-desktop is-12-tablet">
                     <article class="box pb-5">
                         <h2 class="title is-size-2 mb-6">Editar categoría</h2>
+                    <form>
                         <label class="label" for="editar-nueva-categoria">Nombre</label>
                         <div class="columns is-mobile">
                             <div class="column is-fullwidth mb-5">
                                 <div class="field">
-                                    <div class="control">
+                                    <div class="control has-icons-right">
                                         <input class="input" id="editar-nueva-categoria" type="text" required>
+                                        <span class="icon is-small is-right is-hidden requested-field">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </span>
+                                        <span class="icon is-small is-right is-hidden categoria-repetida">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </span>
+                                        <p class="help is-danger is-hidden requested-field my-0">Ingresa una descripción</p>
+                                        <p class="help is-danger is-hidden categoria-repetida my-0">La categoría ya existe</p>
                                     </div>
                                 </div>
                             </div>
@@ -386,13 +300,14 @@
                         <div class="is-flex is-justify-content-flex-end">
                             <div class="field is-grouped buttons mt-3">
                                 <div class="control">
-                                    <button class="button is-light" id="cancel-editar-categoria">Cancelar</button>
+                                    <button type="button" class="button is-light" id="cancelar-editar-categoria">Cancelar</button>
                                 </div>
                                 <div class="control">
-                                    <button class="button is-success">Editar</button>
+                                    <button class="button is-success" id="boton-editar-categoria">Editar</button>
                                 </div>
                             </div>
                         </div>
+                    </form>
                     </article>
                 </div>
             </div>
