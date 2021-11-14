@@ -24,10 +24,13 @@ const filtroCategoria = document.getElementById("filtro-categoria");
 const categoriasEnNuevaOperacion = document.getElementById("categorias-nueva-operacion");
 const cancelarNuevaOperacion = document.getElementById("cancelar-nueva-operacion");
 const contenedorOperaciones = document.getElementById("contenedor-operaciones");
-const agregarNuevaOperacion = document.getElementById("agregar-nueva-operacion");
+const botonAgregarNuevaOperacion = document.getElementById("agregar-nueva-operacion");
 const totalGananciasBoxBalance = document.getElementById("total-ganancias-box-balance");
 const totalGastosBoxBalance = document.getElementById("total-gastos-box-balance");
 const totalGastosGanancias = document.getElementById("total-gastos-ganancias");
+const filtroFecha = document.getElementById("filtro-fecha");
+const filtroOrdenarPor = document.getElementById("filtro-ordenar");
+
 
 //NUEVA OPERACION
 
@@ -35,19 +38,26 @@ const descripcionNuevaOperacion = document.getElementById("descripcion-operacion
 const montoNuevaOperacion = document.getElementById("monto-nueva-operacion");
 const tipoNuevaOperacion = document.getElementById("tipo-nueva-operacion");
 const fechaNuevaOperacion = document.getElementById("fecha-nueva-operacion");
+const montoCampoRequerido = document.querySelectorAll(".campo-requerido-monto");
+const tituloModalEditarCrearOperacion = document.getElementById("titulo-modal-editar-crear-operacion");
 
 
 // SECCION-CATEGORÍAS
 
-const sectionCategorias = document.getElementById("section-categorias");
+const seccionCategorias = document.getElementById("seccion-categorias");
 const sectionEditarCategoria = document.getElementById("section-editar-categoria");
-const openSectionEditarCategoria = document.querySelectorAll(".open-editar-categoria");
-const deleteCategoria = document.querySelectorAll(".delete-categoria");
-const cancelEditarCategoria = document.getElementById("cancel-editar-categoria");
-const addNuevaCategoria = document.getElementById("agregar-categoria");
+const cancelarEditarCategoria = document.getElementById("cancelar-editar-categoria");
+const agregarNuevaCategoria = document.getElementById("agregar-categoria");
 const inputNuevaCategoria = document.getElementById("input-nueva-categoria");
 const listaCategorias = document.getElementById("lista-categorias");
-const alertsRequestField = document.querySelectorAll(".requested-field");
+const alertaCampoRequerido = document.querySelectorAll(".requested-field");
+const inputEditarCategoria = document.getElementById("editar-nueva-categoria");
+const categoriaRepetida = document.querySelectorAll(".categoria-repetida");
+
+
+// SECCION EDITAR CATEGORIA
+
+const botonEditarCategoriaSeccionEditarCategoria = document.getElementById("boton-editar-categoria")
 
 
 //SECCION REPORTES
@@ -55,6 +65,16 @@ const alertsRequestField = document.querySelectorAll(".requested-field");
 const sectionReportes = document.getElementById("section-reportes");
 
 /////////////////////////FIN DE DOM////////////////////////////FIN DE DOM//////////////////////////////////////FIN DE DOM/////////////////////////////
+
+
+
+
+let arrayInputUsuario = [];
+let arrayCategorias = ["Comida", "Servicios", "Salidas", "Educación", "Transporte", "Trabajo"];
+let guardaValorInputPrevio = [];
+let valorIdABorrar = [];
+let edicion = false;
+
 
 
 //Funciones Auxiliares
@@ -82,73 +102,155 @@ const leerDesdeLocalStorage = (clave) => {
 }
 
 
-let ocultarSecciones = () => {
+const ocultarSecciones = () => {
     seccionVisible.forEach((section) => {
         section.classList.add('is-hidden')
     })
 }
 
-let nuevasCategoriasEnSelects= () => {
-    let nuevaOpcion = document.createElement('option')
-    nuevaOpcion.innerText = `${inputNuevaCategoria.value}`
-    nuevaOpcion.setAttribute('value',inputNuevaCategoria.value)
-    return nuevaOpcion
-}
-
-let arrayInputUsuario = []
 
 
-let nuevoObjeto = () => {
+const nuevoObjeto = () => {
     arrayInputUsuario.push({
         id: Date.now(),
-        descripcion:descripcionNuevaOperacion.value,
-        monto: montoNuevaOperacion.value,
+        descripcion: descripcionNuevaOperacion.value,
+        monto: Number(montoNuevaOperacion.value),
         tipo: tipoNuevaOperacion.value,
         categoria: categoriasEnNuevaOperacion.value,
         fecha: fechaNuevaOperacion.value
+    })
+
+    arrayInputUsuario.sort((a, b) => {
+        return new Date(b.fecha) - new Date(a.fecha)
     })
 
     return arrayInputUsuario
 }
 
 
-//Chequea LocalStorage apenas carga la página
 
-const infoAlmacenada = leerDesdeLocalStorage('operaciones_usuario')
 
-if (infoAlmacenada !== null) {
-  arrayInputUsuario = infoAlmacenada
+const abrirVentanaEditarCategoria = () => {
+    seccionCategorias.classList.add('is-hidden');
+    sectionEditarCategoria.classList.remove('is-hidden');
+};
+
+const actualizarBotonesEditarCategorias = () => {
+    let arrayDeBotonesEditarEnDOM = document.querySelectorAll(".open-editar-categoria");
+    return arrayDeBotonesEditarEnDOM
+};
+
+const actualizarListaBotonEliminarCategoria = () => {
+    let arrayDeBotonesEliminarDom = document.querySelectorAll(".eliminar-categoria");
+    return arrayDeBotonesEliminarDom
+};
+
+const actualizarListaBotonesEliminarOperacion = () => {
+    let botonesEliminarOperacion = document.querySelectorAll(".eliminar-operacion")
+    return botonesEliminarOperacion
+};
+
+const actualizarListaBotonesEditarOperacion = () => {
+    let botonesEditarOperacion = document.querySelectorAll(".abrir-editar-operacion")
+    return botonesEditarOperacion
 }
+
+
+const resetearValoresInputs = () => {
+    descripcionNuevaOperacion.value = "";
+    montoNuevaOperacion.value = "";
+    fechaNuevaOperacion.valueAsDate = new Date();
+    categoriasEnNuevaOperacion.value = arrayCategorias[0]
+};
+
+
+const actualizarInfoUsuario = () => {
+    HTMLBalanceBoxOperaciones(aplicarFiltros())
+    HTMLcategoriasSeccionCategorias()
+    guardarEnLocalStorage(arrayCategorias, 'categorias_actualizadas');
+    guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario');
+    categoriasEnSelects(filtroCategoria)
+    categoriasEnSelects(categoriasEnNuevaOperacion)
+}
+
+
+
+const ocultarAdvertenciaCamposRequeridos = () => {
+    alertaCampoRequerido.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    })
+}
+
+const ocultarAdvertenciaRepetida = () => {
+    categoriaRepetida.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    })
+}
+
+
+
+// Comiezo de página
+
+
+
+const operacionesAlmacenadas = leerDesdeLocalStorage('operaciones_usuario');
+const categoriasActualizadas = leerDesdeLocalStorage('categorias_actualizadas');
+
+
+
+if (categoriasActualizadas !== null) {
+    arrayCategorias = categoriasActualizadas
+}
+
+
+fechaNuevaOperacion.valueAsDate = new Date()
+filtroFecha.valueAsDate = new Date()
+
+
+let arrayFechaDeHoy = () => {
+    if (operacionesAlmacenadas !== null) {
+        arrayInputUsuario = operacionesAlmacenadas
+        let nuevoArray = operacionesAlmacenadas.filter((element) => {
+            return element.fecha === filtroFecha.value
+        })
+
+        return nuevoArray
+    }
+    return arrayInputUsuario
+}
+
 
 
 
 // //Funcionalidad Header/Nav
 
+const menuHambuguesa = () => {
+    abrirMenuHamburguesa.classList.toggle('is-active')
+    botonMenuHamburguesa.classList.toggle('is-active')
+};
+
 itemNavSeccionBalance.onclick = () => {
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
-}
+    menuHambuguesa()
+
+};
 
 itemNavSeccionCategorias.onclick = () => {
     ocultarSecciones();
-    sectionCategorias.classList.remove('is-hidden');
-}
+    seccionCategorias.classList.remove('is-hidden');
+    menuHambuguesa()
+};
 
 itemNavSeccionReportes.onclick = () => {
     ocultarSecciones();
     sectionReportes.classList.remove('is-hidden');
-}
-
-
-
-
-// Funcionalidad Nav-Mobile
+    menuHambuguesa()
+};
 
 botonMenuHamburguesa.onclick = () => {
-    botonMenuHamburguesa.classList.toggle('is-active');
-    abrirMenuHamburguesa.classList.toggle('is-active');
+    menuHambuguesa()
 }
-
 
 
 
@@ -156,87 +258,33 @@ botonMenuHamburguesa.onclick = () => {
 //--------------SECCION-BALANCE------------//////
 
 
-let arrayDeGanancias = arrayInputUsuario.filter((operacion)=> {
-    return operacion.tipo === "Ganancia"
-})
-
-let arrayDeGastos = arrayInputUsuario.filter((operacion)=> {
-    return operacion.tipo === "Gasto"
-})
-
-let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element)=> {
-    return acc + Number(element.monto)
-},0)
-
-let sumaTotalGastos = arrayDeGastos.reduce((acc,element)=> {
-    return acc + Number(element.monto)
-},0)
-
-
-
-
-totalGananciasBoxBalance.innerHTML = `+$${sumaTotalGanancias}`;
-totalGastosBoxBalance.innerHTML = `-$${sumaTotalGastos}`;
-totalGastosGanancias.innerHTML = `$${sumaTotalGanancias - sumaTotalGastos}`
-
-
 abrirSeccionNuevaOperacion.onclick = () => {
+    edicion = false;
     ocultarSecciones();
     seccionNuevaOperacion.classList.remove('is-hidden');
+    tituloModalEditarCrearOperacion.textContent = `Nueva operación`;
+    botonAgregarNuevaOperacion.innerHTML = `<button type="button" class="button is-success">Agregar</button>`; 
     
 }
 
-abrirSeccionNuevaOperacion.addEventListener('onkeypress', abrirSeccionNuevaOperacion)
+//filtros
 
+const categoriasEnSelects = (filtroEnSeccion) => {
+    if (filtroEnSeccion !== categoriasEnNuevaOperacion)
+        filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc, element) => {
+            return acc + ` <option value="${element}">${element}</option>`
+        }, `<option value="todos">Todas</option>`)
 
+    else {
+        filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc, element) => {
+            return acc + ` <option value="${element}">${element}</option>`
+        }, "")
 
-
-
-let HTMLBalanceBoxOperaciones = (array) => {
-   
-    let acc = " ";
-
-    array.map((operacion)=> {
-        acc = acc + `
-        <div class="columns is-vcentered">
-            <div class="column  is-3 is-3-tablet">
-               <p class="has-text-weight-bold"> ${operacion.descripcion}</p>
-            </div>
-            <div class="column is-2">
-                <p class="tag is-primary is-light ">${operacion.categoria}</p>
-            </div>
-            <div class="column is-2 has-text-grey has-text-right">
-                ${operacion.fecha}
-            </div>
-            <div class="column is-2 has-text-right has-text-weight-bold ${operacion.tipo === "Ganancia" ?"has-text-success":"has-text-danger"}"> 
-            ${operacion.tipo === "Ganancia" ?"+$":"-$"}${operacion.monto}
-            </div>
-            <div class="column is-3">
-                <div class="columns">
-                    <div class="column is-flex is-justify-content-flex-end">
-                        <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-                        <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
-                    </div>
-                </div>
-            </div>
-         </div>`
-    })
-
-    contenedorOperaciones.removeAttribute("class")
-    contenedorOperaciones.innerHTML =`
-    <div class="columns my-3 py-2" >
-        <div class="column has-text-weight-semibold is-3">Descripción</div>
-        <div class="column has-text-weight-semibold is-2">Categoría</div>
-        <div class="column has-text-weight-semibold is-2 has-text-right">Fecha</div>
-        <div class="column has-text-weight-semibold is-2 has-text-right">Monto</div>
-        <div class="column has-text-weight-semibold is-3 has-text-right">Acciones</div>
-    </div>
-
-    <div class="">
-        ${acc} 
-    </div> ` 
-
+    }
 }
+
+categoriasEnSelects(filtroCategoria)
+categoriasEnSelects(categoriasEnNuevaOperacion)       
 
 
 ocultarFiltros.onclick = () => {
@@ -253,141 +301,586 @@ ocultarFiltros.onclick = () => {
 
 
 
-let aplicarfiltros = () => {
+const aplicarFiltros = () => {
 
-    const filtradoPorTipo = arrayInputUsuario.filter((operacion)=> {
+    let filtradoPorTipo = arrayInputUsuario.filter((operacion) => {
         if (filtroTipo.value === "todos") {
             return operacion
         }
         return operacion.tipo.toLowerCase() == filtroTipo.value
+    });
+
+    let filtradoCategoriayTipo = filtradoPorTipo.filter((operacion) => {
+        if (filtroCategoria.value === "todos") {
+            return operacion
+        }
+        return operacion.categoria == filtroCategoria.value
+    });
+
+    let filtradoFinal = filtradoCategoriayTipo.filter((operacion) => {
+        return new Date(operacion.fecha) >= new Date(filtroFecha.value)
     })
-    
-    const filtradoFinal = filtradoPorTipo.filter((operacion) => {
-      if (filtroCategoria.value === "todos") {
-        return operacion
-      }
-      return operacion.categoria == filtroCategoria.value
+
+
+    let arrayDeGanancias = filtradoFinal.filter((operacion) => {
+        return operacion.tipo === "ganancia"
     })
+
+    let arrayDeGastos = filtradoFinal.filter((operacion) => {
+        return operacion.tipo === "gasto"
+    })
+
+    let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element) => {
+        return acc + element.monto
+    }, 0)
+
+    let sumaTotalGastos = arrayDeGastos.reduce((acc, element) => {
+        return acc + element.monto
+    }, 0)
+
+
+    let total = sumaTotalGanancias - sumaTotalGastos
+
+
+    totalGananciasBoxBalance.innerHTML = `+$${sumaTotalGanancias}`;
+    totalGastosBoxBalance.innerHTML = `-$${sumaTotalGastos}`;
+
+    if (total > 0) {
+        totalGastosGanancias.classList.add('has-text-success')
+        totalGastosGanancias.classList.remove('has-text-danger')
+        totalGastosGanancias.innerHTML = `+$${total}`
+    }
+    else if (total < 0) {
+        totalGastosGanancias.classList.add('has-text-danger');
+        totalGastosGanancias.classList.remove('has-text-success')
+        totalGastosGanancias.innerHTML = `-$${Math.abs(total)}`
+    }
+
+    else {
+        totalGastosGanancias.innerHTML = `$0`
+        totalGastosGanancias.classList.add('has-dark-text');
+        totalGastosGanancias.classList.remove('has-text-success');
+        totalGastosGanancias.classList.remove('has-text-danger');
+    }
+
     return filtradoFinal
+
+}
+
+
+const filtroMayorMonto = () => {
+
+    let arrayFiltradoDefiltros = aplicarFiltros()
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        return b.monto - a.monto
+    })
+    return arrayOrdenado
+}
+
+const filtroMenorMonto = () => {
+    let arrayFiltradoDefiltros = aplicarFiltros()
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        return a.monto - b.monto
+    })
+    return arrayOrdenado
+}
+
+let filtroRecientes = () => {
+    let arrayFiltradoDefiltros = aplicarFiltros();
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        return new Date(b.fecha) - new Date(a.fecha)
+    })
+    return arrayOrdenado
+}
+
+const filtroMenosRecientes = () => {
+    let arrayFiltradoDefiltros = aplicarFiltros();
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        return new Date(a.fecha) - new Date(b.fecha)
+    })
+    return arrayOrdenado
+}
+
+const filtroAZ = () => {
+    let arrayFiltradoDefiltros = aplicarFiltros();
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        let descripcionA = a.descripcion.toLowerCase();
+        let descripcionB = b.descripcion.toLowerCase();
+
+        if (descripcionA < descripcionB) {
+            return -1;
+        }
+        if (descripcionA > descripcionB) {
+            return 1
+        }
+        return 0
+    });
+    return arrayOrdenado
+}
+
+
+const filtroZA = () => {
+    let arrayFiltradoDefiltros = aplicarFiltros();
+    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        let descripcionA = a.descripcion.toLowerCase();
+        let descripcionB = b.descripcion.toLowerCase();
+
+        if (descripcionA > descripcionB) {
+            return -1;
+        }
+        if (descripcionA < descripcionB) {
+            return 1
+        }
+        return 0
+    });
+    return arrayOrdenado
 }
 
 
 
-filtroTipo.onclick = () => {
-    let arrayFiltradoPorTipo = aplicarfiltros()
+// FILTROS ORDENAR POR
+
+
+filtroOrdenarPor.onchange = () => {
+    if (filtroOrdenarPor.value == "mayor-monto") {
+        HTMLBalanceBoxOperaciones(filtroMayorMonto())
+    }
+    else if (filtroOrdenarPor.value === "menor-monto") {
+        HTMLBalanceBoxOperaciones(filtroMenorMonto())
+    }
+    else if (filtroOrdenarPor.value === "recientes") {
+        HTMLBalanceBoxOperaciones(filtroRecientes())
+    }
+    else if (filtroOrdenarPor.value === "menos-recientes") {
+        HTMLBalanceBoxOperaciones(filtroMenosRecientes())
+    }
+    else if (filtroOrdenarPor.value === "a-z") {
+        HTMLBalanceBoxOperaciones(filtroAZ())
+    }
+    else if (filtroOrdenarPor.value === "z-a") {
+        HTMLBalanceBoxOperaciones(filtroZA())
+    }
+}
+
+
+
+filtroTipo.onchange = () => {
+    let arrayFiltradoPorTipo = aplicarFiltros()
     HTMLBalanceBoxOperaciones(arrayFiltradoPorTipo)
 }
 
-filtroCategoria.onclick = () => {
-    let arrayFiltradoPorCategoria = aplicarfiltros()
+filtroCategoria.onchange = () => {
+    let arrayFiltradoPorCategoria = aplicarFiltros()
     HTMLBalanceBoxOperaciones(arrayFiltradoPorCategoria)
+};
+
+filtroFecha.onchange = () => {
+    let arrayFiltradoPorFecha = aplicarFiltros()
+    HTMLBalanceBoxOperaciones(arrayFiltradoPorFecha)
 }
+
+
+
+//box operaciones
+
+const htmlOperacionesSinResulados = () => {
+    contenedorOperaciones.setAttribute('class', "columns is-centered my-6 py-6")
+    contenedorOperaciones.innerHTML =
+        `<div class="column is-6">
+        <div class="image">
+            <img src="images/undraw_Growing_re_olpi.svg">
+        </div>
+        <p class="title has-text-centered mt-6 is-4">Sin resultados</p>
+        <p class="has-text-centered">Cambia los filtros o agrega operaciones</p>
+    </div>`
+};
+
+htmlOperacionesSinResulados()
+
+
+
+const HTMLBalanceBoxOperaciones = (array) => {
+
+    if (array.length == 0) {
+        htmlOperacionesSinResulados()
+    }
+
+    else {
+        let acc = " ";
+
+        array.map((operacion) => {
+            acc = acc + `
+        <div class="columns is-vcentered">
+            <div class="column  is-3 is-3-tablet">
+               <p class="has-text-weight-bold"> ${operacion.descripcion}</p>
+            </div>
+            <div class="column is-2">
+                <p class="tag is-primary is-light ">${operacion.categoria}</p>
+            </div>
+            <div class="column is-2 has-text-grey has-text-right">
+                ${operacion.fecha}
+            </div>
+            <div class="column is-2 has-text-right has-text-weight-bold ${operacion.tipo === "ganancia" ? "has-text-success" : "has-text-danger"}"> 
+            ${operacion.tipo === "ganancia" ? "+$" : "-$"}${operacion.monto}
+            </div>
+            <div class="column is-3">
+                <div class="columns">
+                    <div class="column is-flex is-justify-content-flex-end">
+                        <button class="button is-ghost is-size-7 abrir-editar-operacion" id="editar${operacion.id}">Editar</button>
+                        <button class="button is-ghost is-size-7 eliminar-operacion" id="eliminar${operacion.id}">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+         </div>`
+        })
+
+
+        contenedorOperaciones.removeAttribute("class")
+        contenedorOperaciones.innerHTML = `
+    <div class="columns my-3 py-2" id="contenedor-operaciones">
+        <div class="column has-text-weight-semibold is-3">Descripción</div>
+        <div class="column has-text-weight-semibold is-2">Categoría</div>
+        <div class="column has-text-weight-semibold is-2 has-text-right">Fecha</div>
+        <div class="column has-text-weight-semibold is-2 has-text-right">Monto</div>
+        <div class="column has-text-weight-semibold is-3 has-text-right">Acciones</div>
+    </div>
+
+    <div class="">
+        ${acc} 
+    </div> `
+
+        eliminarOperacion()
+        editarOperacion()
+
+    }
+};
 
 
 
 //NUEVA OPERACIÓN
 
-agregarNuevaOperacion.onclick = () => {
+const agregarOEditarOperacion = () => {  
+    
+
+    let valorDescripcion = descripcionNuevaOperacion.value
+    let valorMonto = montoNuevaOperacion.value
+
+        
+    if (valorDescripcion.length > 0 && valorMonto > 0) {
+
+        if (edicion === true) {
+            arrayInputUsuario = arrayInputUsuario.filter ((operacion)=> {
+                return operacion.id != valorIdABorrar[0]
+            })
+        }
+
+        valorIdABorrar = []
+        ocultarSecciones();
+        seccionBalance.classList.remove('is-hidden');
+        nuevoObjeto();
+        resetearValoresInputs();
+        HTMLBalanceBoxOperaciones(aplicarFiltros());
+        guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
+        actualizarListaBotonesEliminarOperacion()
+        actualizarListaBotonesEditarOperacion() 
+    }
+
+    
+
+    else if (valorDescripcion.length === 0 && valorMonto == "") {
+        alertaCampoRequerido.forEach((alertas) => {
+            alertas.classList.remove('is-hidden')
+        })
+        montoCampoRequerido.forEach((alertas) => {
+            alertas.classList.remove('is-hidden')
+        })
+    }
+
+    else if (valorDescripcion.length > 0 && valorMonto == 0) {
+        montoCampoRequerido.forEach((alertas) => {
+            alertas.classList.remove('is-hidden')
+        })
+    }
+
+    else if (valorMonto > 0 && valorDescripcion.length == 0) {
+        alertaCampoRequerido.forEach((alertas) => {
+            alertas.classList.remove('is-hidden')
+        })
+    }
+
+
+}
+
+botonAgregarNuevaOperacion.onclick = (e) => {
+    e.preventDefault()
+    agregarOEditarOperacion()
+};
+
+
+cancelarNuevaOperacion.onclick = () => {
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
+
 
     nuevoObjeto();
     HTMLBalanceBoxOperaciones(arrayInputUsuario);
         guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
+
+          
+    resetearValoresInputs();
+    ocultarAdvertenciaCamposRequeridos()
+    montoCampoRequerido.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    })
+
 }
 
-cancelarNuevaOperacion.onclick = () => {
-    ocultarSecciones();
-    seccionBalance.classList.remove('is-hidden')
+
+const editarOperacion = () => {
+
+    let listaBotonesEditarOperaciones = actualizarListaBotonesEditarOperacion()
+    
+    listaBotonesEditarOperaciones.forEach((boton)=> {
+        boton.onclick = () => {
+            edicion = true
+            editarOperacion()
+            ocultarSecciones()
+            seccionNuevaOperacion.classList.remove('is-hidden')
+            tituloModalEditarCrearOperacion.textContent = `Editar operación`
+            botonAgregarNuevaOperacion.innerHTML = `<button type="button" class="button is-success">Editar</button>`; 
+
+            let cantidadLetrasEditar = 6
+            let idRecortado = Number(boton.id.slice(cantidadLetrasEditar));
+            valorIdABorrar.push(idRecortado)
+
+            let operacionAEditar = arrayInputUsuario.filter((operacion)=> {
+                return operacion.id == idRecortado
+            })
+
+            descripcionNuevaOperacion.value = operacionAEditar[0].descripcion
+            montoNuevaOperacion.value = operacionAEditar[0].monto;
+            tipoNuevaOperacion.value = operacionAEditar[0].tipo;
+            categoriasEnNuevaOperacion.value = operacionAEditar[0].categoria
+            fechaNuevaOperacion.value = operacionAEditar[0].fecha;
+        }
+    })
 }
 
-cancelarNuevaOperacion.addEventListener('onkeypress', cancelarNuevaOperacion.onclick);
 
 
+const eliminarOperacion = () => {
+   let listaDeBotonesActualizada = actualizarListaBotonesEliminarOperacion()
+
+    listaDeBotonesActualizada.forEach((boton) => {
+        boton.onclick = () => {
+            eliminarOperacion();
+            let cantidadLetrasEliminar = 8
+            let idRecortado = Number(boton.id.slice(cantidadLetrasEliminar))
+
+            arrayInputUsuario = arrayInputUsuario.filter((operacion) => {
+                return operacion.id != idRecortado
+            })
+            actualizarInfoUsuario()
+        }
+    })
+}
 
 
 
 // //--------------------FUNCIONALIDAD CATEGORÍAS-----------------///
 
 
-let HTMLnuevaCategoriaSeccionCategorias = () => {
-    let li = document.createElement('li');
-    li.innerHTML = `<div class="columns is-mobile is-vcentered mb-3">
-    <div class="column">
-        <p class="tag is-primary is-light">${inputNuevaCategoria.value}</p>
-    </div>
-    <div class="columns">
-        <div class="column">
-            <button class="button is-ghost is-size-7 open-editar-categoria">Editar</button>
-            <button class="button is-ghost is-size-7 delete-categoria">Eliminar</button>
-        </div>
-    </div>
-</div>`
-    return li;
-
+const guardaVariable = (valor) => {
+    guardaValorInputPrevio.push(valor)
 }
 
+const botonEliminarCategoria = () => {
 
+    let listaBotonesEliminarCategoria = actualizarListaBotonEliminarCategoria();
 
-let abrirVentanaEditarCategoria = () => {
-    sectionCategorias.classList.add('is-hidden');
-    sectionEditarCategoria.classList.remove('is-hidden');
-}
+    listaBotonesEliminarCategoria.forEach((boton) => {
+        boton.onclick = () => {
+            botonEliminarCategoria()
+            let idRecortado = Number(boton.id.slice(8))
 
-
-openSectionEditarCategoria.forEach((botonEditar) => {
-    botonEditar.onclick = abrirVentanaEditarCategoria;
-})
-
-
-
-
-inputNuevaCategoria.oninput = () => {
-    alertsRequestField.forEach((alertas) => {
-        alertas.classList.add('is-hidden')
+            arrayInputUsuario = arrayInputUsuario.filter((operacion) => {
+                return operacion.categoria !== arrayCategorias[idRecortado]
+            });
+            arrayCategorias = arrayCategorias.filter((element, index) => {
+                return index !== idRecortado
+            });
+            actualizarInfoUsuario()
+        };
     })
 }
 
 
-addNuevaCategoria.onclick = () => {
-    
-    if ( inputNuevaCategoria.value.length > 0) {
-        listaCategorias.appendChild(HTMLnuevaCategoriaSeccionCategorias());
-        categoriasEnNuevaOperacion.appendChild(nuevasCategoriasEnSelects());
-        filtroCategoria.appendChild(nuevasCategoriasEnSelects());
-        
-        let listaActualizada = document.querySelectorAll(".open-editar-categoria");
-        listaActualizada.forEach((botonEditar)=> {
-            botonEditar.onclick = abrirVentanaEditarCategoria
-        })
-      }
+const botonEditarCategoriaSeccionCategoria = () => {
+    arrayDeBotonesEditarEnDOM = actualizarBotonesEditarCategorias()
+    arrayDeBotonesEditarEnDOM.forEach((boton) => {
+        boton.onclick = () => {
+            ocultarAdvertenciaCamposRequeridos()
+            ocultarAdvertenciaRepetida()
+            botonEditarCategoriaSeccionCategoria()
+            abrirVentanaEditarCategoria()
+            let cantidadLetrasCortadasDelId = 6
+            let idRecortado = Number(boton.id.slice(cantidadLetrasCortadasDelId))
+            inputEditarCategoria.value = arrayCategorias[idRecortado]
+            guardaVariable(inputEditarCategoria.value)
+        }
+    })
+}
 
-    else {
-        alertsRequestField.forEach((alertas) => {
+
+
+cancelarEditarCategoria.onclick = () => {
+    ocultarAdvertenciaCamposRequeridos()
+    ocultarAdvertenciaRepetida()
+    ocultarSecciones()
+    seccionCategorias.classList.remove('is-hidden');
+}
+
+
+
+const HTMLcategoriasSeccionCategorias = () => {
+    let categoriasAMostrar = arrayCategorias.reduce((acc, element, index) => {
+        return acc + `<li>
+        <div class="columns is-mobile is-vcentered mb-3">
+            <div class="column">
+                <p class="tag is-primary is-light">${element}</p>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <button class="button is-ghost is-size-7 open-editar-categoria" id="editar${index}">Editar</button>
+                    <button class="button is-ghost is-size-7 eliminar-categoria" id="eliminar${index}">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </li>`
+    }, "")
+
+    listaCategorias.innerHTML = categoriasAMostrar
+    botonEliminarCategoria()
+    botonEditarCategoriaSeccionCategoria();
+}
+
+HTMLcategoriasSeccionCategorias()
+
+
+const agregarOEditarCategoria = (input) => {
+
+    let valorNuevaCategoria = input.value
+    let verificarCategoriaExistente = arrayCategorias.some((element) => {
+        return element.toLocaleLowerCase() === valorNuevaCategoria.toLowerCase()
+    })
+
+    if (valorNuevaCategoria.length > 0 && !verificarCategoriaExistente) {
+        if (input === inputNuevaCategoria) {
+            arrayCategorias.push(input.value);
+            actualizarInfoUsuario()
+            input.value = ""
+            actualizarBotonesEditarCategorias()
+        }
+
+        else {
+            for (let i = 0; i < arrayCategorias.length; i++) {
+                if (arrayCategorias[i] === guardaValorInputPrevio[0]) {
+                    arrayCategorias[i] = inputEditarCategoria.value
+                }
+            }
+
+            arrayInputUsuario.forEach((objeto) => {
+                if (objeto.categoria === guardaValorInputPrevio[0]) {
+                    objeto.categoria = inputEditarCategoria.value
+                }
+            })
+
+            actualizarInfoUsuario()
+            ocultarSecciones()
+            seccionCategorias.classList.remove('is-hidden')
+            ocultarAdvertenciaCamposRequeridos()
+            ocultarAdvertenciaRepetida()
+            guardaValorInputPrevio = []
+
+        }
+    }
+
+    if (valorNuevaCategoria.length == 0) {
+        alertaCampoRequerido.forEach((alertas) => {
+            alertas.classList.remove('is-hidden')
+        })
+
+    }
+
+    if (verificarCategoriaExistente) {
+        categoriaRepetida.forEach((alertas) => {
             alertas.classList.remove('is-hidden')
         })
     }
-  
 }
 
-//botones editar
 
-cancelEditarCategoria.onclick = () => {
-    ocultarSecciones();
-    sectionCategorias.classList.remove('is-hidden');
+
+
+// Seccion editar nueva categoria 
+
+inputEditarCategoria.oninput = () => {
+    ocultarAdvertenciaRepetida()
+    ocultarAdvertenciaCamposRequeridos()
 }
 
-cancelEditarCategoria.addEventListener('onkeypress', cancelEditarCategoria.onclick);
+
+botonEditarCategoriaSeccionEditarCategoria.onclick = (e) => {
+    e.preventDefault()
+    agregarOEditarCategoria(inputEditarCategoria)
+}
 
 
 
 
-    ///////
+//Alertas 
 
 
 
-    
+montoNuevaOperacion.oninput = () => {
+    montoCampoRequerido.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    })
+}
 
-    
+descripcionNuevaOperacion.oninput = () => {
+    ocultarAdvertenciaCamposRequeridos()
+}
 
-   
+
+
+inputNuevaCategoria.oninput = () => {
+    ocultarAdvertenciaCamposRequeridos()
+    ocultarAdvertenciaRepetida()
+
+}
+
+
+agregarNuevaCategoria.onclick = (e) => {
+    e.preventDefault()
+    agregarOEditarCategoria(inputNuevaCategoria)
+}
+
+
+
+
+
+HTMLBalanceBoxOperaciones(arrayFechaDeHoy())
+aplicarFiltros()
+
+
+
+montoNuevaOperacion.oninput = () => {
+    if (montoNuevaOperacion.value.length > 10) {
+    let numeroAstring = String(montoNuevaOperacion.value)
+    let cortarString = numeroAstring.slice(0,10)
+    let volverANumero = Number(cortarString)
+    montoNuevaOperacion.value = volverANumero
+    }
+}
+
