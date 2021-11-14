@@ -384,12 +384,26 @@ cancelEditarCategoria.addEventListener('onkeypress', cancelEditarCategoria.oncli
 
     ///////
 
+
+
+    const probandoFiltrarCategorias = arrayInputUsuario.map((objeto) => {
+        return objeto.categoria
+    })
+    console.log(probandoFiltrarCategorias);
+
+    let categoriasFiltradas = probandoFiltrarCategorias.filter((elemento,index)=>{
+        return probandoFiltrarCategorias.indexOf(elemento) === index;
+      })
+      console.log(categoriasFiltradas)
+
     let categorias = ["salida", "comida", "gato"]
     console.log(arrayInputUsuario);
-    let categoriaConMayorGanancia = categorias.reduce((acc, elemento) => {
+
+
+    let categoriaConMayorGanancia = categoriasFiltradas.reduce((acc, elemento) => {
         let buscarCategoriaConMayorGanancia = arrayInputUsuario.reduce((accb, elementob) => {
             if (elementob.tipo === "Ganancia" && elementob.categoria === elemento) {
-                accb.monto = accb.monto + elementob.monto
+                accb.monto = Number(accb.monto) + Number(elementob.monto)
                 accb.categoria = elemento
             
             }
