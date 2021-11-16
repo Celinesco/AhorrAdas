@@ -2,7 +2,7 @@
 
 ![Gifpresentacion](https://media.giphy.com/media/ZCN6F3FAkwsyOGU2RS/giphy.gif)
 
-<a name="spanish_version"></a>
+
 ### Español
 
 ![hecho con HTML5](https://img.shields.io/badge/hecho%20con-HTML5-orange)
@@ -18,8 +18,6 @@ Colaboradoras:
     [@ceciliarr](https://github.com/ceciliarr), [@Celinesco](https://github.com/Celinesco)
 
 
-
-<a name="english_version"></a>
 ### English
 
 ![Build with HTML5](https://img.shields.io/badge/build%20with-HTML5-orange)
