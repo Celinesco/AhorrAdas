@@ -1032,3 +1032,35 @@ let gastoPorCategoria = categoriasFiltradas.map((categoria) => {
 
 
 console.log(gastoPorCategoria);
+
+//balance
+
+let balancePorCategoria = categoriasFiltradas.map((categoria) => {
+    
+    let buscar =  arrayInputUsuario.reduce((acc, elemento) => {
+        if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
+         acc.monto = elemento.monto + acc.monto
+         acc.categoria = elemento.categoria
+         
+        }
+        if (elemento.tipo === "gasto" &&  elemento.categoria === categoria) {
+            acc.monto = elemento.monto - acc.monto
+            acc.categoria = elemento.categoria
+            
+           }
+
+     return acc
+     
+     }, {categoria:"", monto: 0})
+   
+
+ if (buscar.monto != 0) {
+     return buscar
+ }
+ if (buscar.monto === 0) {
+     return  {categoria: categoria, monto: 0}
+ } 
+
+})
+
+console.log(balancePorCategoria)
