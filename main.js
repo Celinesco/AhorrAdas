@@ -883,15 +883,15 @@ montoNuevaOperacion.oninput = () => {
 const probandoFiltrarCategorias = arrayInputUsuario.map((objeto) => {
     return objeto.categoria
 })
-console.log(probandoFiltrarCategorias);
+console.log("categorias",probandoFiltrarCategorias);
 
 let categoriasFiltradas = probandoFiltrarCategorias.filter((elemento,index)=>{
     return probandoFiltrarCategorias.indexOf(elemento) === index;
   })
-  console.log(categoriasFiltradas)
+  console.log("categorias filtradas",categoriasFiltradas)
 
-let categorias = ["salida", "comida", "gato"]
-console.log(arrayInputUsuario);
+
+console.log("array usuario",arrayInputUsuario);
 
 
 
@@ -899,14 +899,14 @@ console.log(arrayInputUsuario);
 
 let categoriaConMayorGanancia = categoriasFiltradas.reduce((acc, elemento) => {
     let buscarCategoriaConMayorGanancia = arrayInputUsuario.reduce((accb, elementob) => {
-        if (elementob.tipo === "Ganancia" && elementob.categoria === elemento) {
-            accb.monto = Number(accb.monto) + Number(elementob.monto)
+        if (elementob.tipo === "ganancia" && elementob.categoria === elemento) {
+            accb.monto = accb.monto + elementob.monto
             accb.categoria = elemento
         
         }
         return accb
 
-    }, {tipo:"Ganancia", monto: 0, categoria: ""})
+    }, {tipo:"ganancia", monto: 0, categoria: ""})
     //console.log(objetosReduce);
     
     if (buscarCategoriaConMayorGanancia.monto > acc.monto) {
@@ -914,7 +914,7 @@ let categoriaConMayorGanancia = categoriasFiltradas.reduce((acc, elemento) => {
         //console.log(acc);
     }
     return acc
-}, {tipo:"Ganancia", monto: 0, categoria: ""})
+}, {tipo:"ganancia", monto: 0, categoria: ""})
 
 console.log(categoriaConMayorGanancia);
 
@@ -923,14 +923,14 @@ console.log(categoriaConMayorGanancia);
 
 let categoriaConMayorGasto = categoriasFiltradas.reduce((acc, elemento) => {
     let buscarCategoriaConMayorGasto = arrayInputUsuario.reduce((accb, elementob) => {
-        if (elementob.tipo === "Gasto" && elementob.categoria === elemento) {
-            accb.monto = Number(accb.monto) + Number(elementob.monto)
+        if (elementob.tipo === "gasto" && elementob.categoria === elemento) {
+            accb.monto = accb.monto + elementob.monto
             accb.categoria = elemento
         
         }
         return accb
 
-    }, {tipo:"Gasto", monto: 0, categoria: ""})
+    }, {tipo:"gasto", monto: 0, categoria: ""})
     
     
     if (buscarCategoriaConMayorGasto.monto > acc.monto) {
@@ -938,7 +938,7 @@ let categoriaConMayorGasto = categoriasFiltradas.reduce((acc, elemento) => {
        
     }
     return acc
-}, {tipo:"Gasto", monto: 0, categoria: ""})
+}, {tipo:"gasto", monto: 0, categoria: ""})
 
 console.log(categoriaConMayorGasto);
 
@@ -947,8 +947,13 @@ console.log(categoriaConMayorGasto);
 
 let categoriaConMayorBalance = categoriasFiltradas.reduce((acc, elemento) => {
     let buscarCategoriaConMayorBalance = arrayInputUsuario.reduce((accb, elementob) => {
-        if (elementob.categoria === elemento) {
-            accb.monto = Number(accb.monto) + Number(elementob.monto)
+        if (elementob.tipo === "ganancia" && elementob.categoria === elemento) {
+            accb.monto = accb.monto + elementob.monto
+            accb.categoria = elemento
+        
+        }
+        if (elementob.tipo === "gasto" && elementob.categoria === elemento) {
+            accb.monto = accb.monto - elementob.monto
             accb.categoria = elemento
         
         }
@@ -964,4 +969,66 @@ let categoriaConMayorBalance = categoriasFiltradas.reduce((acc, elemento) => {
     return acc
 }, {monto: 0, categoria: ""})
 
-console.log(categoriaConMayorBalance);
+console.log("mayor balance",categoriaConMayorBalance);
+
+
+//Reporte Categoria con Mayor Balance PENDIENTE!
+
+
+
+// Totales por Categoria
+
+
+let gananciaPorCategoria = categoriasFiltradas.map((categoria) => {
+    
+       let buscar =  arrayInputUsuario.reduce((acc, elemento) => {
+            if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
+            acc.monto = elemento.monto + acc.monto
+            acc.categoria = elemento.categoria
+            acc.tipo = elemento.tipo
+        }
+        return acc
+        
+        }, {categoria:"", tipo:"", monto: 0})
+      
+   
+    if (buscar.monto != 0) {
+        return buscar
+    }
+    if (buscar.monto === 0) {
+        return  {categoria: categoria, tipo: "ganancia", monto: 0}
+    }
+
+})
+
+
+console.log(gananciaPorCategoria);
+
+
+/* let gananciaPorCategoria = categoriasFiltradas.reduce((acc, elemento) => {
+    
+    let buscarGananaciaPorCategoria = arrayInputUsuario.filter((objeto) => {
+        if (objeto.tipo === "ganancia" && objeto.categoria === elemento) {
+            accb.monto = accb.monto + objeto.monto
+            accb.categoria = elemento
+        
+        }
+        if (elementob.tipo === "gasto" && elementob.categoria === elemento) {
+            accb.monto = accb.monto - elementob.monto
+            accb.categoria = elemento
+        
+        }
+        return accb
+
+    }
+    
+    
+    if (buscarCategoriaConMayorBalance.monto > acc.monto) {
+        acc = buscarCategoriaConMayorBalance
+       
+    }
+    return acc
+}, {monto: 0, categoria: ""})
+
+console.log("mayor balance",categoriaConMayorBalance);
+ */
