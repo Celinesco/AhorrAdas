@@ -1,9 +1,8 @@
 # AhorrADAs
 
-![Gifpresentacion](https://media.giphy.com/media/ZCN6F3FAkwsyOGU2RS/source.gif)
+![Gifpresentacion](https://media.giphy.com/media/ZCN6F3FAkwsyOGU2RS/giphy.gif)
 
 <a name="spanish_version"></a>
-# Proyecto: Editor de Memes
 ### Español
 [Go to English Version](#english_version)
 
