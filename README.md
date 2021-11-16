@@ -1,6 +1,5 @@
 # AhorrAdas
 
-![Gif divisor](https://media.giphy.com/media/326dHPlFKGeTdPt1DA/giphy.gif)
 
 <a name="spanish_version"></a>
 # Proyecto: Editor de Memes
@@ -18,5 +17,3 @@ La aplicación permite llevar un registro de los gastos realizados y de los ingr
 
 Colaboradoras:
     [@ceciliarr](https://github.com/ceciliarr), [@Celinesco](https://github.com/Celinesco)
-
-![Gif divisor](https://media.giphy.com/media/7FfMfPHQr9romeeKtk/giphy.gif)
