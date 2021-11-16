@@ -978,6 +978,7 @@ console.log("mayor balance",categoriaConMayorBalance);
 
 // Totales por Categoria
 
+//ganancia
 
 let gananciaPorCategoria = categoriasFiltradas.map((categoria) => {
     
@@ -1005,30 +1006,29 @@ let gananciaPorCategoria = categoriasFiltradas.map((categoria) => {
 console.log(gananciaPorCategoria);
 
 
-/* let gananciaPorCategoria = categoriasFiltradas.reduce((acc, elemento) => {
-    
-    let buscarGananaciaPorCategoria = arrayInputUsuario.filter((objeto) => {
-        if (objeto.tipo === "ganancia" && objeto.categoria === elemento) {
-            accb.monto = accb.monto + objeto.monto
-            accb.categoria = elemento
-        
-        }
-        if (elementob.tipo === "gasto" && elementob.categoria === elemento) {
-            accb.monto = accb.monto - elementob.monto
-            accb.categoria = elemento
-        
-        }
-        return accb
+//gasto
 
-    }
+let gastoPorCategoria = categoriasFiltradas.map((categoria) => {
     
-    
-    if (buscarCategoriaConMayorBalance.monto > acc.monto) {
-        acc = buscarCategoriaConMayorBalance
-       
-    }
-    return acc
-}, {monto: 0, categoria: ""})
+    let buscar =  arrayInputUsuario.reduce((acc, elemento) => {
+         if (elemento.tipo === "gasto" &&  elemento.categoria === categoria) {
+         acc.monto = elemento.monto + acc.monto
+         acc.categoria = elemento.categoria
+         acc.tipo = elemento.tipo
+     }
+     return acc
+     
+     }, {categoria:"", tipo:"", monto: 0})
+   
 
-console.log("mayor balance",categoriaConMayorBalance);
- */
+ if (buscar.monto != 0) {
+     return buscar
+ }
+ if (buscar.monto === 0) {
+     return  {categoria: categoria, tipo: "gasto", monto: 0}
+ }
+
+})
+
+
+console.log(gastoPorCategoria);
