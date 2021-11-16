@@ -4,7 +4,6 @@
 
 <a name="spanish_version"></a>
 ### Español
-[Go to English Version](#english_version)
 
 ![hecho con HTML5](https://img.shields.io/badge/hecho%20con-HTML5-orange)
 ![hecho con BULMA](https://img.shields.io/badge/hecho%20con-BULMA-aquamarine)
@@ -22,7 +21,6 @@ Colaboradoras:
 
 <a name="english_version"></a>
 ### English
-[Ir a la versión en Español](#spanish_version)
 
 ![Build with HTML5](https://img.shields.io/badge/build%20with-HTML5-orange)
 ![Build with BULMA](https://img.shields.io/badge/build%20with-BULMA-aquamarine)
@@ -32,4 +30,7 @@ This is our second group assignment from the Frontend Bootcamp by ADA Itw. Using
 
 
 This app allows you to keep a track of your in- and outcomes 
-[Try it!]() 
+[Try it here!]() 
+
+Collaborators:
+     [@ceciliarr](https://github.com/ceciliarr), [@Celinesco](https://github.com/Celinesco)
