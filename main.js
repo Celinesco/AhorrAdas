@@ -1064,3 +1064,98 @@ let balancePorCategoria = categoriasFiltradas.map((categoria) => {
 })
 
 console.log(balancePorCategoria)
+
+//FECHAS
+
+// obtener array de anio/mes
+
+let fechaDeOperacion = arrayInputUsuario.map((elemento) => {
+    let mesDeOperacion = new Date (Date.parse(elemento.fecha)).getMonth()+1 // tengo el mes
+    let anioDeOperacion = new Date (Date.parse(elemento.fecha)).getFullYear()
+    return `${anioDeOperacion}-${mesDeOperacion}`
+})
+
+let fechasFiltradas = fechaDeOperacion.filter((elemento,index) => {
+    return fechaDeOperacion.indexOf(elemento) === index
+})
+console.log(fechasFiltradas);
+
+// cambiar fecha completa por anio/mes
+
+let arrayFechasFiltradas = arrayInputUsuario.filter((elemento) => {
+    elemento.fecha = elemento.fecha.slice(0,7); 
+    return elemento;
+})
+console.log(arrayFechasFiltradas);
+
+// ganancia por mes
+
+let gananciaPorMes = fechasFiltradas.map((elemento) => {
+    let buscarMesMayorGanancia = arrayFechasFiltradas.reduce((accb,elementob) => {
+        if (elementob.tipo === "ganancia" && elementob.fecha === elemento) {
+            accb.monto = accb.monto + elementob.monto 
+            accb.fecha = elemento
+            accb.tipo = "ganancia"
+        }
+        
+        return accb
+
+
+    }, {monto:0, tipo:"",fecha:""})
+         
+    return buscarMesMayorGanancia
+    
+})
+let filtroGananciaPorMes = gananciaPorMes.filter((elemento) => {
+    return elemento.tipo === "ganancia"
+})
+
+console.log(filtroGananciaPorMes);
+
+
+
+//gasto por mes
+
+let gastoPorMes = fechasFiltradas.map((elemento) => {
+    let buscarMesMayorGasto = arrayFechasFiltradas.reduce((accb,elementob) => {
+        if (elementob.tipo === "gasto" && elementob.fecha === elemento) {
+            accb.monto = accb.monto + elementob.monto 
+            accb.fecha = elemento
+            accb.tipo = "gasto"
+        }
+        
+
+        return accb
+
+
+    }, {monto:0, tipo:"",fecha:""})
+         
+    return buscarMesMayorGasto
+    
+})
+let filtroGastoPorMes = gastoPorMes.filter((elemento) => {
+    return elemento.tipo === "gasto"
+})
+
+console.log(filtroGastoPorMes);
+
+
+/* let mesConMayorGanancia = fechasFiltradas.reduce((acc,elemento) => {
+    let buscarMesMayorGanancia = arrayFechasFiltradas.reduce((accb,elementob) => {
+        if (elementob.tipo === "ganancia" && elementob.fecha === elemento) {
+            accb.monto = accb.monto + elementob.monto 
+            accb.fecha = elemento
+        }
+        return accb
+
+    }, {monto:0, tipo:"ganancia",fecha:""})
+    if (buscarMesMayorGanancia.monto > acc.monto) {
+        acc = buscarMesMayorGanancia
+        //console.log(acc);
+    }
+    return acc
+
+}, {monto:0, tipo:"ganancia",fecha:""})
+
+console.log(mesConMayorGanancia);
+ */
