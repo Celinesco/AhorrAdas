@@ -12,7 +12,7 @@
 Este es nuestro segundo proyecto grupal de Frontend del Bootcamp de ADA Itw. Se nos dio [esta Aplicación](https://frontend-proyecto-ahorradas.adaitw.org/) como modelo, y se nos indicó crear la misma, aplicando nuestros nuevos conocimientos de JavaScript, JSON para hacer uso del LocalStorage, más la implementación de un framework de CSS, [Bulma](https://bulma.io/).
 
 La aplicación permite llevar un registro de los gastos realizados y de los ingresos obtenidos.
-[Pruébalo aquí!]() 
+[Pruébala aquí!](https://celinesco.github.io/AhorrAdas/) 
 
 Colaboradoras:
     [@ceciliarr](https://github.com/ceciliarr), [@Celinesco](https://github.com/Celinesco)
@@ -28,7 +28,7 @@ This is our second group assignment from the Frontend Bootcamp by ADA Itw. Using
 
 
 This app allows you to keep a track of your in- and outcomes 
-[Try it here!]() 
+[Try it here!](https://celinesco.github.io/AhorrAdas/) 
 
 Collaborators:
      [@ceciliarr](https://github.com/ceciliarr), [@Celinesco](https://github.com/Celinesco)
