@@ -9,7 +9,7 @@
 ![hecho con BULMA](https://img.shields.io/badge/hecho%20con-BULMA-aquamarine)
 ![hecho con JavaScript](https://img.shields.io/badge/hecho%20con-JavaScript-yellow)
 
-Este es nuestro segundo proyecto grupal de Frontend del Bootcamp de ADA Itw. Se nos dio [esta Aplicación](https://frontend-proyecto-ahorradas.adaitw.org/) como modelo, y se nos indicó crear la misma, aplicando nuestros nuevos conocimientos básicos de JavaScript, JSON para hacer uso del LocalStorage, más la implementación de un framework de CSS, [Bulma](https://bulma.io/).
+Este es nuestro segundo proyecto grupal de Frontend del Bootcamp de ADA Itw. Se nos dio [esta Aplicación](https://frontend-proyecto-ahorradas.adaitw.org/) como modelo, y se nos indicó crear la misma, aplicando nuestros nuevos conocimientos de JavaScript, JSON para hacer uso del LocalStorage, más la implementación de un framework de CSS, [Bulma](https://bulma.io/).
 
 La aplicación permite llevar un registro de los gastos realizados y de los ingresos obtenidos.
 [Pruébalo aquí!]() 
