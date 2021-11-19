@@ -971,11 +971,6 @@ let categoriaConMayorBalance = categoriasFiltradas.reduce((acc, elemento) => {
 
 console.log("categoria > Balance",categoriaConMayorBalance);
 
-// MES CON MAYOR GANANCIA (CON DIA INCLUIDO)
-
-//MES CON MAYOR GASTO (CON DIA INCLUIDO)
-
-
 
 // Totales por Categoria
 
