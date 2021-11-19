@@ -883,15 +883,15 @@ montoNuevaOperacion.oninput = () => {
 const probandoFiltrarCategorias = arrayInputUsuario.map((objeto) => {
     return objeto.categoria
 })
-console.log("categorias",probandoFiltrarCategorias);
+//console.log("categorias",probandoFiltrarCategorias);
 
 let categoriasFiltradas = probandoFiltrarCategorias.filter((elemento,index)=>{
     return probandoFiltrarCategorias.indexOf(elemento) === index;
   })
-  console.log("categorias filtradas",categoriasFiltradas)
+  //console.log("categorias filtradas",categoriasFiltradas)
 
 
-console.log("array usuario",arrayInputUsuario);
+//console.log("array usuario",arrayInputUsuario);
 
 
 
@@ -916,7 +916,7 @@ let categoriaConMayorGanancia = categoriasFiltradas.reduce((acc, elemento) => {
     return acc
 }, {tipo:"ganancia", monto: 0, categoria: ""})
 
-console.log(categoriaConMayorGanancia);
+console.log("categoria > Ganancia",categoriaConMayorGanancia);
 
 
 // Reporte Categoria con Mayor Gasto
@@ -940,7 +940,7 @@ let categoriaConMayorGasto = categoriasFiltradas.reduce((acc, elemento) => {
     return acc
 }, {tipo:"gasto", monto: 0, categoria: ""})
 
-console.log(categoriaConMayorGasto);
+console.log("categoria > Gasto",categoriaConMayorGasto);
 
 
 //Reporte Categoria con Mayor Balance
@@ -969,10 +969,11 @@ let categoriaConMayorBalance = categoriasFiltradas.reduce((acc, elemento) => {
     return acc
 }, {monto: 0, categoria: ""})
 
-console.log("mayor balance",categoriaConMayorBalance);
+console.log("categoria > Balance",categoriaConMayorBalance);
 
+// MES CON MAYOR GANANCIA (CON DIA INCLUIDO)
 
-//Reporte Categoria con Mayor Balance PENDIENTE!
+//MES CON MAYOR GASTO (CON DIA INCLUIDO)
 
 
 
@@ -1003,7 +1004,7 @@ let gananciaPorCategoria = categoriasFiltradas.map((categoria) => {
 })
 
 
-console.log(gananciaPorCategoria);
+console.log("ganancia por categoria",gananciaPorCategoria);
 
 
 //gasto
@@ -1031,7 +1032,7 @@ let gastoPorCategoria = categoriasFiltradas.map((categoria) => {
 })
 
 
-console.log(gastoPorCategoria);
+console.log("gasto por categoria",gastoPorCategoria);
 
 //balance
 
@@ -1063,22 +1064,27 @@ let balancePorCategoria = categoriasFiltradas.map((categoria) => {
 
 })
 
-console.log(balancePorCategoria)
+console.log("balance por categoria",balancePorCategoria)
+
+
 
 //FECHAS
 
 // obtener array de anio/mes
+
 
 let fechaDeOperacion = arrayInputUsuario.map((elemento) => {
     let mesDeOperacion = new Date (Date.parse(elemento.fecha)).getMonth()+1 // tengo el mes
     let anioDeOperacion = new Date (Date.parse(elemento.fecha)).getFullYear()
     return `${anioDeOperacion}-${mesDeOperacion}`
 })
-
-let fechasFiltradas = fechaDeOperacion.filter((elemento,index) => {
+let fechasFiltradas = fechaDeOperacion.filter((elemento,index) => { 
     return fechaDeOperacion.indexOf(elemento) === index
 })
-console.log(fechasFiltradas);
+//console.log(fechasFiltradas);
+
+
+
 
 // cambiar fecha completa por anio/mes
 
@@ -1086,9 +1092,9 @@ let arrayFechasFiltradas = arrayInputUsuario.filter((elemento) => {
     elemento.fecha = elemento.fecha.slice(0,7); 
     return elemento;
 })
-console.log(arrayFechasFiltradas);
+//console.log(arrayFechasFiltradas);
 
-// ganancia por mes
+// TOTALES POR MES: GANANCIA
 
 let gananciaPorMes = fechasFiltradas.map((elemento) => {
     let buscarMesMayorGanancia = arrayFechasFiltradas.reduce((accb,elementob) => {
@@ -1097,9 +1103,7 @@ let gananciaPorMes = fechasFiltradas.map((elemento) => {
             accb.fecha = elemento
             accb.tipo = "ganancia"
         }
-        
         return accb
-
 
     }, {monto:0, tipo:"",fecha:""})
          
@@ -1110,11 +1114,11 @@ let filtroGananciaPorMes = gananciaPorMes.filter((elemento) => {
     return elemento.tipo === "ganancia"
 })
 
-console.log(filtroGananciaPorMes);
+console.log("Ganancia por mes",filtroGananciaPorMes);
 
 
 
-//gasto por mes
+//TOTALES POR MES: GASTO
 
 let gastoPorMes = fechasFiltradas.map((elemento) => {
     let buscarMesMayorGasto = arrayFechasFiltradas.reduce((accb,elementob) => {
@@ -1123,21 +1127,46 @@ let gastoPorMes = fechasFiltradas.map((elemento) => {
             accb.fecha = elemento
             accb.tipo = "gasto"
         }
-        
-
         return accb
 
-
     }, {monto:0, tipo:"",fecha:""})
-         
-    return buscarMesMayorGasto
-    
+      
+    return buscarMesMayorGasto    
 })
 let filtroGastoPorMes = gastoPorMes.filter((elemento) => {
     return elemento.tipo === "gasto"
 })
 
-console.log(filtroGastoPorMes);
+console.log("Gasto por mes",filtroGastoPorMes);
+
+
+//TOTALES POR MES: BALANCE
+
+let balancePorMes = fechasFiltradas.map((elemento) => {
+    let buscarBalancePorMes = arrayFechasFiltradas.reduce((accb,elementob) => {
+        if (elementob.tipo === "ganancia" && elementob.fecha === elemento) {
+            accb.monto = accb.monto + elementob.monto 
+            accb.fecha = elemento
+        }
+        if (elementob.tipo === "gasto" && elementob.fecha === elemento) {
+            accb.monto = accb.monto - elementob.monto 
+            accb.fecha = elemento
+        }
+        return accb
+
+    }, {monto:0, fecha:""})
+      
+    return buscarBalancePorMes    
+})
+let filtroBalancePorMes = balancePorMes.filter((elemento) => {
+    return elemento.fecha != ""
+})
+
+console.log("Balance por mes",filtroBalancePorMes);
+
+
+
+
 
 
 /* let mesConMayorGanancia = fechasFiltradas.reduce((acc,elemento) => {
@@ -1159,3 +1188,16 @@ console.log(filtroGastoPorMes);
 
 console.log(mesConMayorGanancia);
  */
+
+/* let fechaCompletaDeOperacion = arrayInputUsuario.map((elemento) => {
+    let diaDeOperacion = new Date (Date.parse(elemento.fecha)).getDate() // tengo el mes
+    console.log(diaDeOperacion);
+    return `${anioDeOperacion}-${mesDeOperacion}-${diaDeOperacion}`
+    
+})
+console.log("fecha completa", fechaCompletaDeOperacion);
+
+let fechasFiltradas2 = fechaCompletaDeOperacion.filter((elemento,index) => {
+    return fechaCompletaDeOperacion.indexOf(elemento) === index
+})
+console.log(fechasFiltradas2); */
