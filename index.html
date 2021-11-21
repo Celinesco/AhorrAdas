@@ -165,11 +165,13 @@
                                 <label class="label" for="descripcion-operacion">Descripción</label>
                                 <div class="control">
                                     <div class="control has-icons-right">
-                                        <input class="input" type="text" id="descripcion-operacion" maxlength="50" required>
+                                        <input class="input" type="text" id="descripcion-operacion" maxlength="50"
+                                            required>
                                         <span class="icon is-small is-right is-hidden requested-field">
                                             <i class="fas fa-exclamation-triangle"></i>
                                         </span>
-                                        <p class="help is-danger is-hidden requested-field my-0">Ingresa una descripción</p>
+                                        <p class="help is-danger is-hidden requested-field my-0">Ingresa una descripción
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -177,14 +179,16 @@
                                 <label class="label" for="monto-nueva-operacion">Monto</label>
                                 <div class="control">
                                     <div class="control has-icons-right">
-                                        <input class="input" type="number" id="monto-nueva-operacion" min="0.01" max="9999999999" required>  
-                                        <span class="icon is-small is-right is-hidden campo-requerido-monto" >
+                                        <input class="input" type="number" id="monto-nueva-operacion" min="0.01"
+                                            max="9999999999" required>
+                                        <span class="icon is-small is-right is-hidden campo-requerido-monto">
                                             <i class="fas fa-exclamation-triangle"></i>
                                         </span>
-                                        <p class="help is-danger is-hidden campo-requerido-monto my-0">Ingresa un monto</p>
+                                        <p class="help is-danger is-hidden campo-requerido-monto my-0">Ingresa un monto
+                                        </p>
                                     </div>
                                 </div>
-                             
+
                             </div>
                             <div class="field">
                                 <label class="label" for="tipo-nueva-operacion">Tipo</label>
@@ -216,7 +220,8 @@
                             <div class="is-flex is-justify-content-flex-end">
                                 <div class="field is-grouped buttons mt-6">
                                     <div class="control">
-                                        <button type="button" class="button is-light" id="cancelar-nueva-operacion">Cancelar</button>
+                                        <button type="button" class="button is-light"
+                                            id="cancelar-nueva-operacion">Cancelar</button>
                                     </div>
                                     <div class="control" id="agregar-nueva-operacion">
                                         <button class="button is-success">Agregar</button>
@@ -241,28 +246,30 @@
                     <article class="box">
                         <h2 class="title is-size-2">Categorías</h2>
                         <form>
-                        <label class="label mt-6" for="nueva-categoria">Nombre</label>
+                            <label class="label mt-6" for="nueva-categoria">Nombre</label>
                             <div class="field is-grouped">
-                                <div class="control is-expanded has-icons-right">       
+                                <div class="control is-expanded has-icons-right">
                                     <input class="input" id="input-nueva-categoria" type="text" maxlength="50" required>
                                     <span class="icon is-small is-hidden is-right requested-field categoria-repetida">
                                         <i class="fas fa-exclamation-triangle"></i>
                                     </span>
-                                </div>     
+                                </div>
                                 <div class="control">
                                     <button class="button is-success" id="agregar-categoria">Agregar</button>
-                                </div>  
+                                </div>
                             </div>
                             <div class="columns is-mobile">
                                 <div class="column pt-0">
-                                    <p class="help is-danger is-hidden requested-field my-0">Elige un nombre para tu categoría</p>
-                                    <p class="help is-danger is-hidden my-0 categoria-repetida">La categoría ya existe</p>
+                                    <p class="help is-danger is-hidden requested-field my-0">Elige un nombre para tu
+                                        categoría</p>
+                                    <p class="help is-danger is-hidden my-0 categoria-repetida">La categoría ya existe
+                                    </p>
                                 </div>
                             </div>
                         </form>
 
                         <ul class="mt-5" id="lista-categorias">
-                            
+
                         </ul>
                     </article>
                 </div>
@@ -278,36 +285,39 @@
                 <div class="column is-8-widescreen is-9-desktop is-12-tablet">
                     <article class="box pb-5">
                         <h2 class="title is-size-2 mb-6">Editar categoría</h2>
-                    <form>
-                        <label class="label" for="editar-nueva-categoria">Nombre</label>
-                        <div class="columns is-mobile">
-                            <div class="column is-fullwidth mb-5">
-                                <div class="field">
-                                    <div class="control has-icons-right">
-                                        <input class="input" id="editar-nueva-categoria" type="text" required>
-                                        <span class="icon is-small is-right is-hidden requested-field">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </span>
-                                        <span class="icon is-small is-right is-hidden categoria-repetida">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </span>
-                                        <p class="help is-danger is-hidden requested-field my-0">Ingresa una descripción</p>
-                                        <p class="help is-danger is-hidden categoria-repetida my-0">La categoría ya existe</p>
+                        <form>
+                            <label class="label" for="editar-nueva-categoria">Nombre</label>
+                            <div class="columns is-mobile">
+                                <div class="column is-fullwidth mb-5">
+                                    <div class="field">
+                                        <div class="control has-icons-right">
+                                            <input class="input" id="editar-nueva-categoria" type="text" required>
+                                            <span class="icon is-small is-right is-hidden requested-field">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </span>
+                                            <span class="icon is-small is-right is-hidden categoria-repetida">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </span>
+                                            <p class="help is-danger is-hidden requested-field my-0">Ingresa una
+                                                descripción</p>
+                                            <p class="help is-danger is-hidden categoria-repetida my-0">La categoría ya
+                                                existe</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="is-flex is-justify-content-flex-end">
-                            <div class="field is-grouped buttons mt-3">
-                                <div class="control">
-                                    <button type="button" class="button is-light" id="cancelar-editar-categoria">Cancelar</button>
-                                </div>
-                                <div class="control">
-                                    <button class="button is-success" id="boton-editar-categoria">Editar</button>
+                            <div class="is-flex is-justify-content-flex-end">
+                                <div class="field is-grouped buttons mt-3">
+                                    <div class="control">
+                                        <button type="button" class="button is-light"
+                                            id="cancelar-editar-categoria">Cancelar</button>
+                                    </div>
+                                    <div class="control">
+                                        <button class="button is-success" id="boton-editar-categoria">Editar</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
                     </article>
                 </div>
             </div>
@@ -321,8 +331,8 @@
             <div class="columns is-centered is-mobile">
                 <div class="column is-8-widescreen is-9-desktop is-12-tablet">
                     <article class="box">
-                        <h2 class="title is-size-2">Reportes</h2>
-                        <div class="columns is-centered my-6 py-6">
+                        <h2 class="title is-size-2 has-text-weight-bold">Reportes</h2>
+                        <!-- <div id= "sin-reportes" class="columns is-centered my-6 py-6">
                             <div class="column is-6">
                                 <div class="image">
                                     <img src="images/undraw_Pie_chart_re_bgs8.svg" style="width: 80%;">
@@ -330,9 +340,101 @@
                                 <p class="title has-text-centered mt-6 is-4">Operaciones insuficientes</p>
                                 <p class="has-text-centered is-size-6">Prueba agregando más operaciones</p>
                             </div>
+                        </div> -->
+
+                        <div id="con-reportes">
+                            <section class="section p-5">
+                                <h1 class="title is-4 mt-5">Resumen</h1>
+                                <div class="columns is-mobile mt-2">
+                                    <div class="column is-6 has-text-weight-semibold">Categoría con mayor ganancia
+                                    </div>
+                                    <div class="column is-3 has-text-right">
+                                        <span class="tag is-primary is-light">Comida</span>
+                                    </div>
+                                    <div class="column is-3 has-text-right has-text-success has-text-weight-semibold">
+                                        +$10000
+                                    </div>
+                                </div>
+                                <div class="columns is-mobile">
+                                    <div class="column is-6 has-text-weight-semibold">Categoría con mayor gasto
+                                    </div>
+                                    <div class="column is-3 has-text-right">
+                                        <span class="tag is-primary is-light">Comida</span>
+                                    </div>
+                                    <div class="column is-3 has-text-right has-text-danger has-text-weight-semibold">
+                                        -$5000
+                                    </div>
+                                </div>
+                                <div class="columns is-mobile">
+                                    <div class="column is-6 has-text-weight-semibold">Categoría con mayor balance
+                                    </div>
+                                    <div class="column is-3 has-text-right">
+                                        <span class="tag is-primary is-light">Comida</span>
+                                    </div>
+                                    <div class="column is-3 has-text-right has-text-dark has-text-weight-semibold">$5000
+                                    </div>
+                                </div>
+                                <div class="columns is-mobile">
+                                    <div class="column is-6 has-text-weight-semibold">Mes con mayor ganancia
+                                    </div>
+                                    <div class="column is-3 has-text-right">2021/10/21
+                                    </div>
+                                    <div class="column is-3 has-text-right has-text-success has-text-weight-semibold">
+                                        $10000
+                                    </div>
+                                </div>
+                                <div class="columns is-mobile">
+                                    <div class="column is-6 has-text-weight-semibold">Mes con mayor gasto
+                                    </div>
+                                    <div class="column is-3 has-text-right">2021/10/20
+                                    </div>
+                                    <div class="column is-3 has-text-right has-text-danger has-text-weight-semibold">
+                                        -$5000
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="section p-5 mt-6">
+                                <h1 class="title is-4 mt-5">Totales por categorías</h1>
+                                <div class="columns is-mobile mt-2">
+                                    <div class="column has-text-weight-semibold">Categoria
+                                    </div>
+                                    <div class="column has-text-weight-semibold has-text-right">Ganancias</div>
+                                    <div class="column has-text-weight-semibold has-text-right">Gastos</div>
+                                    <div class="column has-text-weight-semibold has-text-right">Balance</div>
+                                </div>
+                                <div class="columns is-mobile">
+                                    <div class="column has-text-weight-semibold">Comida
+                                    </div>
+                                    <div class="column has-text-right has-text-success">+$10000
+                                    </div>
+                                    <div class="column has-text-right has-text-danger">-$5000
+                                    </div>
+                                    <div class="column has-text-right has-text-dark">$5000
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="section p-5 mt-6">
+                                <h1 class="title is-4 mt-5">Totales por mes</h1>
+                                <div class="columns is-mobile mt-2">
+                                    <div class="column has-text-weight-semibold">Categoria
+                                    </div>
+                                    <div class="column has-text-weight-semibold has-text-right">Ganancias</div>
+                                    <div class="column has-text-weight-semibold has-text-right">Gastos</div>
+                                    <div class="column has-text-weight-semibold has-text-right">Balance</div>
+                                </div>
+                                <div class="columns is-mobile">
+                                    <div class="column has-text-weight-semibold">10/2021
+
+                                    </div>
+                                    <div class="column has-text-right has-text-success">+$10000
+                                    </div>
+                                    <div class="column has-text-right has-text-danger">-$5000
+                                    </div>
+                                    <div class="column has-text-right has-text-dark">$5000
+                                    </div>
+                                </div>
+                            </section>
                         </div>
-
-
                     </article>
                 </div>
             </div>

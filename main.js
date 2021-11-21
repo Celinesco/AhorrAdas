@@ -284,7 +284,7 @@ const categoriasEnSelects = (filtroEnSeccion) => {
 }
 
 categoriasEnSelects(filtroCategoria)
-categoriasEnSelects(categoriasEnNuevaOperacion)
+categoriasEnSelects(categoriasEnNuevaOperacion)       
 
 
 ocultarFiltros.onclick = () => {
@@ -620,11 +620,14 @@ botonAgregarNuevaOperacion.onclick = (e) => {
 cancelarNuevaOperacion.onclick = () => {
     ocultarSecciones();
     seccionBalance.classList.remove('is-hidden');
+
+          
     resetearValoresInputs();
     ocultarAdvertenciaCamposRequeridos()
     montoCampoRequerido.forEach((alertas) => {
         alertas.classList.add('is-hidden')
     })
+
 }
 
 
@@ -829,6 +832,7 @@ botonEditarCategoriaSeccionEditarCategoria.onclick = (e) => {
 
 
 
+
 //Alertas 
 
 
@@ -866,7 +870,6 @@ aplicarFiltros()
 
 
 
-
 montoNuevaOperacion.oninput = () => {
     if (montoNuevaOperacion.value.length > 10) {
     let numeroAstring = String(montoNuevaOperacion.value)
@@ -875,7 +878,6 @@ montoNuevaOperacion.oninput = () => {
     montoNuevaOperacion.value = volverANumero
     }
 }
-
 
 
 //--------------SECCION-REPORTES------------//////
@@ -1183,4 +1185,3 @@ let mesConMayorGasto = filtroGastoPorMes.reduce((acc,elemento) => {
 }, {monto: 0, tipo: "", fecha:""})
 
 console.log("mes con > gasto", mesConMayorGasto);
-
