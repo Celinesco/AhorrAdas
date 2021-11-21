@@ -63,6 +63,8 @@ const botonEditarCategoriaSeccionEditarCategoria = document.getElementById("boto
 //SECCION REPORTES
 
 const sectionReportes = document.getElementById("section-reportes");
+const conReportes = document.getElementById("con-reportes");
+const sinReportes = document.getElementById("sin-reportes")
 
 /////////////////////////FIN DE DOM////////////////////////////FIN DE DOM//////////////////////////////////////FIN DE DOM/////////////////////////////
 
@@ -220,6 +222,35 @@ let arrayFechaDeHoy = () => {
 }
 
 
+//PRUEBAAAAAAAAAAAAAAA
+
+/* let mostrarReporteGanancia = operacionesAlmacenadas.some((elemento) => {
+    return elemento.tipo === "ganancia"
+})
+let mostrarReporteGasto = operacionesAlmacenadas.some((elemento) => {
+    return elemento.tipo === "gasto"
+})
+console.log(operacionesAlmacenadas);
+ */
+let mostrarReporte = () => {
+    let mostrarReporteGanancia = arrayInputUsuario.some((elemento) => {
+        return elemento.tipo === "ganancia"
+    })
+    let mostrarReporteGasto = arrayInputUsuario.some((elemento) => {
+        return elemento.tipo === "gasto"
+    })
+    if (mostrarReporteGanancia === true && mostrarReporteGasto === true) {
+        sinReportes.classList.add("is-hidden")
+        conReportes.classList.remove("is-hidden")
+        console.log("hay operacions");
+    }
+    else{
+        conReportes.classList.add("is-hidden")
+        sinReportes.classList.remove("is-hidden")
+        console.log("no hay operacions");
+
+    } 
+}
 
 
 // //Funcionalidad Header/Nav
@@ -246,6 +277,7 @@ itemNavSeccionReportes.onclick = () => {
     ocultarSecciones();
     sectionReportes.classList.remove('is-hidden');
     menuHambuguesa()
+    mostrarReporte()
 };
 
 botonMenuHamburguesa.onclick = () => {
@@ -879,3 +911,62 @@ montoNuevaOperacion.oninput = () => {
     }
 }
 
+
+// boton Reportes
+
+/* let mostrarReporteGanancia = arrayInputUsuario.some((elemento) => {
+    return elemento.tipo === "ganancia"
+})
+let mostrarReporteGasto = arrayInputUsuario.some((elemento) => {
+    return elemento.tipo === "gasto"
+})
+
+let mostrarReporte = () => {
+    if (mostrarReporteGanancia === true && mostrarReporteGasto === true) {
+        sinReportes.classList.add('is-hidden')
+    }
+    else{
+        conReportes.classList.add('is-hidden')
+    } 
+}
+mostrarReporte() */
+
+
+
+//const conReportes = document.getElementById("con-reportes");
+//const sinReportes = document.getElementById("sin-reportes")
+
+//const itemNavSeccionReportes = document.getElementById("item-nav-seccion-reportes");
+/* const ocultarSecciones = () => {
+    seccionVisible.forEach((section) => {
+        section.classList.add('is-hidden')
+    })
+} */
+
+/* const htmlOperacionesSinResulados = () => {
+    contenedorOperaciones.setAttribute('class', "columns is-centered my-6 py-6")
+    contenedorOperaciones.innerHTML =
+        `<div class="column is-6">
+        <div class="image">
+            <img src="images/undraw_Growing_re_olpi.svg">
+        </div>
+        <p class="title has-text-centered mt-6 is-4">Sin resultados</p>
+        <p class="has-text-centered">Cambia los filtros o agrega operaciones</p>
+    </div>`
+};
+
+htmlOperacionesSinResulados()
+
+
+
+const HTMLBalanceBoxOperaciones = (array) => {
+
+    if (array.length == 0) {
+        htmlOperacionesSinResulados()
+    }
+
+    else {
+        let acc = " ";
+
+        array.map((operacion) => {
+            acc = acc + ` */
