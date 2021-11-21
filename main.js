@@ -64,7 +64,18 @@ const botonEditarCategoriaSeccionEditarCategoria = document.getElementById("boto
 
 const sectionReportes = document.getElementById("section-reportes");
 const conReportes = document.getElementById("con-reportes");
-const sinReportes = document.getElementById("sin-reportes")
+const sinReportes = document.getElementById("sin-reportes");
+const categoriaMayorGanancia = document.getElementById("categoria-mayor-ganancia");
+const montoCategoriaMayorGanancia = document.getElementById("monto-categoria-mayor-ganancia");
+const categoriaMayorGasto = document.getElementById("categoria-mayor-gasto");
+const montoCategoriaMayorGasto = document.getElementById("monto-categoria-mayor-gasto");
+const categoriaMayorBalance = document.getElementById("categoria-mayor-balace");
+const montoCategoriaMayorBalance = document.getElementById("monto-categoria-mayor-balance");
+const mesMayorGanancia = document.getElementById("mes-mayor-ganancia");
+const montoMesMayorGanancia = document.getElementById("monto-mes-mayor-ganancia");
+const mesMayorGasto = document.getElementById("mes-mayor-gasto");
+const montoMesMayorGasto = document.getElementById("monto-mes-mayor-gasto");
+
 
 /////////////////////////FIN DE DOM////////////////////////////FIN DE DOM//////////////////////////////////////FIN DE DOM/////////////////////////////
 
@@ -936,9 +947,11 @@ let gananciaPorCategoria = arrayCategorias.map((categoria) => {
 
 console.log("ganancia por categoria",gananciaPorCategoria);
 
+
 let categoriaConMayorGanancia = buscarMayor(gananciaPorCategoria)
 
 console.log("CATEGORIA CON MAYOR GANANCIA", categoriaConMayorGanancia);
+
 
 
 //REPORTES GASTOS
@@ -1044,9 +1057,9 @@ let filtroGananciaPorMes = gananciaPorMes.filter((elemento) => {
 
 console.log("Ganancia por mes",filtroGananciaPorMes);
 
-let mesMayorGanancia = buscarMayor(filtroGananciaPorMes)
+let mesConMayorGanancia = buscarMayor(filtroGananciaPorMes)
 
-console.log("MES CON MAYOR GANANCIA" ,mesMayorGanancia);
+console.log("MES CON MAYOR GANANCIA" ,mesConMayorGanancia);
 
 
 
@@ -1102,3 +1115,13 @@ console.log("Balance por mes",filtroBalancePorMes);
 
 
 
+categoriaMayorGanancia.innerHTML = `${categoriaConMayorGanancia.categoria}`;
+montoCategoriaMayorGanancia.innerHTML = `$${categoriaConMayorGanancia.monto}`;
+categoriaMayorGasto.innerHTML = `${categoriaConMayorGasto.categoria}`;
+montoCategoriaMayorGasto.innerHTML = `-$${categoriaConMayorGasto.monto}`;
+categoriaMayorBalance.innerHTML = `${categoriaConMayorBalance.categoria}`;
+montoCategoriaMayorBalance.innerHTML = `$${categoriaConMayorBalance.monto}`;
+mesMayorGanancia.innerHTML = `${mesConMayorGanancia.fecha}`;
+montoMesMayorGanancia.innerHTML = `$${mesConMayorGanancia.monto}`;
+mesMayorGasto.innerHTML = `${mesConMayorGasto.fecha}`;
+montoMesMayorGasto.innerHTML = `-$${mesConMayorGasto.monto}`;
