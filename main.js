@@ -76,6 +76,14 @@ const montoMesMayorGanancia = document.getElementById("monto-mes-mayor-ganancia"
 const mesMayorGasto = document.getElementById("mes-mayor-gasto");
 const montoMesMayorGasto = document.getElementById("monto-mes-mayor-gasto");
 
+const totalesPorCategoria = document.getElementById("totales-por-categorias");
+const categoriaTotalesCategoria = document.getElementById("categoria-totales-categorias");
+const gananciaTotalesCategoria = document.getElementById("ganancia-totales-categorias");
+const gastoTotalesCategoria = document.getElementById("gasto-totales-categorias");
+const balanceTotalesCategoria = document.getElementById("balance-totales-categorias");
+
+
+
 
 /////////////////////////FIN DE DOM////////////////////////////FIN DE DOM//////////////////////////////////////FIN DE DOM/////////////////////////////
 
@@ -921,12 +929,23 @@ const buscarMayor = (array) => array.reduce((acc,elemento) => {
 },{categoria: "", tipo: "ganancia", monto: 0})
 
 
+let categoriasFiltradas = arrayInputUsuario.map((elemento) => {
+    return elemento.categoria
+})
+ 
+let categoriasEnUso = categoriasFiltradas.filter((elemento, index) => {
+return categoriasFiltradas.indexOf(elemento) === index
+})
+
+console.log(categoriasEnUso);
+
+
 
 // REPORTES GANANCIAS 
 
 //ganancia
 
-let gananciaPorCategoria = arrayCategorias.map((categoria) => {
+let gananciaPorCategoria = categoriasEnUso.map((categoria) => {
     let buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
             if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
             acc.monto = elemento.monto + acc.monto
@@ -950,13 +969,13 @@ console.log("ganancia por categoria",gananciaPorCategoria);
 
 let categoriaConMayorGanancia = buscarMayor(gananciaPorCategoria)
 
-console.log("CATEGORIA CON MAYOR GANANCIA", categoriaConMayorGanancia);
+//console.log("CATEGORIA CON MAYOR GANANCIA", categoriaConMayorGanancia);
 
 
 
 //REPORTES GASTOS
 
-let gastoPorCategoria = arrayCategorias.map((categoria) => {
+let gastoPorCategoria = categoriasEnUso.map((categoria) => {
     
     let buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
          if (elemento.tipo === "gasto" &&  elemento.categoria === categoria) {
@@ -979,12 +998,12 @@ console.log("gasto por categoria",gastoPorCategoria);
 
 let categoriaConMayorGasto = buscarMayor(gastoPorCategoria)
 
-console.log("CATEGORIA CON MAYOR GASTO", categoriaConMayorGasto);
+//console.log("CATEGORIA CON MAYOR GASTO", categoriaConMayorGasto);
 
 
 //REPORTES BALANCE
 
-let balancePorCategoria = arrayCategorias.map((categoria) => {
+let balancePorCategoria = categoriasEnUso.map((categoria) => {
     let buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
         if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
          acc.monto = elemento.monto + acc.monto
@@ -1011,7 +1030,7 @@ console.log("balance por categoria",balancePorCategoria)
 
 let categoriaConMayorBalance = buscarMayor(balancePorCategoria)
 
-console.log("CATEGORIA CON MAYOR BALANCE", categoriaConMayorBalance);
+//console.log("CATEGORIA CON MAYOR BALANCE", categoriaConMayorBalance);
 
 
 
@@ -1059,7 +1078,7 @@ console.log("Ganancia por mes",filtroGananciaPorMes);
 
 let mesConMayorGanancia = buscarMayor(filtroGananciaPorMes)
 
-console.log("MES CON MAYOR GANANCIA" ,mesConMayorGanancia);
+//console.log("MES CON MAYOR GANANCIA" ,mesConMayorGanancia);
 
 
 
@@ -1086,7 +1105,7 @@ console.log("Gasto por mes",filtroGastoPorMes);
 
 let mesConMayorGasto = buscarMayor(filtroGastoPorMes)
 
-console.log("MES CON MAYOR GASTO", mesConMayorGasto);
+//console.log("MES CON MAYOR GASTO", mesConMayorGasto);
 
 //TOTALES POR MES: BALANCE
 
@@ -1125,3 +1144,31 @@ mesMayorGanancia.innerHTML = `${mesConMayorGanancia.fecha}`;
 montoMesMayorGanancia.innerHTML = `$${mesConMayorGanancia.monto}`;
 mesMayorGasto.innerHTML = `${mesConMayorGasto.fecha}`;
 montoMesMayorGasto.innerHTML = `-$${mesConMayorGasto.monto}`;
+
+
+/* const totalesPorCategoria = document.getElementById("totales-por-categorias");
+const categoriaTotalesCategoria = document.getElementById("categoria-totales-categorias");
+const gananciaTotalesCategoria = document.getElementById("ganancia-totales-categorias");
+const gastoTotalesCategoria = document.getElementById("gasto-totales-categorias");
+const balanceTotalesCategoria = document.getElementById("balance-totales-categorias"); */
+
+let acc2 = ""
+categoriasEnUso.map((elemento, index) => {
+    gananciaPorCategoria[index]
+    gastoPorCategoria[index];
+    balancePorCategoria[index]
+    acc2 = acc2 + `
+    <div class="columns is-mobile">
+    <div class="column has-text-weight-semibold" id="categoria-totales-categorias">
+    ${elemento}</div>
+    <div class="column has-text-right has-text-success" id="ganancia-totales-categorias">
+    ${gananciaPorCategoria[index].monto}</div>
+    <div class="column has-text-right has-text-danger" id="gasto-totales-categorias">
+    ${gastoPorCategoria[index].monto}</div>
+    <div class="column has-text-right has-text-dark" id="balance-totales-categorias">
+    ${balancePorCategoria[index].monto}</div> 
+</div>
+    `
+}) 
+
+totalesPorCategoria.innerHTML = acc2
