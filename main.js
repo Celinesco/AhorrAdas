@@ -75,7 +75,6 @@ const mesMayorGanancia = document.getElementById("mes-mayor-ganancia");
 const montoMesMayorGanancia = document.getElementById("monto-mes-mayor-ganancia");
 const mesMayorGasto = document.getElementById("mes-mayor-gasto");
 const montoMesMayorGasto = document.getElementById("monto-mes-mayor-gasto");
-
 const totalesPorCategoria = document.getElementById("totales-por-categorias");
 const totalesPorMes = document.getElementById("totales-por-mes");
 
@@ -917,7 +916,7 @@ montoNuevaOperacion.oninput = () => {
 
 //--------------SECCION-REPORTES------------//////
 
-// FUNCION AUXILIAR
+// Buscar mayor monto en un array
 const buscarMayor = (array) => array.reduce((acc,elemento) => {
     if (acc.monto < elemento.monto) {
         return acc = elemento
@@ -925,7 +924,7 @@ const buscarMayor = (array) => array.reduce((acc,elemento) => {
     return acc
 },{categoria: "", tipo: "ganancia", monto: 0})
 
-
+//Filtrar categorias si estan en uso
 let categoriasFiltradas = arrayInputUsuario.map((elemento) => {
     return elemento.categoria
 })
@@ -934,7 +933,22 @@ let categoriasEnUso = categoriasFiltradas.filter((elemento, index) => {
 return categoriasFiltradas.indexOf(elemento) === index
 })
 
-console.log(categoriasEnUso);
+// Fechas
+let fechaDeOperacion = arrayInputUsuario.map((elemento) => {
+    let mesDeOperacion = new Date (Date.parse(elemento.fecha)).getMonth()+1 
+    let anioDeOperacion = new Date (Date.parse(elemento.fecha)).getFullYear()
+    return `${anioDeOperacion}-${mesDeOperacion}`
+})
+let fechasFiltradas = fechaDeOperacion.filter((elemento,index) => { 
+    return fechaDeOperacion.indexOf(elemento) === index
+})
+
+let arrayFechasFiltradas = arrayInputUsuario.filter((elemento) => {
+    elemento.fecha = elemento.fecha.slice(0,7); 
+    return elemento;
+})
+
+
 
 
 
@@ -960,14 +974,7 @@ let gananciaPorCategoria = categoriasEnUso.map((categoria) => {
     }
 })
 
-
-//console.log("ganancia por categoria",gananciaPorCategoria);
-
-
 let categoriaConMayorGanancia = buscarMayor(gananciaPorCategoria)
-
-//console.log("CATEGORIA CON MAYOR GANANCIA", categoriaConMayorGanancia);
-
 
 
 //REPORTES GASTOS
@@ -991,12 +998,7 @@ let gastoPorCategoria = categoriasEnUso.map((categoria) => {
  }
 })
 
-//console.log("gasto por categoria",gastoPorCategoria);
-
 let categoriaConMayorGasto = buscarMayor(gastoPorCategoria)
-
-//console.log("CATEGORIA CON MAYOR GASTO", categoriaConMayorGasto);
-
 
 //REPORTES BALANCE
 
@@ -1023,33 +1025,8 @@ let balancePorCategoria = categoriasEnUso.map((categoria) => {
 
 })
 
-//console.log("balance por categoria",balancePorCategoria)
-
 let categoriaConMayorBalance = buscarMayor(balancePorCategoria)
 
-//console.log("CATEGORIA CON MAYOR BALANCE", categoriaConMayorBalance);
-
-
-
-//FECHAS
-
-// obtener array de anio/mes
-
-
-let fechaDeOperacion = arrayInputUsuario.map((elemento) => {
-    let mesDeOperacion = new Date (Date.parse(elemento.fecha)).getMonth()+1 
-    let anioDeOperacion = new Date (Date.parse(elemento.fecha)).getFullYear()
-    return `${anioDeOperacion}-${mesDeOperacion}`
-})
-let fechasFiltradas = fechaDeOperacion.filter((elemento,index) => { 
-    return fechaDeOperacion.indexOf(elemento) === index
-})
-
-let arrayFechasFiltradas = arrayInputUsuario.filter((elemento) => {
-    elemento.fecha = elemento.fecha.slice(0,7); 
-    return elemento;
-})
-console.log(fechasFiltradas);
 
 // TOTALES POR MES: GANANCIA
 
@@ -1076,13 +1053,7 @@ let filtroGananciaPorMes = gananciaPorMes.filter((elemento) => {
     return elemento.tipo === "ganancia"
 })
 
-console.log("Ganancia por mes",filtroGananciaPorMes);
-
 let mesConMayorGanancia = buscarMayor(filtroGananciaPorMes)
-
-//console.log("MES CON MAYOR GANANCIA" ,mesConMayorGanancia);
-
-
 
 //TOTALES POR MES: GASTO
 
@@ -1108,11 +1079,7 @@ let filtroGastoPorMes = gastoPorMes.filter((elemento) => {
     return elemento.tipo === "gasto"
 })
 
-console.log("Gasto por mes",filtroGastoPorMes);
-
 let mesConMayorGasto = buscarMayor(filtroGastoPorMes)
-
-//console.log("MES CON MAYOR GASTO", mesConMayorGasto);
 
 //TOTALES POR MES: BALANCE
 
@@ -1136,7 +1103,6 @@ let filtroBalancePorMes = balancePorMes.filter((elemento) => {
     return elemento.fecha != ""
 })
 
-console.log("Balance por mes",filtroBalancePorMes);
 
 
 // Resumen
@@ -1151,7 +1117,6 @@ mesMayorGanancia.innerHTML = `${mesConMayorGanancia.fecha}`;
 montoMesMayorGanancia.innerHTML = `$${mesConMayorGanancia.monto}`;
 mesMayorGasto.innerHTML = `${mesConMayorGasto.fecha}`;
 montoMesMayorGasto.innerHTML = `-$${mesConMayorGasto.monto}`;
-
 
 
 // totales por categoria 
@@ -1172,6 +1137,8 @@ categoriasEnUso.map((elemento, index) => {
 }) 
 
 totalesPorCategoria.innerHTML = accCategoria
+
+// totales por mes 
 
 let accMes = ""
 fechasFiltradas.map((elemento, index) => {
