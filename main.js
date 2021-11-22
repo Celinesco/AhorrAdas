@@ -77,10 +77,7 @@ const mesMayorGasto = document.getElementById("mes-mayor-gasto");
 const montoMesMayorGasto = document.getElementById("monto-mes-mayor-gasto");
 
 const totalesPorCategoria = document.getElementById("totales-por-categorias");
-const categoriaTotalesCategoria = document.getElementById("categoria-totales-categorias");
-const gananciaTotalesCategoria = document.getElementById("ganancia-totales-categorias");
-const gastoTotalesCategoria = document.getElementById("gasto-totales-categorias");
-const balanceTotalesCategoria = document.getElementById("balance-totales-categorias");
+const totalesPorMes = document.getElementById("totales-por-mes");
 
 
 
@@ -964,7 +961,7 @@ let gananciaPorCategoria = categoriasEnUso.map((categoria) => {
 })
 
 
-console.log("ganancia por categoria",gananciaPorCategoria);
+//console.log("ganancia por categoria",gananciaPorCategoria);
 
 
 let categoriaConMayorGanancia = buscarMayor(gananciaPorCategoria)
@@ -994,7 +991,7 @@ let gastoPorCategoria = categoriasEnUso.map((categoria) => {
  }
 })
 
-console.log("gasto por categoria",gastoPorCategoria);
+//console.log("gasto por categoria",gastoPorCategoria);
 
 let categoriaConMayorGasto = buscarMayor(gastoPorCategoria)
 
@@ -1026,7 +1023,7 @@ let balancePorCategoria = categoriasEnUso.map((categoria) => {
 
 })
 
-console.log("balance por categoria",balancePorCategoria)
+//console.log("balance por categoria",balancePorCategoria)
 
 let categoriaConMayorBalance = buscarMayor(balancePorCategoria)
 
@@ -1040,7 +1037,7 @@ let categoriaConMayorBalance = buscarMayor(balancePorCategoria)
 
 
 let fechaDeOperacion = arrayInputUsuario.map((elemento) => {
-    let mesDeOperacion = new Date (Date.parse(elemento.fecha)).getMonth()+1 // tengo el mes
+    let mesDeOperacion = new Date (Date.parse(elemento.fecha)).getMonth()+1 
     let anioDeOperacion = new Date (Date.parse(elemento.fecha)).getFullYear()
     return `${anioDeOperacion}-${mesDeOperacion}`
 })
@@ -1052,7 +1049,7 @@ let arrayFechasFiltradas = arrayInputUsuario.filter((elemento) => {
     elemento.fecha = elemento.fecha.slice(0,7); 
     return elemento;
 })
-
+console.log(fechasFiltradas);
 
 // TOTALES POR MES: GANANCIA
 
@@ -1066,8 +1063,13 @@ let gananciaPorMes = fechasFiltradas.map((elemento) => {
         return accb
 
     }, {monto:0, tipo:"",fecha:""})
-         
-    return buscarMesMayorGanancia
+   
+    if (buscarMesMayorGanancia.monto != 0) {
+        return buscarMesMayorGanancia
+    }
+    if (buscarMesMayorGanancia.monto === 0) {
+        return  {monto: 0, tipo: "ganancia",fecha: elemento}
+    }
     
 })
 let filtroGananciaPorMes = gananciaPorMes.filter((elemento) => {
@@ -1094,8 +1096,13 @@ let gastoPorMes = fechasFiltradas.map((elemento) => {
         return accb
 
     }, {monto:0, tipo:"",fecha:""})
-      
-    return buscarMesMayorGasto    
+    
+    if (buscarMesMayorGasto.monto != 0) {
+        return buscarMesMayorGasto
+    }
+    if (buscarMesMayorGasto.monto === 0) {
+        return  {monto: 0, tipo: "gasto",fecha: elemento}
+    }    
 })
 let filtroGastoPorMes = gastoPorMes.filter((elemento) => {
     return elemento.tipo === "gasto"
@@ -1132,7 +1139,7 @@ let filtroBalancePorMes = balancePorMes.filter((elemento) => {
 console.log("Balance por mes",filtroBalancePorMes);
 
 
-
+// Resumen
 
 categoriaMayorGanancia.innerHTML = `${categoriaConMayorGanancia.categoria}`;
 montoCategoriaMayorGanancia.innerHTML = `$${categoriaConMayorGanancia.monto}`;
@@ -1146,29 +1153,38 @@ mesMayorGasto.innerHTML = `${mesConMayorGasto.fecha}`;
 montoMesMayorGasto.innerHTML = `-$${mesConMayorGasto.monto}`;
 
 
-/* const totalesPorCategoria = document.getElementById("totales-por-categorias");
-const categoriaTotalesCategoria = document.getElementById("categoria-totales-categorias");
-const gananciaTotalesCategoria = document.getElementById("ganancia-totales-categorias");
-const gastoTotalesCategoria = document.getElementById("gasto-totales-categorias");
-const balanceTotalesCategoria = document.getElementById("balance-totales-categorias"); */
 
-let acc2 = ""
+// totales por categoria 
+
+let accCategoria = ""
 categoriasEnUso.map((elemento, index) => {
-    gananciaPorCategoria[index]
+    gananciaPorCategoria[index];
     gastoPorCategoria[index];
-    balancePorCategoria[index]
-    acc2 = acc2 + `
+    balancePorCategoria[index];
+    accCategoria = accCategoria + `
     <div class="columns is-mobile">
-    <div class="column has-text-weight-semibold" id="categoria-totales-categorias">
-    ${elemento}</div>
-    <div class="column has-text-right has-text-success" id="ganancia-totales-categorias">
-    ${gananciaPorCategoria[index].monto}</div>
-    <div class="column has-text-right has-text-danger" id="gasto-totales-categorias">
-    ${gastoPorCategoria[index].monto}</div>
-    <div class="column has-text-right has-text-dark" id="balance-totales-categorias">
-    ${balancePorCategoria[index].monto}</div> 
-</div>
+        <div class="column has-text-weight-semibold">${elemento}</div>
+        <div class="column has-text-right has-text-success">${gananciaPorCategoria[index].monto}</div>
+        <div class="column has-text-right has-text-danger">${gastoPorCategoria[index].monto}</div>
+        <div class="column has-text-right has-text-dark">${balancePorCategoria[index].monto}</div> 
+    </div>
     `
 }) 
 
-totalesPorCategoria.innerHTML = acc2
+totalesPorCategoria.innerHTML = accCategoria
+
+let accMes = ""
+fechasFiltradas.map((elemento, index) => {
+    filtroGananciaPorMes[index];
+    filtroGastoPorMes[index];
+    filtroBalancePorMes[index];
+    accMes = accMes + `
+    <div class="columns is-mobile">
+        <div class="column has-text-weight-semibold">${elemento}</div>
+        <div class="column has-text-right has-text-success">${filtroGananciaPorMes[index].monto}</div>
+        <div class="column has-text-right has-text-danger">${filtroGastoPorMes[index].monto}</div>
+        <div class="column has-text-right has-text-dark">${filtroBalancePorMes[index].monto}</div>
+    </div> 
+    `
+})
+totalesPorMes.innerHTML = accMes 
