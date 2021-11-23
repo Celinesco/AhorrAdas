@@ -943,6 +943,7 @@ return categoriasFiltradas.indexOf(elemento) === index
 
 const HTMLResumenReportes = () => {
     
+    //------------- FUNCIONES TOTALES POR CATEGORIA 
     let gananciaPorCategoria = categoriasEnUso.map((categoria) => {
         let buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
                 if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
@@ -981,7 +982,7 @@ const HTMLResumenReportes = () => {
          return  {categoria: categoria, tipo: "gasto", monto: 0}
      }
     })
-    
+
     let categoriaConMayorGasto = buscarMayor(gastoPorCategoria)
     
     
@@ -1010,18 +1011,129 @@ const HTMLResumenReportes = () => {
     
     let categoriaConMayorBalance = buscarMayor(balancePorCategoria)
     
+
+
+    //----------------------FECHAS
+
+    const nuevoArrayFecha = [...arrayInputUsuario]
+    //hago una copia segura del array y creo un array solo con las fechas mes y anio
+    let fechaDeOperacion = nuevoArrayFecha.map((elemento) => {
+        let mesDeOperacion = new Date (Date.parse(elemento.fecha)).getMonth()+2;
+        let anioDeOperacion = new Date (Date.parse(elemento.fecha)).getFullYear();
+        return `${anioDeOperacion}-${mesDeOperacion}`
+    })
+    console.log(fechaDeOperacion);
+
+    // borro las fechas repetidas
+    let fechasFiltradas = fechaDeOperacion.filter((elemento,index) => { 
+        return fechaDeOperacion.indexOf(elemento) === index
+    })
+    console.log(fechasFiltradas);
+
+    //modifico las fechas de la copia del array del usuario y quiero trabajar solo con esto
+    let arrayFechasFiltradas = nuevoArrayFecha.filter((elemento) => {
+        elemento.fecha = elemento.fecha.slice(0,7); 
+        return elemento;
+    }) 
+    console.log(arrayFechasFiltradas);
+ 
+    // TOTALES POR MES: GANANCIA
+
+    let gananciaPorMes = fechasFiltradas.map((fecha) => {
+        let buscarMesMayorGanancia = arrayFechasFiltradas.reduce((acc,elemento) => {
+            if (elemento.tipo === "ganancia" && elemento.fecha === fecha) {
+                acc.monto = acc.monto + elemento.monto 
+                acc.fecha = fecha
+                acc.tipo = "ganancia"
+            }
+            return acc
+
+        }, {monto:0, tipo:"",fecha:""})
+    
+        if (buscarMesMayorGanancia.monto != 0) {
+            return buscarMesMayorGanancia
+        }
+        if (buscarMesMayorGanancia.monto === 0) {
+            return  {monto: 0, tipo: "ganancia",fecha: fecha}
+        }
+        
+    })
+    console.log(gananciaPorMes);
+    let filtroGananciaPorMes = gananciaPorMes.filter((elemento) => {
+        return elemento.tipo === "ganancia"
+    })
+
+    let mesConMayorGanancia = buscarMayor(filtroGananciaPorMes)
+
+    //TOTALES POR MES: GASTO
+
+    let gastoPorMes = fechasFiltradas.map((fecha) => {
+        let buscarMesMayorGasto = arrayFechasFiltradas.reduce((acc,elemento) => {
+            if (elemento.tipo === "gasto" && elemento.fecha === fecha) {
+                acc.monto = acc.monto + elemento.monto 
+                acc.fecha = fecha
+                acc.tipo = "gasto"
+            }
+            return acc
+
+        }, {monto:0, tipo:"",fecha:""})
+        
+        if (buscarMesMayorGasto.monto != 0) {
+            return buscarMesMayorGasto
+        }
+        if (buscarMesMayorGasto.monto === 0) {
+            return  {monto: 0, tipo: "gasto",fecha: fecha}
+        }    
+    })
+    let filtroGastoPorMes = gastoPorMes.filter((elemento) => {
+        return elemento.tipo === "gasto"
+    })
+
+    let mesConMayorGasto = buscarMayor(filtroGastoPorMes)
+
+    //TOTALES POR MES: BALANCE
+
+    let balancePorMes = fechasFiltradas.map((elemento) => {
+        let buscarBalancePorMes = arrayFechasFiltradas.reduce((accb,elementob) => {
+            if (elementob.tipo === "ganancia" && elementob.fecha === elemento) {
+                accb.monto = accb.monto + elementob.monto 
+                accb.fecha = elemento
+            }
+            if (elementob.tipo === "gasto" && elementob.fecha === elemento) {
+                accb.monto = accb.monto - elementob.monto 
+                accb.fecha = elemento
+            }
+            return accb
+
+        }, {monto:0, fecha:""})
+          
+        if (buscarBalancePorMes.monto != 0) {
+            return buscarBalancePorMes
+        }
+        if (buscarBalancePorMes.monto === 0) {
+            return  {monto: 0, fecha: elemento}
+        }    
+    })
+    let filtroBalancePorMes = balancePorMes.filter((elemento) => {
+        return elemento.fecha != ""
+    })
+
+    
+
+    //----------------HTML RESUMEN
     categoriaMayorGanancia.innerHTML = `${categoriaConMayorGanancia.categoria}`;
     montoCategoriaMayorGanancia.innerHTML = `$${categoriaConMayorGanancia.monto}`;
     categoriaMayorGasto.innerHTML = `${categoriaConMayorGasto.categoria}`;
     montoCategoriaMayorGasto.innerHTML = `-$${categoriaConMayorGasto.monto}`;
     categoriaMayorBalance.innerHTML = `${categoriaConMayorBalance.categoria}`;
     montoCategoriaMayorBalance.innerHTML = `$${categoriaConMayorBalance.monto}`;
-    //mesMayorGanancia.innerHTML = `${mesConMayorGanancia.fecha}`;
-    //montoMesMayorGanancia.innerHTML = `$${mesConMayorGanancia.monto}`;
-    //mesMayorGasto.innerHTML = `${mesConMayorGasto.fecha}`;
-    //montoMesMayorGasto.innerHTML = `-$${mesConMayorGasto.monto}`;
+    mesMayorGanancia.innerHTML = `${mesConMayorGanancia.fecha}`;
+    montoMesMayorGanancia.innerHTML = `$${mesConMayorGanancia.monto}`;
+    mesMayorGasto.innerHTML = `${mesConMayorGasto.fecha}`;
+    montoMesMayorGasto.innerHTML = `-$${mesConMayorGasto.monto}`;
 
-    // totales por categoria 
+    
+    //--------------HTML totales por categoria 
 
     let accCategoria = ""
     categoriasEnUso.map((elemento, index) => {
@@ -1036,9 +1148,28 @@ const HTMLResumenReportes = () => {
             <div class="column has-text-right has-text-dark">${balancePorCategoria[index].monto}</div> 
         </div>
         `
-}) 
+    }) 
 
-totalesPorCategoria.innerHTML = accCategoria
+    totalesPorCategoria.innerHTML = accCategoria
+
+    //--------------------HTML totales por mes
+    let accMes = ""
+    fechasFiltradas.map((elemento, index) => {
+        filtroGananciaPorMes[index];
+        filtroGastoPorMes[index];
+        filtroBalancePorMes[index];
+        accMes = accMes + `
+        <div class="columns is-mobile">
+            <div class="column has-text-weight-semibold">${elemento}</div>
+            <div class="column has-text-right has-text-success">${filtroGananciaPorMes[index].monto}</div>
+            <div class="column has-text-right has-text-danger">${filtroGastoPorMes[index].monto}</div>
+            <div class="column has-text-right has-text-dark">${filtroBalancePorMes[index].monto}</div>
+        </div> 
+        `
+    })
+    totalesPorMes.innerHTML = accMes 
+
+
 }
 
 
@@ -1049,146 +1180,3 @@ totalesPorCategoria.innerHTML = accCategoria
 
 
 
-
-
-
-
-
-
-// Fechas
-
-/* let pruebaFecha = arrayInputUsuario.map((operacion) => {
-    let nuevoArrayUsuario = [...arrayInputUsuario];
-    console.log(nuevoArrayUsuario);
-}) */
-/* console.log(arrayInputUsuario);
-const nuevoArrayFecha = [...arrayInputUsuario]
-let fechaDeOperacion = nuevoArrayFecha.map((elemento) => {
-    let mesDeOperacion = new Date (Date.parse(elemento.fecha)).getMonth()+1;
-    //console.log(mesDeOperacion);
-    let anioDeOperacion = new Date (Date.parse(elemento.fecha)).getFullYear();
-    return `${anioDeOperacion}-${mesDeOperacion}`
-})
-console.log(fechaDeOperacion);
-
-let fechasFiltradas = fechaDeOperacion.filter((elemento,index) => { 
-    return fechaDeOperacion.indexOf(elemento) === index
-})
-console.log(fechasFiltradas);
-let arrayFechasFiltradas = nuevoArrayFecha.filter((elemento) => {
-    elemento.fecha = elemento.fecha.slice(0,7); 
-    return elemento;
-}) 
-
-console.log(arrayFechasFiltradas);
-
- */
-
-
-
-
-/* 
-// TOTALES POR MES: GANANCIA
-
-let gananciaPorMes = fechasFiltradas.map((elemento) => {
-    let buscarMesMayorGanancia = arrayFechasFiltradas.reduce((accb,elementob) => {
-        if (elementob.tipo === "ganancia" && elementob.fecha === elemento) {
-            accb.monto = accb.monto + elementob.monto 
-            accb.fecha = elemento
-            accb.tipo = "ganancia"
-        }
-        return accb
-
-    }, {monto:0, tipo:"",fecha:""})
-   
-    if (buscarMesMayorGanancia.monto != 0) {
-        return buscarMesMayorGanancia
-    }
-    if (buscarMesMayorGanancia.monto === 0) {
-        return  {monto: 0, tipo: "ganancia",fecha: elemento}
-    }
-    
-})
-let filtroGananciaPorMes = gananciaPorMes.filter((elemento) => {
-    return elemento.tipo === "ganancia"
-})
-
-let mesConMayorGanancia = buscarMayor(filtroGananciaPorMes)
-
-//TOTALES POR MES: GASTO
-
-let gastoPorMes = fechasFiltradas.map((elemento) => {
-    let buscarMesMayorGasto = arrayFechasFiltradas.reduce((accb,elementob) => {
-        if (elementob.tipo === "gasto" && elementob.fecha === elemento) {
-            accb.monto = accb.monto + elementob.monto 
-            accb.fecha = elemento
-            accb.tipo = "gasto"
-        }
-        return accb
-
-    }, {monto:0, tipo:"",fecha:""})
-    
-    if (buscarMesMayorGasto.monto != 0) {
-        return buscarMesMayorGasto
-    }
-    if (buscarMesMayorGasto.monto === 0) {
-        return  {monto: 0, tipo: "gasto",fecha: elemento}
-    }    
-})
-let filtroGastoPorMes = gastoPorMes.filter((elemento) => {
-    return elemento.tipo === "gasto"
-})
-
-let mesConMayorGasto = buscarMayor(filtroGastoPorMes)
-
-//TOTALES POR MES: BALANCE
-
-let balancePorMes = fechasFiltradas.map((elemento) => {
-    let buscarBalancePorMes = arrayFechasFiltradas.reduce((accb,elementob) => {
-        if (elementob.tipo === "ganancia" && elementob.fecha === elemento) {
-            accb.monto = accb.monto + elementob.monto 
-            accb.fecha = elemento
-        }
-        if (elementob.tipo === "gasto" && elementob.fecha === elemento) {
-            accb.monto = accb.monto - elementob.monto 
-            accb.fecha = elemento
-        }
-        return accb
-
-    }, {monto:0, fecha:""})
-      
-    //return buscarBalancePorMes    
-    if (buscarBalancePorMes.monto != 0) {
-        return buscarMesMayorGasto
-    }
-    if (buscarBalancePorMes.monto === 0) {
-        return  {monto: 0, fecha: elemento}
-    }    
-})
-let filtroBalancePorMes = balancePorMes.filter((elemento) => {
-    return elemento.fecha != ""
-})
- */
-
-
-// Resumen
-
-
-/* 
-// totales por mes 
-console.log(fechasFiltradas);
-let accMes = ""
-fechasFiltradas.map((elemento, index) => {
-    filtroGananciaPorMes[index];
-    filtroGastoPorMes[index];
-    filtroBalancePorMes[index];
-    accMes = accMes + `
-    <div class="columns is-mobile">
-        <div class="column has-text-weight-semibold">${elemento}</div>
-        <div class="column has-text-right has-text-success">${filtroGananciaPorMes[index].monto}</div>
-        <div class="column has-text-right has-text-danger">${filtroGastoPorMes[index].monto}</div>
-        <div class="column has-text-right has-text-dark">${filtroBalancePorMes[index].monto}</div>
-    </div> 
-    `
-})
-totalesPorMes.innerHTML = accMes  */
