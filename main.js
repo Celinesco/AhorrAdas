@@ -140,7 +140,6 @@ const nuevoObjeto = () => {
     arrayInputUsuario.sort((a, b) => {
         return new Date(b.fecha) - new Date(a.fecha)
     })
-    console.log("array input usuario",arrayInputUsuario);
     return arrayInputUsuario
 }
 
