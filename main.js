@@ -140,7 +140,7 @@ const nuevoObjeto = () => {
     arrayInputUsuario.sort((a, b) => {
         return new Date(b.fecha) - new Date(a.fecha)
     })
-
+    console.log("array input usuario",arrayInputUsuario);
     return arrayInputUsuario
 }
 
@@ -248,11 +248,11 @@ let arrayFechaDeHoy = () => {
 
 
 
-let mostrarReporte = () => {
-    let mostrarReporteGanancia = arrayInputUsuario.some((elemento) => {
+const mostrarReporte = () => {
+    const mostrarReporteGanancia = arrayInputUsuario.some((elemento) => {
         return elemento.tipo === "ganancia"
     })
-    let mostrarReporteGasto = arrayInputUsuario.some((elemento) => {
+    const mostrarReporteGasto = arrayInputUsuario.some((elemento) => {
         return elemento.tipo === "gasto"
     })
     if (mostrarReporteGanancia === true && mostrarReporteGasto === true) {
@@ -929,23 +929,17 @@ montoNuevaOperacion.oninput = () => {
 //--------------SECCION-REPORTES------------//////
 
 
-//Filtrar categorias si estan en uso
-let categoriasFiltradas = arrayInputUsuario.map((elemento) => {
-    return elemento.categoria
-})
- 
-let categoriasEnUso = categoriasFiltradas.filter((elemento, index) => {
-return categoriasFiltradas.indexOf(elemento) === index
-})
-
-
-
-
 const HTMLResumenReportes = () => {
-    
+    const categoriasFiltradas = arrayInputUsuario.map((elemento) => {
+        return elemento.categoria
+    })
+     
+    const categoriasEnUso = categoriasFiltradas.filter((elemento, index) => {
+    return categoriasFiltradas.indexOf(elemento) === index
+    })
     //------------- FUNCIONES TOTALES POR CATEGORIA 
-    let gananciaPorCategoria = categoriasEnUso.map((categoria) => {
-        let buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
+    const gananciaPorCategoria = categoriasEnUso.map((categoria) => {
+        const buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
                 if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
                 acc.monto = elemento.monto + acc.monto
                 acc.categoria = elemento.categoria
@@ -962,11 +956,11 @@ const HTMLResumenReportes = () => {
         }
     })
     
-    let categoriaConMayorGanancia = buscarMayor(gananciaPorCategoria)
+    const categoriaConMayorGanancia = buscarMayor(gananciaPorCategoria)
 
-    let gastoPorCategoria = categoriasEnUso.map((categoria) => {
+    const gastoPorCategoria = categoriasEnUso.map((categoria) => {
     
-        let buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
+        const buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
              if (elemento.tipo === "gasto" &&  elemento.categoria === categoria) {
              acc.monto = elemento.monto + acc.monto
              acc.categoria = elemento.categoria
@@ -983,11 +977,11 @@ const HTMLResumenReportes = () => {
      }
     })
 
-    let categoriaConMayorGasto = buscarMayor(gastoPorCategoria)
+    const categoriaConMayorGasto = buscarMayor(gastoPorCategoria)
     
     
-    let balancePorCategoria = categoriasEnUso.map((categoria) => {
-        let buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
+    const balancePorCategoria = categoriasEnUso.map((categoria) => {
+        const buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
             if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
              acc.monto = elemento.monto + acc.monto
              acc.categoria = elemento.categoria 
@@ -1009,39 +1003,28 @@ const HTMLResumenReportes = () => {
     
     })
     
-    let categoriaConMayorBalance = buscarMayor(balancePorCategoria)
+    const categoriaConMayorBalance = buscarMayor(balancePorCategoria)
     
 
 
     //----------------------FECHAS
-
-    const nuevoArrayFecha = [...arrayInputUsuario]
-    //hago una copia segura del array y creo un array solo con las fechas mes y anio
-    let fechaDeOperacion = nuevoArrayFecha.map((elemento) => {
-        let mesDeOperacion = new Date (Date.parse(elemento.fecha)).getMonth()+2;
-        let anioDeOperacion = new Date (Date.parse(elemento.fecha)).getFullYear();
-        return `${anioDeOperacion}-${mesDeOperacion}`
+    
+    const fechaDeOperacion = arrayInputUsuario.map((elemento) => {
+        return elemento.fecha.slice(0,7)
     })
-    console.log(fechaDeOperacion);
-
-    // borro las fechas repetidas
-    let fechasFiltradas = fechaDeOperacion.filter((elemento,index) => { 
+    const fechasFiltradas = fechaDeOperacion.filter((elemento,index) => { 
         return fechaDeOperacion.indexOf(elemento) === index
     })
     console.log(fechasFiltradas);
-
-    //modifico las fechas de la copia del array del usuario y quiero trabajar solo con esto
-    let arrayFechasFiltradas = nuevoArrayFecha.filter((elemento) => {
-        elemento.fecha = elemento.fecha.slice(0,7); 
-        return elemento;
-    }) 
-    console.log(arrayFechasFiltradas);
+    //console.log(arrayInputUsuario);
+    
  
     // TOTALES POR MES: GANANCIA
 
-    let gananciaPorMes = fechasFiltradas.map((fecha) => {
-        let buscarMesMayorGanancia = arrayFechasFiltradas.reduce((acc,elemento) => {
-            if (elemento.tipo === "ganancia" && elemento.fecha === fecha) {
+    const gananciaPorMes = fechasFiltradas.map((fecha) => {
+        const buscarMesMayorGanancia = arrayInputUsuario.reduce((acc,elemento) => {
+            console.log(elemento.fecha.slice(0, 7));
+            if (elemento.tipo === "ganancia" && elemento.fecha.slice(0, 7) === fecha) {
                 acc.monto = acc.monto + elemento.monto 
                 acc.fecha = fecha
                 acc.tipo = "ganancia"
@@ -1059,17 +1042,19 @@ const HTMLResumenReportes = () => {
         
     })
     console.log(gananciaPorMes);
-    let filtroGananciaPorMes = gananciaPorMes.filter((elemento) => {
+    const filtroGananciaPorMes = gananciaPorMes.filter((elemento) => {
         return elemento.tipo === "ganancia"
     })
+    console.log(filtroGananciaPorMes);
+    const mesConMayorGanancia = buscarMayor(filtroGananciaPorMes)
 
-    let mesConMayorGanancia = buscarMayor(filtroGananciaPorMes)
+    console.log(mesConMayorGanancia);
 
     //TOTALES POR MES: GASTO
 
-    let gastoPorMes = fechasFiltradas.map((fecha) => {
-        let buscarMesMayorGasto = arrayFechasFiltradas.reduce((acc,elemento) => {
-            if (elemento.tipo === "gasto" && elemento.fecha === fecha) {
+    const gastoPorMes = fechasFiltradas.map((fecha) => {
+        const buscarMesMayorGasto = arrayInputUsuario.reduce((acc,elemento) => {
+            if (elemento.tipo === "gasto" && elemento.fecha.slice(0, 7) === fecha) {
                 acc.monto = acc.monto + elemento.monto 
                 acc.fecha = fecha
                 acc.tipo = "gasto"
@@ -1085,21 +1070,21 @@ const HTMLResumenReportes = () => {
             return  {monto: 0, tipo: "gasto",fecha: fecha}
         }    
     })
-    let filtroGastoPorMes = gastoPorMes.filter((elemento) => {
+    const filtroGastoPorMes = gastoPorMes.filter((elemento) => {
         return elemento.tipo === "gasto"
     })
 
-    let mesConMayorGasto = buscarMayor(filtroGastoPorMes)
+    const mesConMayorGasto = buscarMayor(filtroGastoPorMes)
 
     //TOTALES POR MES: BALANCE
 
-    let balancePorMes = fechasFiltradas.map((elemento) => {
-        let buscarBalancePorMes = arrayFechasFiltradas.reduce((accb,elementob) => {
-            if (elementob.tipo === "ganancia" && elementob.fecha === elemento) {
+    const balancePorMes = fechasFiltradas.map((elemento) => {
+        const buscarBalancePorMes = arrayInputUsuario.reduce((accb,elementob) => {
+            if (elementob.tipo === "ganancia" && elementob.fecha.slice(0, 7) === elemento) {
                 accb.monto = accb.monto + elementob.monto 
                 accb.fecha = elemento
             }
-            if (elementob.tipo === "gasto" && elementob.fecha === elemento) {
+            if (elementob.tipo === "gasto" && elementob.fecha.slice(0, 7) === elemento) {
                 accb.monto = accb.monto - elementob.monto 
                 accb.fecha = elemento
             }
@@ -1114,9 +1099,9 @@ const HTMLResumenReportes = () => {
             return  {monto: 0, fecha: elemento}
         }    
     })
-    let filtroBalancePorMes = balancePorMes.filter((elemento) => {
+    const filtroBalancePorMes = balancePorMes.filter((elemento) => {
         return elemento.fecha != ""
-    })
+    }) 
 
     
 
@@ -1167,16 +1152,7 @@ const HTMLResumenReportes = () => {
         </div> 
         `
     })
-    totalesPorMes.innerHTML = accMes 
+    totalesPorMes.innerHTML = accMes  
 
 
 }
-
-
-
-
-
-
-
-
-
