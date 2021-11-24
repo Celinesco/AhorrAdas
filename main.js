@@ -1015,15 +1015,13 @@ const HTMLResumenReportes = () => {
     const fechasFiltradas = fechaDeOperacion.filter((elemento,index) => { 
         return fechaDeOperacion.indexOf(elemento) === index
     })
-    console.log(fechasFiltradas);
-    //console.log(arrayInputUsuario);
     
  
     // TOTALES POR MES: GANANCIA
 
     const gananciaPorMes = fechasFiltradas.map((fecha) => {
         const buscarMesMayorGanancia = arrayInputUsuario.reduce((acc,elemento) => {
-            console.log(elemento.fecha.slice(0, 7));
+            
             if (elemento.tipo === "ganancia" && elemento.fecha.slice(0, 7) === fecha) {
                 acc.monto = acc.monto + elemento.monto 
                 acc.fecha = fecha
@@ -1041,14 +1039,14 @@ const HTMLResumenReportes = () => {
         }
         
     })
-    console.log(gananciaPorMes);
+
     const filtroGananciaPorMes = gananciaPorMes.filter((elemento) => {
         return elemento.tipo === "ganancia"
     })
-    console.log(filtroGananciaPorMes);
+    
     const mesConMayorGanancia = buscarMayor(filtroGananciaPorMes)
 
-    console.log(mesConMayorGanancia);
+    
 
     //TOTALES POR MES: GASTO
 
