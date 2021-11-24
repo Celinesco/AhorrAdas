@@ -936,7 +936,10 @@ const HTMLResumenReportes = () => {
     const categoriasEnUso = categoriasFiltradas.filter((elemento, index) => {
     return categoriasFiltradas.indexOf(elemento) === index
     })
+
+
     //------------- FUNCIONES TOTALES POR CATEGORIA 
+
     const gananciaPorCategoria = categoriasEnUso.map((categoria) => {
         const buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
                 if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
@@ -986,7 +989,7 @@ const HTMLResumenReportes = () => {
              acc.categoria = elemento.categoria 
             }
             if (elemento.tipo === "gasto" &&  elemento.categoria === categoria) {
-                acc.monto = elemento.monto - acc.monto
+                acc.monto = acc.monto - elemento.monto 
                 acc.categoria = elemento.categoria    
             }
          return acc
@@ -1001,6 +1004,7 @@ const HTMLResumenReportes = () => {
      } 
     
     })
+    
     
     const categoriaConMayorBalance = buscarMayor(balancePorCategoria)
     
@@ -1146,7 +1150,7 @@ const HTMLResumenReportes = () => {
             <div class="column has-text-weight-semibold">${elemento}</div>
             <div class="column has-text-right has-text-success">+$${filtroGananciaPorMes[index].monto}</div>
             <div class="column has-text-right has-text-danger">-$${filtroGastoPorMes[index].monto}</div>
-            <div class="column has-text-right has-text-dark">$${filtroBalancePorMes[index].monto}</div>
+            <div class="column has-text-right has-text-dark">$${Number(filtroBalancePorMes[index].monto)}</div>
         </div> 
         `
     })
