@@ -1103,6 +1103,7 @@ const HTMLResumenReportes = () => {
     
 
     //----------------HTML RESUMEN
+
     categoriaMayorGanancia.innerHTML = `${categoriaConMayorGanancia.categoria}`;
     montoCategoriaMayorGanancia.innerHTML = `$${categoriaConMayorGanancia.monto}`;
     categoriaMayorGasto.innerHTML = `${categoriaConMayorGasto.categoria}`;
@@ -1125,9 +1126,9 @@ const HTMLResumenReportes = () => {
         accCategoria = accCategoria + `
         <div class="columns is-mobile">
             <div class="column has-text-weight-semibold">${elemento}</div>
-            <div class="column has-text-right has-text-success">${gananciaPorCategoria[index].monto}</div>
-            <div class="column has-text-right has-text-danger">${gastoPorCategoria[index].monto}</div>
-            <div class="column has-text-right has-text-dark">${balancePorCategoria[index].monto}</div> 
+            <div class="column has-text-right has-text-success">+$${gananciaPorCategoria[index].monto}</div>
+            <div class="column has-text-right has-text-danger">-$${gastoPorCategoria[index].monto}</div>
+            <div class="column has-text-right has-text-dark">$${balancePorCategoria[index].monto}</div> 
         </div>
         `
     }) 
@@ -1143,9 +1144,9 @@ const HTMLResumenReportes = () => {
         accMes = accMes + `
         <div class="columns is-mobile">
             <div class="column has-text-weight-semibold">${elemento}</div>
-            <div class="column has-text-right has-text-success">${filtroGananciaPorMes[index].monto}</div>
-            <div class="column has-text-right has-text-danger">${filtroGastoPorMes[index].monto}</div>
-            <div class="column has-text-right has-text-dark">${filtroBalancePorMes[index].monto}</div>
+            <div class="column has-text-right has-text-success">+$${filtroGananciaPorMes[index].monto}</div>
+            <div class="column has-text-right has-text-danger">-$${filtroGastoPorMes[index].monto}</div>
+            <div class="column has-text-right has-text-dark">$${filtroBalancePorMes[index].monto}</div>
         </div> 
         `
     })
