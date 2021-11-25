@@ -64,7 +64,22 @@ const botonEditarCategoriaSeccionEditarCategoria = document.getElementById("boto
 
 const sectionReportes = document.getElementById("section-reportes");
 const conReportes = document.getElementById("con-reportes");
-const sinReportes = document.getElementById("sin-reportes")
+const sinReportes = document.getElementById("sin-reportes");
+const categoriaMayorGanancia = document.getElementById("categoria-mayor-ganancia");
+const montoCategoriaMayorGanancia = document.getElementById("monto-categoria-mayor-ganancia");
+const categoriaMayorGasto = document.getElementById("categoria-mayor-gasto");
+const montoCategoriaMayorGasto = document.getElementById("monto-categoria-mayor-gasto");
+const categoriaMayorBalance = document.getElementById("categoria-mayor-balace");
+const montoCategoriaMayorBalance = document.getElementById("monto-categoria-mayor-balance");
+const mesMayorGanancia = document.getElementById("mes-mayor-ganancia");
+const montoMesMayorGanancia = document.getElementById("monto-mes-mayor-ganancia");
+const mesMayorGasto = document.getElementById("mes-mayor-gasto");
+const montoMesMayorGasto = document.getElementById("monto-mes-mayor-gasto");
+const totalesPorCategoria = document.getElementById("totales-por-categorias");
+const totalesPorMes = document.getElementById("totales-por-mes");
+
+
+
 
 /////////////////////////FIN DE DOM////////////////////////////FIN DE DOM//////////////////////////////////////FIN DE DOM/////////////////////////////
 
@@ -125,7 +140,6 @@ const nuevoObjeto = () => {
     arrayInputUsuario.sort((a, b) => {
         return new Date(b.fecha) - new Date(a.fecha)
     })
-
     return arrayInputUsuario
 }
 
@@ -190,6 +204,15 @@ const ocultarAdvertenciaRepetida = () => {
 }
 
 
+const buscarMayor = (array) => array.reduce((acc,elemento) => {
+    if (acc.monto < elemento.monto) {
+        return acc = elemento
+    }
+    return acc
+},{categoria: "", tipo: "ganancia", monto: 0})
+
+
+
 
 // Comiezo de página
 
@@ -222,16 +245,19 @@ let arrayFechaDeHoy = () => {
 }
 
 
-let mostrarReporte = () => {
-    let mostrarReporteGanancia = arrayInputUsuario.some((elemento) => {
+
+
+const mostrarReporte = () => {
+    const mostrarReporteGanancia = arrayInputUsuario.some((elemento) => {
         return elemento.tipo === "ganancia"
     })
-    let mostrarReporteGasto = arrayInputUsuario.some((elemento) => {
+    const mostrarReporteGasto = arrayInputUsuario.some((elemento) => {
         return elemento.tipo === "gasto"
     })
     if (mostrarReporteGanancia === true && mostrarReporteGasto === true) {
         sinReportes.classList.add("is-hidden")
         conReportes.classList.remove("is-hidden")
+        HTMLResumenReportes()
     }
     else{
         conReportes.classList.add("is-hidden")
@@ -901,306 +927,234 @@ montoNuevaOperacion.oninput = () => {
 
 //--------------SECCION-REPORTES------------//////
 
-const probandoFiltrarCategorias = arrayInputUsuario.map((objeto) => {
-    return objeto.categoria
-})
-//console.log("categorias",probandoFiltrarCategorias);
 
-let categoriasFiltradas = probandoFiltrarCategorias.filter((elemento,index)=>{
-    return probandoFiltrarCategorias.indexOf(elemento) === index;
-  })
-  //console.log("categorias filtradas",categoriasFiltradas)
-
-
-//console.log("array usuario",arrayInputUsuario);
+const HTMLResumenReportes = () => {
+    const categoriasFiltradas = arrayInputUsuario.map((elemento) => {
+        return elemento.categoria
+    })
+     
+    const categoriasEnUso = categoriasFiltradas.filter((elemento, index) => {
+    return categoriasFiltradas.indexOf(elemento) === index
+    })
 
 
+    //------------- FUNCIONES TOTALES POR CATEGORIA 
 
-// Reporte Categoria con Mayor Ganancia
-
-let categoriaConMayorGanancia = categoriasFiltradas.reduce((acc, elemento) => {
-    let buscarCategoriaConMayorGanancia = arrayInputUsuario.reduce((accb, elementob) => {
-        if (elementob.tipo === "ganancia" && elementob.categoria === elemento) {
-            accb.monto = accb.monto + elementob.monto
-            accb.categoria = elemento
-        
-        }
-        return accb
-
-    }, {tipo:"ganancia", monto: 0, categoria: ""})
-    //console.log(objetosReduce);
-    
-    if (buscarCategoriaConMayorGanancia.monto > acc.monto) {
-        acc = buscarCategoriaConMayorGanancia
-        //console.log(acc);
-    }
-    return acc
-}, {tipo:"ganancia", monto: 0, categoria: ""})
-
-console.log("categoria > Ganancia",categoriaConMayorGanancia);
-
-
-// Reporte Categoria con Mayor Gasto
-
-let categoriaConMayorGasto = categoriasFiltradas.reduce((acc, elemento) => {
-    let buscarCategoriaConMayorGasto = arrayInputUsuario.reduce((accb, elementob) => {
-        if (elementob.tipo === "gasto" && elementob.categoria === elemento) {
-            accb.monto = accb.monto + elementob.monto
-            accb.categoria = elemento
-        
-        }
-        return accb
-
-    }, {tipo:"gasto", monto: 0, categoria: ""})
-    
-    
-    if (buscarCategoriaConMayorGasto.monto > acc.monto) {
-        acc = buscarCategoriaConMayorGasto
+    const gananciaPorCategoria = categoriasEnUso.map((categoria) => {
+        const buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
+                if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
+                acc.monto = elemento.monto + acc.monto
+                acc.categoria = elemento.categoria
+                acc.tipo = elemento.tipo
+            }
+            return acc 
+            }, {categoria:"", tipo:"", monto: 0})  
        
-    }
-    return acc
-}, {tipo:"gasto", monto: 0, categoria: ""})
-
-console.log("categoria > Gasto",categoriaConMayorGasto);
-
-
-//Reporte Categoria con Mayor Balance
-
-let categoriaConMayorBalance = categoriasFiltradas.reduce((acc, elemento) => {
-    let buscarCategoriaConMayorBalance = arrayInputUsuario.reduce((accb, elementob) => {
-        if (elementob.tipo === "ganancia" && elementob.categoria === elemento) {
-            accb.monto = accb.monto + elementob.monto
-            accb.categoria = elemento
-        
+        if (buscarCategoria.monto != 0) {
+            return buscarCategoria
         }
-        if (elementob.tipo === "gasto" && elementob.categoria === elemento) {
-            accb.monto = accb.monto - elementob.monto
-            accb.categoria = elemento
-        
+        if (buscarCategoria.monto === 0) {
+            return  {categoria: categoria, tipo: "ganancia", monto: 0}
         }
-        return accb
+    })
+    
+    const categoriaConMayorGanancia = buscarMayor(gananciaPorCategoria)
 
-    }, {monto: 0, categoria: ""})
+    const gastoPorCategoria = categoriasEnUso.map((categoria) => {
     
-    
-    if (buscarCategoriaConMayorBalance.monto > acc.monto) {
-        acc = buscarCategoriaConMayorBalance
+        const buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
+             if (elemento.tipo === "gasto" &&  elemento.categoria === categoria) {
+             acc.monto = elemento.monto + acc.monto
+             acc.categoria = elemento.categoria
+             acc.tipo = elemento.tipo
+         }
+         return acc
+         }, {categoria:"", tipo:"", monto: 0})
        
-    }
-    return acc
-}, {monto: 0, categoria: ""})
-
-console.log("categoria > Balance",categoriaConMayorBalance);
-
-
-// Totales por Categoria
-
-//ganancia
-
-let gananciaPorCategoria = categoriasFiltradas.map((categoria) => {
-    
-       let buscar =  arrayInputUsuario.reduce((acc, elemento) => {
-            if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
-            acc.monto = elemento.monto + acc.monto
-            acc.categoria = elemento.categoria
-            acc.tipo = elemento.tipo
-        }
-        return acc
-        
-        }, {categoria:"", tipo:"", monto: 0})
-      
-   
-    if (buscar.monto != 0) {
-        return buscar
-    }
-    if (buscar.monto === 0) {
-        return  {categoria: categoria, tipo: "ganancia", monto: 0}
-    }
-
-})
-
-
-console.log("ganancia por categoria",gananciaPorCategoria);
-
-
-//gasto
-
-let gastoPorCategoria = categoriasFiltradas.map((categoria) => {
-    
-    let buscar =  arrayInputUsuario.reduce((acc, elemento) => {
-         if (elemento.tipo === "gasto" &&  elemento.categoria === categoria) {
-         acc.monto = elemento.monto + acc.monto
-         acc.categoria = elemento.categoria
-         acc.tipo = elemento.tipo
+     if (buscarCategoria.monto != 0) {
+         return buscarCategoria
      }
-     return acc
-     
-     }, {categoria:"", tipo:"", monto: 0})
-   
+     if (buscarCategoria.monto === 0) {
+         return  {categoria: categoria, tipo: "gasto", monto: 0}
+     }
+    })
 
- if (buscar.monto != 0) {
-     return buscar
- }
- if (buscar.monto === 0) {
-     return  {categoria: categoria, tipo: "gasto", monto: 0}
- }
-
-})
-
-
-console.log("gasto por categoria",gastoPorCategoria);
-
-//balance
-
-let balancePorCategoria = categoriasFiltradas.map((categoria) => {
+    const categoriaConMayorGasto = buscarMayor(gastoPorCategoria)
     
-    let buscar =  arrayInputUsuario.reduce((acc, elemento) => {
-        if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
-         acc.monto = elemento.monto + acc.monto
-         acc.categoria = elemento.categoria
+    
+    const balancePorCategoria = categoriasEnUso.map((categoria) => {
+        const buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
+            if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
+             acc.monto = elemento.monto + acc.monto
+             acc.categoria = elemento.categoria 
+            }
+            if (elemento.tipo === "gasto" &&  elemento.categoria === categoria) {
+                acc.monto = acc.monto - elemento.monto 
+                acc.categoria = elemento.categoria    
+            }
+         return acc
          
-        }
-        if (elemento.tipo === "gasto" &&  elemento.categoria === categoria) {
-            acc.monto = elemento.monto - acc.monto
-            acc.categoria = elemento.categoria
+         }, {categoria:"", monto: 0})
+       
+     if (buscarCategoria.monto != 0) {
+         return buscarCategoria
+     }
+     if (buscarCategoria.monto === 0) {
+         return  {categoria: categoria, monto: 0}
+     } 
+    
+    })
+    
+    
+    const categoriaConMayorBalance = buscarMayor(balancePorCategoria)
+    
+
+
+    //----------------------FECHAS
+    
+    const fechaDeOperacion = arrayInputUsuario.map((elemento) => {
+        return elemento.fecha.slice(0,7)
+    })
+    const fechasFiltradas = fechaDeOperacion.filter((elemento,index) => { 
+        return fechaDeOperacion.indexOf(elemento) === index
+    })
+    
+ 
+    // TOTALES POR MES: GANANCIA
+
+    const gananciaPorMes = fechasFiltradas.map((fecha) => {
+        const buscarMesMayorGanancia = arrayInputUsuario.reduce((acc,elemento) => {
             
-           }
+            if (elemento.tipo === "ganancia" && elemento.fecha.slice(0, 7) === fecha) {
+                acc.monto = acc.monto + elemento.monto 
+                acc.fecha = fecha
+                acc.tipo = "ganancia"
+            }
+            return acc
 
-     return acc
-     
-     }, {categoria:"", monto: 0})
-   
-
- if (buscar.monto != 0) {
-     return buscar
- }
- if (buscar.monto === 0) {
-     return  {categoria: categoria, monto: 0}
- } 
-
-})
-
-console.log("balance por categoria",balancePorCategoria)
-
-
-
-//FECHAS
-
-// obtener array de anio/mes
-
-
-let fechaDeOperacion = arrayInputUsuario.map((elemento) => {
-    let mesDeOperacion = new Date (Date.parse(elemento.fecha)).getMonth()+1 // tengo el mes
-    let anioDeOperacion = new Date (Date.parse(elemento.fecha)).getFullYear()
-    return `${anioDeOperacion}-${mesDeOperacion}`
-})
-let fechasFiltradas = fechaDeOperacion.filter((elemento,index) => { 
-    return fechaDeOperacion.indexOf(elemento) === index
-})
-//console.log(fechasFiltradas);
-
-
-
-
-// cambiar fecha completa por anio/mes
-
-let arrayFechasFiltradas = arrayInputUsuario.filter((elemento) => {
-    elemento.fecha = elemento.fecha.slice(0,7); 
-    return elemento;
-})
-//console.log(arrayFechasFiltradas);
-
-// TOTALES POR MES: GANANCIA
-
-let gananciaPorMes = fechasFiltradas.map((elemento) => {
-    let buscarMesMayorGanancia = arrayFechasFiltradas.reduce((accb,elementob) => {
-        if (elementob.tipo === "ganancia" && elementob.fecha === elemento) {
-            accb.monto = accb.monto + elementob.monto 
-            accb.fecha = elemento
-            accb.tipo = "ganancia"
-        }
-        return accb
-
-    }, {monto:0, tipo:"",fecha:""})
-         
-    return buscarMesMayorGanancia
+        }, {monto:0, tipo:"",fecha:""})
     
-})
-let filtroGananciaPorMes = gananciaPorMes.filter((elemento) => {
-    return elemento.tipo === "ganancia"
-})
-
-console.log("Ganancia por mes",filtroGananciaPorMes);
-
-
-
-//TOTALES POR MES: GASTO
-
-let gastoPorMes = fechasFiltradas.map((elemento) => {
-    let buscarMesMayorGasto = arrayFechasFiltradas.reduce((accb,elementob) => {
-        if (elementob.tipo === "gasto" && elementob.fecha === elemento) {
-            accb.monto = accb.monto + elementob.monto 
-            accb.fecha = elemento
-            accb.tipo = "gasto"
+        if (buscarMesMayorGanancia.monto != 0) {
+            return buscarMesMayorGanancia
         }
-        return accb
-
-    }, {monto:0, tipo:"",fecha:""})
-      
-    return buscarMesMayorGasto    
-})
-let filtroGastoPorMes = gastoPorMes.filter((elemento) => {
-    return elemento.tipo === "gasto"
-})
-
-console.log("Gasto por mes",filtroGastoPorMes);
-
-
-//TOTALES POR MES: BALANCE
-
-let balancePorMes = fechasFiltradas.map((elemento) => {
-    let buscarBalancePorMes = arrayFechasFiltradas.reduce((accb,elementob) => {
-        if (elementob.tipo === "ganancia" && elementob.fecha === elemento) {
-            accb.monto = accb.monto + elementob.monto 
-            accb.fecha = elemento
+        if (buscarMesMayorGanancia.monto === 0) {
+            return  {monto: 0, tipo: "ganancia",fecha: fecha}
         }
-        if (elementob.tipo === "gasto" && elementob.fecha === elemento) {
-            accb.monto = accb.monto - elementob.monto 
-            accb.fecha = elemento
-        }
-        return accb
-
-    }, {monto:0, fecha:""})
-      
-    return buscarBalancePorMes    
-})
-let filtroBalancePorMes = balancePorMes.filter((elemento) => {
-    return elemento.fecha != ""
-})
-
-console.log("Balance por mes",filtroBalancePorMes);
-
-
-
-
-//MES CON MAYOR GANANCIA 
-
-let mesMayorGanancia = filtroGananciaPorMes.reduce((acc, elemento) => {
-    if (acc.monto < elemento.monto) {
-        return acc = elemento
-    }
-    return acc
-}, {fecha: "", monto:0})
-
-console.log("mes con > ganancia" ,mesMayorGanancia);
-
-let mesConMayorGasto = filtroGastoPorMes.reduce((acc,elemento) => {
-        if (acc.monto < elemento.monto) {
-        acc = elemento
         
+    })
+
+    const filtroGananciaPorMes = gananciaPorMes.filter((elemento) => {
+        return elemento.tipo === "ganancia"
+    })
+    
+    const mesConMayorGanancia = buscarMayor(filtroGananciaPorMes)
+
+    
+
+    //TOTALES POR MES: GASTO
+
+    const gastoPorMes = fechasFiltradas.map((fecha) => {
+        const buscarMesMayorGasto = arrayInputUsuario.reduce((acc,elemento) => {
+            if (elemento.tipo === "gasto" && elemento.fecha.slice(0, 7) === fecha) {
+                acc.monto = acc.monto + elemento.monto 
+                acc.fecha = fecha
+                acc.tipo = "gasto"
+            }
+            return acc
+
+        }, {monto:0, tipo:"",fecha:""})
+        
+        if (buscarMesMayorGasto.monto != 0) {
+            return buscarMesMayorGasto
         }
-        return acc
+        if (buscarMesMayorGasto.monto === 0) {
+            return  {monto: 0, tipo: "gasto",fecha: fecha}
+        }    
+    })
+    const filtroGastoPorMes = gastoPorMes.filter((elemento) => {
+        return elemento.tipo === "gasto"
+    })
 
-}, {monto: 0, tipo: "", fecha:""})
+    const mesConMayorGasto = buscarMayor(filtroGastoPorMes)
 
-console.log("mes con > gasto", mesConMayorGasto);
+    //TOTALES POR MES: BALANCE
+
+    const balancePorMes = fechasFiltradas.map((elemento) => {
+        const buscarBalancePorMes = arrayInputUsuario.reduce((accb,elementob) => {
+            if (elementob.tipo === "ganancia" && elementob.fecha.slice(0, 7) === elemento) {
+                accb.monto = accb.monto + elementob.monto 
+                accb.fecha = elemento
+            }
+            if (elementob.tipo === "gasto" && elementob.fecha.slice(0, 7) === elemento) {
+                accb.monto = accb.monto - elementob.monto 
+                accb.fecha = elemento
+            }
+            return accb
+
+        }, {monto:0, fecha:""})
+          
+        if (buscarBalancePorMes.monto != 0) {
+            return buscarBalancePorMes
+        }
+        if (buscarBalancePorMes.monto === 0) {
+            return  {monto: 0, fecha: elemento}
+        }    
+    })
+    const filtroBalancePorMes = balancePorMes.filter((elemento) => {
+        return elemento.fecha != ""
+    }) 
+
+    
+
+    //----------------HTML RESUMEN
+
+    categoriaMayorGanancia.innerHTML = `${categoriaConMayorGanancia.categoria}`;
+    montoCategoriaMayorGanancia.innerHTML = `$${categoriaConMayorGanancia.monto}`;
+    categoriaMayorGasto.innerHTML = `${categoriaConMayorGasto.categoria}`;
+    montoCategoriaMayorGasto.innerHTML = `-$${categoriaConMayorGasto.monto}`;
+    categoriaMayorBalance.innerHTML = `${categoriaConMayorBalance.categoria}`;
+    montoCategoriaMayorBalance.innerHTML = `$${categoriaConMayorBalance.monto}`;
+    mesMayorGanancia.innerHTML = `${mesConMayorGanancia.fecha}`;
+    montoMesMayorGanancia.innerHTML = `$${mesConMayorGanancia.monto}`;
+    mesMayorGasto.innerHTML = `${mesConMayorGasto.fecha}`;
+    montoMesMayorGasto.innerHTML = `-$${mesConMayorGasto.monto}`;
+
+    
+    //--------------HTML totales por categoria 
+
+    let accCategoria = ""
+    categoriasEnUso.map((elemento, index) => {
+        gananciaPorCategoria[index];
+        gastoPorCategoria[index];
+        balancePorCategoria[index];
+        accCategoria = accCategoria + `
+        <div class="columns is-mobile">
+            <div class="column has-text-weight-semibold">${elemento}</div>
+            <div class="column has-text-right has-text-success">+$${gananciaPorCategoria[index].monto}</div>
+            <div class="column has-text-right has-text-danger">-$${gastoPorCategoria[index].monto}</div>
+            <div class="column has-text-right has-text-dark">$${balancePorCategoria[index].monto}</div> 
+        </div>
+        `
+    }) 
+
+    totalesPorCategoria.innerHTML = accCategoria
+
+    //--------------------HTML totales por mes
+    let accMes = ""
+    fechasFiltradas.map((elemento, index) => {
+        filtroGananciaPorMes[index];
+        filtroGastoPorMes[index];
+        filtroBalancePorMes[index];
+        accMes = accMes + `
+        <div class="columns is-mobile">
+            <div class="column has-text-weight-semibold">${elemento}</div>
+            <div class="column has-text-right has-text-success">+$${filtroGananciaPorMes[index].monto}</div>
+            <div class="column has-text-right has-text-danger">-$${filtroGastoPorMes[index].monto}</div>
+            <div class="column has-text-right has-text-dark">$${Number(filtroBalancePorMes[index].monto)}</div>
+        </div> 
+        `
+    })
+    totalesPorMes.innerHTML = accMes  
+
+
+}

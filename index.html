@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
         integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <link rel="icon" type="image/ico" href="ahorradas.ico">
     <title>Ahorradas</title>
 </head>
 
@@ -298,8 +299,7 @@
                                             <span class="icon is-small is-right is-hidden categoria-repetida">
                                                 <i class="fas fa-exclamation-triangle"></i>
                                             </span>
-                                            <p class="help is-danger is-hidden requested-field my-0">Ingresa una
-                                                descripción</p>
+                                            <p class="help is-danger is-hidden requested-field my-0">Elige un nombre para tu categoría</p>
                                             <p class="help is-danger is-hidden categoria-repetida my-0">La categoría ya
                                                 existe</p>
                                         </div>
@@ -349,90 +349,62 @@
                                     <div class="column is-6 has-text-weight-semibold">Categoría con mayor ganancia
                                     </div>
                                     <div class="column is-3 has-text-right">
-                                        <span class="tag is-primary is-light">Comida</span>
+                                        <span class="tag is-primary is-light" id="categoria-mayor-ganancia"></span>
                                     </div>
-                                    <div class="column is-3 has-text-right has-text-success has-text-weight-semibold">
-                                        +$10000
+                                    <div class="column is-3 has-text-right has-text-success has-text-weight-semibold" id="monto-categoria-mayor-ganancia">
+                                        
                                     </div>
                                 </div>
                                 <div class="columns is-mobile">
                                     <div class="column is-6 has-text-weight-semibold">Categoría con mayor gasto
                                     </div>
                                     <div class="column is-3 has-text-right">
-                                        <span class="tag is-primary is-light">Comida</span>
+                                        <span class="tag is-primary is-light" id="categoria-mayor-gasto"></span>
                                     </div>
-                                    <div class="column is-3 has-text-right has-text-danger has-text-weight-semibold">
-                                        -$5000
-                                    </div>
+                                    <div class="column is-3 has-text-right has-text-danger has-text-weight-semibold" id="monto-categoria-mayor-gasto"></div>
                                 </div>
                                 <div class="columns is-mobile">
                                     <div class="column is-6 has-text-weight-semibold">Categoría con mayor balance
                                     </div>
                                     <div class="column is-3 has-text-right">
-                                        <span class="tag is-primary is-light">Comida</span>
+                                        <span class="tag is-primary is-light" id="categoria-mayor-balace"></span>
                                     </div>
-                                    <div class="column is-3 has-text-right has-text-dark has-text-weight-semibold">$5000
-                                    </div>
+                                    <div class="column is-3 has-text-right has-text-dark has-text-weight-semibold" id="monto-categoria-mayor-balance"></div>
                                 </div>
                                 <div class="columns is-mobile">
                                     <div class="column is-6 has-text-weight-semibold">Mes con mayor ganancia
                                     </div>
-                                    <div class="column is-3 has-text-right">2021/10/21
-                                    </div>
-                                    <div class="column is-3 has-text-right has-text-success has-text-weight-semibold">
-                                        $10000
-                                    </div>
+                                    <div class="column is-3 has-text-right" id="mes-mayor-ganancia"></div>
+                                    <div class="column is-3 has-text-right has-text-success has-text-weight-semibold" id="monto-mes-mayor-ganancia"></div>
                                 </div>
                                 <div class="columns is-mobile">
                                     <div class="column is-6 has-text-weight-semibold">Mes con mayor gasto
                                     </div>
-                                    <div class="column is-3 has-text-right">2021/10/20
-                                    </div>
-                                    <div class="column is-3 has-text-right has-text-danger has-text-weight-semibold">
-                                        -$5000
-                                    </div>
+                                    <div class="column is-3 has-text-right" id="mes-mayor-gasto"></div>
+                                    <div class="column is-3 has-text-right has-text-danger has-text-weight-semibold" id="monto-mes-mayor-gasto"></div>
                                 </div>
                             </div>
                             <div class="p-5 mt-6">
                                 <h1 class="title is-4 mt-5">Totales por categorías</h1>
                                 <div class="columns is-mobile mt-2">
-                                    <div class="column has-text-weight-semibold">Categoria
-                                    </div>
+                                    <div class="column has-text-weight-semibold">Categoria</div>
                                     <div class="column has-text-weight-semibold has-text-right">Ganancias</div>
                                     <div class="column has-text-weight-semibold has-text-right">Gastos</div>
                                     <div class="column has-text-weight-semibold has-text-right">Balance</div>
                                 </div>
-                                <div class="columns is-mobile">
-                                    <div class="column has-text-weight-semibold">Comida
-                                    </div>
-                                    <div class="column has-text-right has-text-success">+$10000
-                                    </div>
-                                    <div class="column has-text-right has-text-danger">-$5000
-                                    </div>
-                                    <div class="column has-text-right has-text-dark">$5000
-                                    </div>
+                                <div  id="totales-por-categorias">
                                 </div>
-                            </div>
+                                </div>
                             <div class="p-5 mt-6">
                                 <h1 class="title is-4 mt-5">Totales por mes</h1>
                                 <div class="columns is-mobile mt-2">
-                                    <div class="column has-text-weight-semibold">Mes
-                                    </div>
+                                    <div class="column has-text-weight-semibold">Mes</div>
                                     <div class="column has-text-weight-semibold has-text-right">Ganancias</div>
                                     <div class="column has-text-weight-semibold has-text-right">Gastos</div>
                                     <div class="column has-text-weight-semibold has-text-right">Balance</div>
                                 </div>
-                                <div class="columns is-mobile">
-                                    <div class="column has-text-weight-semibold">10/2021
-
-                                    </div>
-                                    <div class="column has-text-right has-text-success">+$10000
-                                    </div>
-                                    <div class="column has-text-right has-text-danger">-$5000
-                                    </div>
-                                    <div class="column has-text-right has-text-dark">$5000
-                                    </div>
-                                </div>
+                                <div id="totales-por-mes"></div>
+                                
                             </div>
                         </div>
                     </article>
