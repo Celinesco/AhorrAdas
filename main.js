@@ -555,24 +555,24 @@ const HTMLBalanceBoxOperaciones = (array) => {
 
         array.map((operacion) => {
             acc = acc + `
-        <div class="columns is-vcentered">
-            <div class="column  is-3 is-3-tablet">
+        <div class="columns is-vcentered is-multiline is-mobile">
+            <div class="column is-6-mobile is-3-tablet">
                <p class="has-text-weight-bold"> ${operacion.descripcion}</p>
             </div>
-            <div class="column is-2">
+            <div class="column is-6-mobile is-3-tablet is-2-desktop has-text-right-mobile">
                 <p class="tag is-primary is-light ">${operacion.categoria}</p>
             </div>
-            <div class="column is-2 has-text-grey has-text-right">
+            <div class="column is-2-tablet is-3-desktop has-text-grey has-text-right-tablet is-hidden-mobile">
                 ${operacion.fecha}
             </div>
-            <div class="column is-2 has-text-right has-text-weight-bold ${operacion.tipo === "ganancia" ? "has-text-success" : "has-text-danger"}"> 
+            <div class="column has-text-right-tablet has-text-weight-bold is-2-tablet is-6-mobile is-size-4-mobile ${operacion.tipo === "ganancia" ? "has-text-success" : "has-text-danger"}"> 
             ${operacion.tipo === "ganancia" ? "+$" : "-$"}${operacion.monto}
             </div>
-            <div class="column is-3">
+            <div class="column is-2-tablet is-6-mobile is-2-desktop">
                 <div class="columns">
-                    <div class="column is-flex is-justify-content-flex-end">
-                        <button class="button is-ghost is-size-7 abrir-editar-operacion" id="editar${operacion.id}">Editar</button>
-                        <button class="button is-ghost is-size-7 eliminar-operacion" id="eliminar${operacion.id}">Eliminar</button>
+                    <div class="column is-flex-widescreen is-block-desktop has-text-right">
+                        <button class="button is-ghost is-size-7 abrir-editar-operacion pl-0" id="editar${operacion.id}">Editar</button>
+                        <button class="button is-ghost is-size-7 eliminar-operacion pl-0" id="eliminar${operacion.id}">Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -582,12 +582,12 @@ const HTMLBalanceBoxOperaciones = (array) => {
 
         contenedorOperaciones.removeAttribute("class")
         contenedorOperaciones.innerHTML = `
-    <div class="columns my-3 py-2" id="contenedor-operaciones">
+    <div class="columns my-3 py-2 is-hidden-mobile" id="contenedor-operaciones">
         <div class="column has-text-weight-semibold is-3">Descripción</div>
-        <div class="column has-text-weight-semibold is-2">Categoría</div>
+        <div class="column has-text-weight-semibold is-3">Categoría</div>
         <div class="column has-text-weight-semibold is-2 has-text-right">Fecha</div>
         <div class="column has-text-weight-semibold is-2 has-text-right">Monto</div>
-        <div class="column has-text-weight-semibold is-3 has-text-right">Acciones</div>
+        <div class="column has-text-weight-semibold is-2 has-text-right">Acciones</div>
     </div>
 
     <div class="">
