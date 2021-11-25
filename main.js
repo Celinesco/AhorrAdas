@@ -532,7 +532,7 @@ const htmlOperacionesSinResulados = () => {
     contenedorOperaciones.setAttribute('class', "columns is-centered my-6 py-6")
     contenedorOperaciones.innerHTML =
         `<div class="column is-6">
-        <div class="image">
+        <div class="image" aria-hidden= "true">
             <img src="images/undraw_Growing_re_olpi.svg">
         </div>
         <p class="title has-text-centered mt-6 is-4">Sin resultados</p>
