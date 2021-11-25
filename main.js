@@ -96,6 +96,17 @@ let edicion = false;
 
 //Funciones Auxiliares
 
+const convertirFecha = (stringFecha) => {
+    let arrayFechaLocalDadaVuelta = [];
+    let arrayFechaLocal = stringFecha.split('/')
+    for (let i = 2; i >= 0; i--){
+        arrayFechaLocalDadaVuelta.push(arrayFechaLocal[i])  
+    }
+    let fechaFormatoFecha = arrayFechaLocalDadaVuelta.join('/')
+    return new Date(fechaFormatoFecha)
+}
+
+
 
 const convertirAJSON = (array) => {
     let arrayConvertido = JSON.stringify(array);
@@ -228,8 +239,12 @@ if (categoriasActualizadas !== null) {
 }
 
 
-fechaNuevaOperacion.valueAsDate = new Date()
-filtroFecha.valueAsDate = new Date()
+const fechaUTChoy = new Date ();
+const fechaLocalString = fechaUTChoy.toLocaleDateString()
+
+
+fechaNuevaOperacion.valueAsDate = convertirFecha(fechaLocalString)
+filtroFecha.valueAsDate = convertirFecha(fechaLocalString)
 
 
 let arrayFechaDeHoy = () => {
