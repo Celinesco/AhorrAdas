@@ -96,6 +96,17 @@ let edicion = false;
 
 //Funciones Auxiliares
 
+const convertirFecha = (stringFecha) => {
+    let arrayFechaLocalDadaVuelta = [];
+    let arrayFechaLocal = stringFecha.split('/')
+    for (let i = 2; i >= 0; i--){
+        arrayFechaLocalDadaVuelta.push(arrayFechaLocal[i])  
+    }
+    let fechaFormatoFecha = arrayFechaLocalDadaVuelta.join('/')
+    return fechaFormatoFecha
+}
+
+
 
 const convertirAJSON = (array) => {
     let arrayConvertido = JSON.stringify(array);
@@ -228,8 +239,12 @@ if (categoriasActualizadas !== null) {
 }
 
 
-fechaNuevaOperacion.valueAsDate = new Date()
-filtroFecha.valueAsDate = new Date()
+const fechaUTChoy = new Date ();
+const fechaLocalString = fechaUTChoy.toLocaleDateString()
+
+
+fechaNuevaOperacion.valueAsDate = new Date(convertirFecha(fechaLocalString))
+filtroFecha.valueAsDate = new Date(convertirFecha(fechaLocalString))
 
 
 let arrayFechaDeHoy = () => {
@@ -542,7 +557,15 @@ const htmlOperacionesSinResulados = () => {
 
 htmlOperacionesSinResulados()
 
-
+const ordernarFechaHTMLOperaciones = (string) => {
+    let arrayFechaOrdenada = [];
+    let arrayFechaDesordenada = string.split("-");
+    for (let i = 2; i >= 0; i--) {
+        arrayFechaOrdenada.push(arrayFechaDesordenada[i])
+    }
+    let fechaResultado = arrayFechaOrdenada.join("/")
+    return fechaResultado
+}
 
 const HTMLBalanceBoxOperaciones = (array) => {
 
@@ -553,7 +576,7 @@ const HTMLBalanceBoxOperaciones = (array) => {
     else {
         let acc = " ";
 
-        array.map((operacion) => {
+        array.map((operacion) => {            
             acc = acc + `
         <div class="columns is-vcentered is-multiline is-mobile">
             <div class="column is-6-mobile is-3-tablet">
@@ -563,7 +586,7 @@ const HTMLBalanceBoxOperaciones = (array) => {
                 <p class="tag is-primary is-light ">${operacion.categoria}</p>
             </div>
             <div class="column is-2-tablet is-3-desktop has-text-grey has-text-right-tablet is-hidden-mobile">
-                ${operacion.fecha}
+                ${ordernarFechaHTMLOperaciones(operacion.fecha)}
             </div>
             <div class="column has-text-right-tablet has-text-weight-bold is-2-tablet is-6-mobile is-size-4-mobile ${operacion.tipo === "ganancia" ? "has-text-success" : "has-text-danger"}"> 
             ${operacion.tipo === "ganancia" ? "+$" : "-$"}${operacion.monto}
@@ -577,6 +600,7 @@ const HTMLBalanceBoxOperaciones = (array) => {
                 </div>
             </div>
          </div>`
+         
         })
 
 
