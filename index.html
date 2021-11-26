@@ -14,7 +14,7 @@
 
 <body>
     <header>
-        <nav class="navbar is-primary is-spaced mb-5" role="navigation" aria-label="main navigation">
+        <nav class="navbar is-primary is-spaced mb-5" role="navigation" aria-label="barra">
             <div class="navbar-brand">
                 <a class="navbar-item" href="index.html">
                     <span class="icon is-large mr-2">
@@ -30,16 +30,16 @@
                     <span aria-hidden="true"></span>
                 </a>
             </div>
-            <div class="navbar-menu" id="abrir-menu-hamburguesa">
+            <div class="navbar-menu" id="abrir-menu-hamburguesa" >
                 <div class="navbar-end has-text-white">
                     <a class="navbar-item" id="item-nav-seccion-balance">
-                        <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>Balance
+                        <i class="fas fa-chart-line mr-2"></i>Balance
                     </a>
                     <a class="navbar-item" id="item-nav-seccion-categorias">
-                        <i class="fas fa-tag mr-1" aria-hidden="true"></i>Categorías
+                        <i class="fas fa-tag mr-1"></i>Categorías
                     </a>
                     <a class="navbar-item" id="item-nav-seccion-reportes">
-                        <i class="fas fa-chart-pie mr-1" aria-hidden="true"></i>Reportes
+                        <i class="fas fa-chart-pie mr-1"></i>Reportes
                     </a>
                 </div>
             </div>
@@ -247,10 +247,10 @@
                     <article class="box">
                         <h2 class="title is-size-2">Categorías</h2>
                         <form>
-                            <label class="label mt-6" for="nueva-categoria">Nombre</label>
+                            <label class="label mt-6" for="nueva-categoria id" aria-label="Nombre nueva categoria">Nombre</label>
                             <div class="field is-grouped">
                                 <div class="control is-expanded has-icons-right">
-                                    <input class="input" id="input-nueva-categoria" type="text" maxlength="50" required>
+                                    <input class="input"  id="input-nueva-categoria" type="text" maxlength="50" required  aria-label="Ingresar nombre de nueva categoria">
                                     <span class="icon is-small is-hidden is-right requested-field categoria-repetida">
                                         <i class="fas fa-exclamation-triangle"></i>
                                     </span>
@@ -334,7 +334,7 @@
                         <h2 class="title is-size-2 has-text-weight-bold">Reportes</h2>
                         <div id= "sin-reportes" class="columns is-centered my-6 py-6 is-hidden">
                             <div class="column is-6">
-                                <div class="image">
+                                <div class="image" aria-hidden= "true">
                                     <img src="images/undraw_Pie_chart_re_bgs8.svg" style="width: 80%;">
                                 </div>
                                 <p class="title has-text-centered mt-6 is-4">Operaciones insuficientes</p>
