@@ -654,7 +654,6 @@ const agregarOEditarOperacion = () => {
         actualizarListaBotonesEditarOperacion() 
     }
 
-    
 
     else if (valorDescripcion.length === 0 && valorMonto == "") {
         alertaCampoRequerido.forEach((alertas) => {
@@ -688,9 +687,7 @@ botonAgregarNuevaOperacion.onclick = (e) => {
 
 cancelarNuevaOperacion.onclick = () => {
     ocultarSecciones();
-    seccionBalance.classList.remove('is-hidden');
-
-          
+    seccionBalance.classList.remove('is-hidden'); 
     resetearValoresInputs();
     ocultarAdvertenciaCamposRequeridos()
     montoCampoRequerido.forEach((alertas) => {
@@ -906,11 +903,7 @@ botonEditarCategoriaSeccionEditarCategoria.onclick = (e) => {
 
 
 
-montoNuevaOperacion.oninput = () => {
-    montoCampoRequerido.forEach((alertas) => {
-        alertas.classList.add('is-hidden')
-    })
-}
+
 
 descripcionNuevaOperacion.oninput = () => {
     ocultarAdvertenciaCamposRequeridos()
@@ -941,11 +934,16 @@ aplicarFiltros()
 
 montoNuevaOperacion.oninput = () => {
     if (montoNuevaOperacion.value.length > 10) {
-    let numeroAstring = String(montoNuevaOperacion.value)
-    let cortarString = numeroAstring.slice(0,10)
-    let volverANumero = Number(cortarString)
-    montoNuevaOperacion.value = volverANumero
+        let numeroAstring = String(montoNuevaOperacion.value)
+        let cortarString = numeroAstring.slice(0, 10)
+        let volverANumero = Number(cortarString)
+        montoNuevaOperacion.value = volverANumero
     }
+
+    montoCampoRequerido.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    })
+
 }
 
 
