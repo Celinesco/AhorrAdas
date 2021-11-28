@@ -902,9 +902,6 @@ botonEditarCategoriaSeccionEditarCategoria.onclick = (e) => {
 //Alertas 
 
 
-
-
-
 descripcionNuevaOperacion.oninput = () => {
     ocultarAdvertenciaCamposRequeridos()
 }
@@ -922,8 +919,6 @@ agregarNuevaCategoria.onclick = (e) => {
     e.preventDefault()
     agregarOEditarCategoria(inputNuevaCategoria)
 }
-
-
 
 
 
@@ -1146,9 +1141,6 @@ const HTMLResumenReportes = () => {
 
     let accCategoria = ""
     categoriasEnUso.map((elemento, index) => {
-        gananciaPorCategoria[index];
-        gastoPorCategoria[index];
-        balancePorCategoria[index];
         accCategoria = accCategoria + `
         <div class="columns is-mobile">
             <div class="column has-text-weight-semibold">${elemento}</div>
@@ -1164,9 +1156,6 @@ const HTMLResumenReportes = () => {
     //--------------------HTML totales por mes
     let accMes = ""
     fechasFiltradas.map((elemento, index) => {
-        filtroGananciaPorMes[index];
-        filtroGastoPorMes[index];
-        filtroBalancePorMes[index];
         accMes = accMes + `
         <div class="columns is-mobile">
             <div class="column has-text-weight-semibold">${elemento}</div>
