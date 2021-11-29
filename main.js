@@ -258,15 +258,15 @@ itemNavSeccionBalance.onclick = () => {
 
 itemNavSeccionCategorias.onclick = () => {
     ocultarSecciones();
-    ocultarAdvertenciaCamposRequeridos()
-    ocultarMenuHamburguesa()
+    ocultarAdvertenciaCamposRequeridos();
+    ocultarMenuHamburguesa();
     seccionCategorias.classList.remove('is-hidden');
 };
 
 itemNavSeccionReportes.onclick = () => {
     ocultarSecciones();
-    ocultarMenuHamburguesa()
-    ocultarAdvertenciaCamposRequeridos()
+    ocultarMenuHamburguesa();
+    ocultarAdvertenciaCamposRequeridos();
     seccionReportes.classList.remove('is-hidden');
     mostrarReporte()
 };
