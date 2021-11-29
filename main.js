@@ -62,7 +62,7 @@ const botonEditarCategoriaSeccionEditarCategoria = document.getElementById("boto
 
 //SECCION REPORTES
 
-const sectionReportes = document.getElementById("section-reportes");
+const seccionReportes = document.getElementById("section-reportes");
 const conReportes = document.getElementById("con-reportes");
 const sinReportes = document.getElementById("sin-reportes");
 const categoriaMayorGanancia = document.getElementById("categoria-mayor-ganancia");
@@ -258,13 +258,15 @@ itemNavSeccionBalance.onclick = () => {
 
 itemNavSeccionCategorias.onclick = () => {
     ocultarSecciones();
+    ocultarAdvertenciaCamposRequeridos()
     seccionCategorias.classList.remove('is-hidden');
     menuHambuguesa()
 };
 
 itemNavSeccionReportes.onclick = () => {
     ocultarSecciones();
-    sectionReportes.classList.remove('is-hidden');
+    ocultarAdvertenciaCamposRequeridos()
+    seccionReportes.classList.remove('is-hidden');
     menuHambuguesa()
     mostrarReporte()
 };
@@ -581,6 +583,10 @@ const HTMLBalanceBoxOperaciones = (array) => {
 
 abrirSeccionNuevaOperacion.onclick = () => {
     edicion = false;
+    ocultarAdvertenciaCamposRequeridos()
+    montoCampoRequerido.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    })
     ocultarSecciones();
     seccionNuevaOperacion.classList.remove('is-hidden');
     tituloModalEditarCrearOperacion.textContent = `Nueva operación`;
@@ -667,9 +673,6 @@ cancelarNuevaOperacion.onclick = () => {
     seccionBalance.classList.remove('is-hidden'); 
     resetearValoresInputs();
     ocultarAdvertenciaCamposRequeridos()
-    montoCampoRequerido.forEach((alertas) => {
-        alertas.classList.add('is-hidden')
-    })
 }
 
 
