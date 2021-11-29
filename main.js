@@ -96,12 +96,12 @@ let edicion = false;
 // Funciones Auxiliares
 
 const fechaLocalFormateada = () => {
-    const fechaUTChoy = new Date ();
+    const fechaUTChoy = new Date();
     const fechaLocalString = fechaUTChoy.toLocaleDateString()
     let arrayFechaLocal = fechaLocalString.split('/')
     let arrayFechaLocalDadaVuelta = [];
-    for (let i = 2; i >= 0; i--){
-        arrayFechaLocalDadaVuelta.push(arrayFechaLocal[i])  
+    for (let i = 2; i >= 0; i--) {
+        arrayFechaLocalDadaVuelta.push(arrayFechaLocal[i])
     }
     let fechaFormatoFecha = arrayFechaLocalDadaVuelta.join('/')
     return fechaFormatoFecha
@@ -133,12 +133,12 @@ const ocultarSecciones = () => {
     })
 }
 
-const buscarMayor = (array) => array.reduce((acc,elemento) => {
+const buscarMayor = (array) => array.reduce((acc, elemento) => {
     if (acc.monto < elemento.monto) {
         return acc = elemento
     }
     return acc
-},{categoria: "", tipo: "ganancia", monto: 0})
+}, { categoria: "", tipo: "ganancia", monto: 0 })
 
 
 // Comienzo de página
@@ -246,7 +246,7 @@ const mostrarReporte = () => {
     else {
         conReportes.classList.add("is-hidden")
         sinReportes.classList.remove("is-hidden")
-    } 
+    }
 }
 
 itemNavSeccionBalance.onclick = () => {
@@ -282,8 +282,6 @@ botonMenuHamburguesa.onclick = () => {
 
 
 
-
-
 // Filtros
 
 const categoriasEnSelects = (filtroEnSeccion) => {
@@ -301,7 +299,7 @@ const categoriasEnSelects = (filtroEnSeccion) => {
 }
 
 categoriasEnSelects(filtroCategoria)
-categoriasEnSelects(categoriasEnNuevaOperacion)       
+categoriasEnSelects(categoriasEnNuevaOperacion)
 
 
 ocultarFiltros.onclick = () => {
@@ -528,7 +526,7 @@ const HTMLBalanceBoxOperaciones = (array) => {
     else {
         let acc = " ";
 
-        array.map((operacion) => {            
+        array.map((operacion) => {
             acc = acc + `
         <div class="columns is-vcentered is-multiline is-mobile">
             <div class="column is-6-mobile is-3-tablet">
@@ -552,7 +550,7 @@ const HTMLBalanceBoxOperaciones = (array) => {
                 </div>
             </div>
          </div>`
-         
+
         })
 
 
@@ -590,7 +588,7 @@ abrirSeccionNuevaOperacion.onclick = () => {
     ocultarSecciones();
     seccionNuevaOperacion.classList.remove('is-hidden');
     tituloModalEditarCrearOperacion.textContent = `Nueva operación`;
-    botonAgregarNuevaOperacion.innerHTML = `<button type="button" class="button is-success">Agregar</button>`; 
+    botonAgregarNuevaOperacion.innerHTML = `<button type="button" class="button is-success">Agregar</button>`;
 }
 
 const nuevoObjeto = () => {
@@ -615,13 +613,13 @@ const guardaVariable = (valor) => {
 }
 
 
-const agregarOEditarOperacion = () => {  
+const agregarOEditarOperacion = () => {
     let valorDescripcion = descripcionNuevaOperacion.value
     let valorMonto = montoNuevaOperacion.value
 
     if (valorDescripcion.length > 0 && valorMonto > 0) {
         if (edicion === true) {
-            arrayInputUsuario = arrayInputUsuario.filter ((operacion)=> {
+            arrayInputUsuario = arrayInputUsuario.filter((operacion) => {
                 return operacion.id != valorIdABorrar
             })
         }
@@ -635,7 +633,7 @@ const agregarOEditarOperacion = () => {
         activarFiltrosOrdenarPor()
         guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
         actualizarListaBotonesEliminarOperacion()
-        actualizarListaBotonesEditarOperacion() 
+        actualizarListaBotonesEditarOperacion()
     }
 
     else if (valorDescripcion.length === 0 && valorMonto == "") {
@@ -662,6 +660,10 @@ const agregarOEditarOperacion = () => {
 
 }
 
+descripcionNuevaOperacion.oninput = () => {
+    ocultarAdvertenciaCamposRequeridos()
+}
+
 botonAgregarNuevaOperacion.onclick = (e) => {
     e.preventDefault()
     agregarOEditarOperacion()
@@ -670,7 +672,7 @@ botonAgregarNuevaOperacion.onclick = (e) => {
 
 cancelarNuevaOperacion.onclick = () => {
     ocultarSecciones();
-    seccionBalance.classList.remove('is-hidden'); 
+    seccionBalance.classList.remove('is-hidden');
     resetearValoresInputs();
     ocultarAdvertenciaCamposRequeridos()
 }
@@ -679,21 +681,21 @@ cancelarNuevaOperacion.onclick = () => {
 const editarOperacion = () => {
 
     let listaBotonesEditarOperaciones = actualizarListaBotonesEditarOperacion()
-    
-    listaBotonesEditarOperaciones.forEach((boton)=> {
+
+    listaBotonesEditarOperaciones.forEach((boton) => {
         boton.onclick = () => {
             edicion = true
             editarOperacion()
             ocultarSecciones()
             seccionNuevaOperacion.classList.remove('is-hidden')
             tituloModalEditarCrearOperacion.textContent = `Editar operación`
-            botonAgregarNuevaOperacion.innerHTML = `<button type="button" class="button is-success">Editar</button>`; 
+            botonAgregarNuevaOperacion.innerHTML = `<button type="button" class="button is-success">Editar</button>`;
 
             let cantidadLetrasEditar = 6
             let idRecortado = Number(boton.id.slice(cantidadLetrasEditar));
             valorIdABorrar = idRecortado;
 
-            let operacionAEditar = arrayInputUsuario.filter((operacion)=> {
+            let operacionAEditar = arrayInputUsuario.filter((operacion) => {
                 return operacion.id == idRecortado
             })
 
@@ -707,9 +709,8 @@ const editarOperacion = () => {
 }
 
 
-
 const eliminarOperacion = () => {
-   let listaDeBotonesActualizada = actualizarListaBotonesEliminarOperacion()
+    let listaDeBotonesActualizada = actualizarListaBotonesEliminarOperacion()
     listaDeBotonesActualizada.forEach((boton) => {
         boton.onclick = () => {
             eliminarOperacion();
@@ -725,9 +726,22 @@ const eliminarOperacion = () => {
 }
 
 
+montoNuevaOperacion.oninput = () => {
+    if (montoNuevaOperacion.value.length > 10) {
+        let numeroAstring = String(montoNuevaOperacion.value)
+        let cortarString = numeroAstring.slice(0, 10)
+        let volverANumero = Number(cortarString)
+        montoNuevaOperacion.value = volverANumero
+    }
+
+    montoCampoRequerido.forEach((alertas) => {
+        alertas.classList.add('is-hidden')
+    })
+
+}
+
 
 // //--------------------FUNCIONALIDAD CATEGORÍAS-----------------///
-
 
 
 const abrirVentanaEditarCategoria = () => {
@@ -773,14 +787,12 @@ const botonEditarCategoriaSeccionCategoria = () => {
 }
 
 
-
 cancelarEditarCategoria.onclick = () => {
     ocultarAdvertenciaCamposRequeridos()
     ocultarAdvertenciaRepetida()
     ocultarSecciones()
     seccionCategorias.classList.remove('is-hidden');
 }
-
 
 
 const HTMLcategoriasSeccionCategorias = () => {
@@ -822,37 +834,31 @@ const agregarOEditarCategoria = (input) => {
             input.value = ""
             actualizarBotonesEditarCategorias()
         }
-
         else {
             for (let i = 0; i < arrayCategorias.length; i++) {
                 if (arrayCategorias[i] === valoresPreviosEditarOperation[0]) {
                     arrayCategorias[i] = inputEditarCategoria.value
                 }
             }
-
             arrayInputUsuario.forEach((objeto) => {
                 if (objeto.categoria === valoresPreviosEditarOperation[0]) {
                     objeto.categoria = inputEditarCategoria.value
                 }
             })
-
             actualizarInfoUsuario()
             ocultarSecciones()
             seccionCategorias.classList.remove('is-hidden')
             ocultarAdvertenciaCamposRequeridos()
             ocultarAdvertenciaRepetida()
             valoresPreviosEditarOperation = []
-
         }
     }
-
     if (valorNuevaCategoria.length == 0) {
         alertaCampoRequerido.forEach((alertas) => {
             alertas.classList.remove('is-hidden')
         })
 
     }
-
     if (verificarCategoriaExistente) {
         categoriaRepetida.forEach((alertas) => {
             alertas.classList.remove('is-hidden')
@@ -861,32 +867,15 @@ const agregarOEditarCategoria = (input) => {
 }
 
 
-
-
-// Seccion editar nueva categoria 
-
 inputEditarCategoria.oninput = () => {
     ocultarAdvertenciaRepetida()
     ocultarAdvertenciaCamposRequeridos()
 }
 
-
 botonEditarCategoriaSeccionEditarCategoria.onclick = (e) => {
     e.preventDefault()
     agregarOEditarCategoria(inputEditarCategoria)
 }
-
-
-
-
-//Alertas 
-
-
-descripcionNuevaOperacion.oninput = () => {
-    ocultarAdvertenciaCamposRequeridos()
-}
-
-
 
 inputNuevaCategoria.oninput = () => {
     ocultarAdvertenciaCamposRequeridos()
@@ -894,32 +883,15 @@ inputNuevaCategoria.oninput = () => {
 
 }
 
-
 agregarNuevaCategoria.onclick = (e) => {
     e.preventDefault()
     agregarOEditarCategoria(inputNuevaCategoria)
 }
 
 
-
 HTMLBalanceBoxOperaciones(arrayFechaDeHoy())
 aplicarFiltros()
 
-
-
-montoNuevaOperacion.oninput = () => {
-    if (montoNuevaOperacion.value.length > 10) {
-        let numeroAstring = String(montoNuevaOperacion.value)
-        let cortarString = numeroAstring.slice(0, 10)
-        let volverANumero = Number(cortarString)
-        montoNuevaOperacion.value = volverANumero
-    }
-
-    montoCampoRequerido.forEach((alertas) => {
-        alertas.classList.add('is-hidden')
-    })
-
-}
 
 
 //--------------SECCION-REPORTES------------//////
@@ -929,144 +901,144 @@ const HTMLResumenReportes = () => {
     const categoriasFiltradas = arrayInputUsuario.map((elemento) => {
         return elemento.categoria
     })
-     
+
     const categoriasEnUso = categoriasFiltradas.filter((elemento, index) => {
-    return categoriasFiltradas.indexOf(elemento) === index
+        return categoriasFiltradas.indexOf(elemento) === index
     })
 
 
     //------------- FUNCIONES TOTALES POR CATEGORIA 
 
     const gananciaPorCategoria = categoriasEnUso.map((categoria) => {
-        const buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
-                if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
+        const buscarCategoria = arrayInputUsuario.reduce((acc, elemento) => {
+            if (elemento.tipo === "ganancia" && elemento.categoria === categoria) {
                 acc.monto = elemento.monto + acc.monto
                 acc.categoria = elemento.categoria
                 acc.tipo = elemento.tipo
             }
-            return acc 
-            }, {categoria:"", tipo:"", monto: 0})  
-       
+            return acc
+        }, { categoria: "", tipo: "", monto: 0 })
+
         if (buscarCategoria.monto != 0) {
             return buscarCategoria
         }
         if (buscarCategoria.monto === 0) {
-            return  {categoria: categoria, tipo: "ganancia", monto: 0}
+            return { categoria: categoria, tipo: "ganancia", monto: 0 }
         }
     })
-    
+
     const categoriaConMayorGanancia = buscarMayor(gananciaPorCategoria)
 
     const gastoPorCategoria = categoriasEnUso.map((categoria) => {
-    
-        const buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
-             if (elemento.tipo === "gasto" &&  elemento.categoria === categoria) {
-             acc.monto = elemento.monto + acc.monto
-             acc.categoria = elemento.categoria
-             acc.tipo = elemento.tipo
-         }
-         return acc
-         }, {categoria:"", tipo:"", monto: 0})
-       
-     if (buscarCategoria.monto != 0) {
-         return buscarCategoria
-     }
-     if (buscarCategoria.monto === 0) {
-         return  {categoria: categoria, tipo: "gasto", monto: 0}
-     }
+
+        const buscarCategoria = arrayInputUsuario.reduce((acc, elemento) => {
+            if (elemento.tipo === "gasto" && elemento.categoria === categoria) {
+                acc.monto = elemento.monto + acc.monto
+                acc.categoria = elemento.categoria
+                acc.tipo = elemento.tipo
+            }
+            return acc
+        }, { categoria: "", tipo: "", monto: 0 })
+
+        if (buscarCategoria.monto != 0) {
+            return buscarCategoria
+        }
+        if (buscarCategoria.monto === 0) {
+            return { categoria: categoria, tipo: "gasto", monto: 0 }
+        }
     })
 
     const categoriaConMayorGasto = buscarMayor(gastoPorCategoria)
-    
-    
+
+
     const balancePorCategoria = categoriasEnUso.map((categoria) => {
-        const buscarCategoria =  arrayInputUsuario.reduce((acc, elemento) => {
-            if (elemento.tipo === "ganancia" &&  elemento.categoria === categoria) {
-             acc.monto = elemento.monto + acc.monto
-             acc.categoria = elemento.categoria 
+        const buscarCategoria = arrayInputUsuario.reduce((acc, elemento) => {
+            if (elemento.tipo === "ganancia" && elemento.categoria === categoria) {
+                acc.monto = elemento.monto + acc.monto
+                acc.categoria = elemento.categoria
             }
-            if (elemento.tipo === "gasto" &&  elemento.categoria === categoria) {
-                acc.monto = acc.monto - elemento.monto 
-                acc.categoria = elemento.categoria    
+            if (elemento.tipo === "gasto" && elemento.categoria === categoria) {
+                acc.monto = acc.monto - elemento.monto
+                acc.categoria = elemento.categoria
             }
-         return acc
-         
-         }, {categoria:"", monto: 0})
-       
-     if (buscarCategoria.monto != 0) {
-         return buscarCategoria
-     }
-     if (buscarCategoria.monto === 0) {
-         return  {categoria: categoria, monto: 0}
-     } 
-    
+            return acc
+
+        }, { categoria: "", monto: 0 })
+
+        if (buscarCategoria.monto != 0) {
+            return buscarCategoria
+        }
+        if (buscarCategoria.monto === 0) {
+            return { categoria: categoria, monto: 0 }
+        }
+
     })
-    
-    
+
+
     const categoriaConMayorBalance = buscarMayor(balancePorCategoria)
-    
+
 
 
     //----------------------FECHAS
-    
+
     const fechaDeOperacion = arrayInputUsuario.map((elemento) => {
-        return elemento.fecha.slice(0,7)
+        return elemento.fecha.slice(0, 7)
     })
-    const fechasFiltradas = fechaDeOperacion.filter((elemento,index) => { 
+    const fechasFiltradas = fechaDeOperacion.filter((elemento, index) => {
         return fechaDeOperacion.indexOf(elemento) === index
     })
-    
- 
+
+
     // TOTALES POR MES: GANANCIA
 
     const gananciaPorMes = fechasFiltradas.map((fecha) => {
-        const buscarMesMayorGanancia = arrayInputUsuario.reduce((acc,elemento) => {
-            
+        const buscarMesMayorGanancia = arrayInputUsuario.reduce((acc, elemento) => {
+
             if (elemento.tipo === "ganancia" && elemento.fecha.slice(0, 7) === fecha) {
-                acc.monto = acc.monto + elemento.monto 
+                acc.monto = acc.monto + elemento.monto
                 acc.fecha = fecha
                 acc.tipo = "ganancia"
             }
             return acc
 
-        }, {monto:0, tipo:"",fecha:""})
-    
+        }, { monto: 0, tipo: "", fecha: "" })
+
         if (buscarMesMayorGanancia.monto != 0) {
             return buscarMesMayorGanancia
         }
         if (buscarMesMayorGanancia.monto === 0) {
-            return  {monto: 0, tipo: "ganancia",fecha: fecha}
+            return { monto: 0, tipo: "ganancia", fecha: fecha }
         }
-        
+
     })
 
     const filtroGananciaPorMes = gananciaPorMes.filter((elemento) => {
         return elemento.tipo === "ganancia"
     })
-    
+
     const mesConMayorGanancia = buscarMayor(filtroGananciaPorMes)
 
-    
+
 
     //TOTALES POR MES: GASTO
 
     const gastoPorMes = fechasFiltradas.map((fecha) => {
-        const buscarMesMayorGasto = arrayInputUsuario.reduce((acc,elemento) => {
+        const buscarMesMayorGasto = arrayInputUsuario.reduce((acc, elemento) => {
             if (elemento.tipo === "gasto" && elemento.fecha.slice(0, 7) === fecha) {
-                acc.monto = acc.monto + elemento.monto 
+                acc.monto = acc.monto + elemento.monto
                 acc.fecha = fecha
                 acc.tipo = "gasto"
             }
             return acc
 
-        }, {monto:0, tipo:"",fecha:""})
-        
+        }, { monto: 0, tipo: "", fecha: "" })
+
         if (buscarMesMayorGasto.monto != 0) {
             return buscarMesMayorGasto
         }
         if (buscarMesMayorGasto.monto === 0) {
-            return  {monto: 0, tipo: "gasto",fecha: fecha}
-        }    
+            return { monto: 0, tipo: "gasto", fecha: fecha }
+        }
     })
     const filtroGastoPorMes = gastoPorMes.filter((elemento) => {
         return elemento.tipo === "gasto"
@@ -1077,31 +1049,31 @@ const HTMLResumenReportes = () => {
     //TOTALES POR MES: BALANCE
 
     const balancePorMes = fechasFiltradas.map((elemento) => {
-        const buscarBalancePorMes = arrayInputUsuario.reduce((accb,elementob) => {
+        const buscarBalancePorMes = arrayInputUsuario.reduce((accb, elementob) => {
             if (elementob.tipo === "ganancia" && elementob.fecha.slice(0, 7) === elemento) {
-                accb.monto = accb.monto + elementob.monto 
+                accb.monto = accb.monto + elementob.monto
                 accb.fecha = elemento
             }
             if (elementob.tipo === "gasto" && elementob.fecha.slice(0, 7) === elemento) {
-                accb.monto = accb.monto - elementob.monto 
+                accb.monto = accb.monto - elementob.monto
                 accb.fecha = elemento
             }
             return accb
 
-        }, {monto:0, fecha:""})
-          
+        }, { monto: 0, fecha: "" })
+
         if (buscarBalancePorMes.monto != 0) {
             return buscarBalancePorMes
         }
         if (buscarBalancePorMes.monto === 0) {
-            return  {monto: 0, fecha: elemento}
-        }    
+            return { monto: 0, fecha: elemento }
+        }
     })
     const filtroBalancePorMes = balancePorMes.filter((elemento) => {
         return elemento.fecha != ""
-    }) 
+    })
 
-    
+
 
     //----------------HTML RESUMEN
 
@@ -1116,7 +1088,7 @@ const HTMLResumenReportes = () => {
     mesMayorGasto.innerHTML = `${mesConMayorGasto.fecha}`;
     montoMesMayorGasto.innerHTML = `-$${mesConMayorGasto.monto}`;
 
-    
+
     //--------------HTML totales por categoria 
 
     let accCategoria = ""
@@ -1129,7 +1101,7 @@ const HTMLResumenReportes = () => {
             <div class="column has-text-right has-text-dark">$${balancePorCategoria[index].monto}</div> 
         </div>
         `
-    }) 
+    })
 
     totalesPorCategoria.innerHTML = accCategoria
 
@@ -1145,7 +1117,5 @@ const HTMLResumenReportes = () => {
         </div> 
         `
     })
-    totalesPorMes.innerHTML = accMes  
-
-
+    totalesPorMes.innerHTML = accMes
 }
