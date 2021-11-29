@@ -226,10 +226,11 @@ const ocultarAdvertenciaRepetida = () => {
 
 // //Funcionalidad Header/Nav
 
-const menuHambuguesa = () => {
-    abrirMenuHamburguesa.classList.toggle('is-active')
-    botonMenuHamburguesa.classList.toggle('is-active')
-};
+
+const ocultarMenuHamburguesa = () => {
+    abrirMenuHamburguesa.classList.remove('is-active');
+    botonMenuHamburguesa.classList.remove('is-active')
+}
 
 const mostrarReporte = () => {
     const mostrarReporteGanancia = arrayInputUsuario.some((elemento) => {
@@ -251,28 +252,28 @@ const mostrarReporte = () => {
 
 itemNavSeccionBalance.onclick = () => {
     ocultarSecciones();
+    ocultarMenuHamburguesa()
     seccionBalance.classList.remove('is-hidden');
-    menuHambuguesa()
-
 };
 
 itemNavSeccionCategorias.onclick = () => {
     ocultarSecciones();
-    ocultarAdvertenciaCamposRequeridos()
+    ocultarAdvertenciaCamposRequeridos();
+    ocultarMenuHamburguesa();
     seccionCategorias.classList.remove('is-hidden');
-    menuHambuguesa()
 };
 
 itemNavSeccionReportes.onclick = () => {
     ocultarSecciones();
-    ocultarAdvertenciaCamposRequeridos()
+    ocultarMenuHamburguesa();
+    ocultarAdvertenciaCamposRequeridos();
     seccionReportes.classList.remove('is-hidden');
-    menuHambuguesa()
     mostrarReporte()
 };
 
 botonMenuHamburguesa.onclick = () => {
-    menuHambuguesa()
+    abrirMenuHamburguesa.classList.toggle('is-active')
+    botonMenuHamburguesa.classList.toggle('is-active')
 }
 
 
