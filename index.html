@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Es preferible darle clase al body, no al html -->
 <html class="has-background-light" lang="es">
 
 <head>
@@ -159,6 +160,7 @@
         <div class="container">
             <div class="columns is-centered is-mobile">
                 <div class="column is-8-widescreen is-8-widescreen is-12-tablet">
+                    <!-- ojo: article. estos errores afectan la accesibilidad -->
                     <artcile class="box">
                         <h2 class="title is-size-2 mb-6" id="titulo-modal-editar-crear-operacion">Nueva operación</h2>
                         <form id="form-nueva-operacion">
@@ -247,6 +249,7 @@
                     <article class="box">
                         <h2 class="title is-size-2">Categorías</h2>
                         <form>
+                            <!-- el for del label debe ser igual al id del elemento, en este caso, "input-nueva-categoria" -->
                             <label class="label mt-6" for="nueva-categoria id" aria-label="Nombre nueva categoria">Nombre</label>
                             <div class="field is-grouped">
                                 <div class="control is-expanded has-icons-right">
@@ -335,6 +338,7 @@
                         <div id= "sin-reportes" class="columns is-centered my-6 py-6 is-hidden">
                             <div class="column is-6">
                                 <div class="image" aria-hidden= "true">
+                                    <!-- falta alt aqui -->
                                     <img src="images/undraw_Pie_chart_re_bgs8.svg" style="width: 80%;">
                                 </div>
                                 <p class="title has-text-centered mt-6 is-4">Operaciones insuficientes</p>
@@ -344,6 +348,7 @@
 
                         <div id="con-reportes" class="is-hidden">
                             <div class="p-5">
+                                <!-- debe haber un solo h1 por web, el titulo principal. esto es un h2 -->
                                 <h1 class="title is-4 mt-5">Resumen</h1>
                                 <div class="columns is-mobile mt-2">
                                     <div class="column is-6 has-text-weight-semibold">Categoría con mayor ganancia
@@ -385,6 +390,7 @@
                                 </div>
                             </div>
                             <div class="p-5 mt-6">
+                                <!-- h2 -->
                                 <h1 class="title is-4 mt-5">Totales por categorías</h1>
                                 <div class="columns is-mobile mt-2">
                                     <div class="column has-text-weight-semibold">Categoria</div>
@@ -396,6 +402,7 @@
                                 </div>
                                 </div>
                             <div class="p-5 mt-6">
+                                <!-- h2 -->
                                 <h1 class="title is-4 mt-5">Totales por mes</h1>
                                 <div class="columns is-mobile mt-2">
                                     <div class="column has-text-weight-semibold">Mes</div>

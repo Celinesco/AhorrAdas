@@ -96,6 +96,7 @@ let edicion = false;
 // Funciones Auxiliares
 
 const fechaLocalFormateada = () => {
+    // FANTASTICA esta funcion!!!
     const fechaUTChoy = new Date();
     const fechaLocalString = fechaUTChoy.toLocaleDateString()
     let arrayFechaLocal = fechaLocalString.split('/')
@@ -108,6 +109,7 @@ const fechaLocalFormateada = () => {
 }
 
 const convertirAJSON = (array) => {
+    // estas variables no cambian de valor, asi que preferimos usar const
     let arrayConvertido = JSON.stringify(array);
     return arrayConvertido
 }
@@ -117,6 +119,7 @@ const guardarEnLocalStorage = (array, clave) => {
 }
 
 const convertirDesdeJSON = (arrayJSON) => {
+    // const
     let JSONConvertido = JSON.parse(arrayJSON)
     return JSONConvertido
 }
@@ -155,10 +158,11 @@ if (categoriasActualizadas !== null) {
 fechaNuevaOperacion.valueAsDate = new Date(fechaLocalFormateada())
 filtroFecha.valueAsDate = new Date(fechaLocalFormateada())
 
-
+// las funciones siempre se deben definir como const
 let arrayFechaDeHoy = () => {
     if (operacionesAlmacenadas !== null) {
         arrayInputUsuario = operacionesAlmacenadas
+        // const
         let nuevoArray = operacionesAlmacenadas.filter((element) => {
             return element.fecha === filtroFecha.value
         })
@@ -170,7 +174,10 @@ let arrayFechaDeHoy = () => {
 
 // Funciones Actualizar
 
+// No termino de entender del todo el propósito de estas funciones
+// si solo van a seleccionar un elemento del dom, no tiene sentido declararlas
 const actualizarBotonesEditarCategorias = () => {
+    // const aqui y en todas las funciones que siguen
     let arrayDeBotonesEditarEnDOM = document.querySelectorAll(".open-editar-categoria");
     return arrayDeBotonesEditarEnDOM
 };
@@ -239,6 +246,8 @@ const mostrarReporte = () => {
     const mostrarReporteGasto = arrayInputUsuario.some((elemento) => {
         return elemento.tipo === "gasto"
     })
+    // mejor decir:
+    // if (mostrarReporteGanancia && mostrarReporteGasto) {
     if (mostrarReporteGanancia === true && mostrarReporteGasto === true) {
         sinReportes.classList.add("is-hidden")
         conReportes.classList.remove("is-hidden")
@@ -289,6 +298,7 @@ const categoriasEnSelects = (filtroEnSeccion) => {
     if (filtroEnSeccion !== categoriasEnNuevaOperacion)
         filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc, element) => {
             return acc + ` <option value="${element}">${element}</option>`
+            // si no van a interpolar, usen comillas simples '' y dobles ""
         }, `<option value="todos">Todas</option>`)
 
     else {
@@ -299,6 +309,9 @@ const categoriasEnSelects = (filtroEnSeccion) => {
     }
 }
 
+// estas funciones que se ejecutan apenas carga la pagina son dificiles de encontrar si estan ejecutadas
+// en medio de las declaraciones de las funciones auxiliares
+// ponganlas al final de todo
 categoriasEnSelects(filtroCategoria)
 categoriasEnSelects(categoriasEnNuevaOperacion)
 
@@ -315,8 +328,13 @@ ocultarFiltros.onclick = () => {
     }
 }
 
-const aplicarFiltros = () => {
 
+// esta funcion hace dos cosas distintas: aplica los filtros, pero tambien 
+// actualiza la seccion de balances
+// deberian ser dos funciones diferentes, no es bueno mezclar funcionalidades
+const aplicarFiltros = () => {
+    // const en todas las variables que declaran acá
+    // si la variable va a cambiar, se pone let. sino, const
     let filtradoPorTipo = arrayInputUsuario.filter((operacion) => {
         if (filtroTipo.value === "todos") {
             return operacion
@@ -450,6 +468,7 @@ const filtroZA = () => {
     return arrayOrdenado
 }
 
+// excelente
 const activarFiltrosOrdenarPor = () => {
     if (filtroOrdenarPor.value == "mayor-monto") {
         HTMLBalanceBoxOperaciones(filtroMayorMonto())
@@ -633,6 +652,10 @@ const agregarOEditarOperacion = () => {
         HTMLBalanceBoxOperaciones(aplicarFiltros());
         activarFiltrosOrdenarPor()
         guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
+
+        // aqui el nombre de las funciones las puede haber confundido
+        // lo unico que hacen estas funciones es retornar un elemento del dom
+        // ejecutarlas aqui no hace nada
         actualizarListaBotonesEliminarOperacion()
         actualizarListaBotonesEditarOperacion()
     }
@@ -772,6 +795,7 @@ const botonEliminarCategoria = () => {
 
 
 const botonEditarCategoriaSeccionCategoria = () => {
+    // falta un const aca
     arrayDeBotonesEditarEnDOM = actualizarBotonesEditarCategorias()
     arrayDeBotonesEditarEnDOM.forEach((boton) => {
         boton.onclick = () => {
@@ -897,7 +921,7 @@ aplicarFiltros()
 
 //--------------SECCION-REPORTES------------//////
 
-
+// El codigo de esta funcion es excelente: dicho eso, seria mejor subdividirla en funciones mas pequeñas. 
 const HTMLResumenReportes = () => {
     const categoriasFiltradas = arrayInputUsuario.map((elemento) => {
         return elemento.categoria
