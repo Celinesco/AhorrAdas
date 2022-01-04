@@ -99,18 +99,18 @@ const fechaLocalFormateada = () => {
     // FANTASTICA esta funcion!!!
     const fechaUTChoy = new Date();
     const fechaLocalString = fechaUTChoy.toLocaleDateString()
-    let arrayFechaLocal = fechaLocalString.split('/')
-    let arrayFechaLocalDadaVuelta = [];
+    const arrayFechaLocal = fechaLocalString.split('/')
+    const arrayFechaLocalDadaVuelta = [];
     for (let i = 2; i >= 0; i--) {
         arrayFechaLocalDadaVuelta.push(arrayFechaLocal[i])
     }
-    let fechaFormatoFecha = arrayFechaLocalDadaVuelta.join('/')
+    const fechaFormatoFecha = arrayFechaLocalDadaVuelta.join('/')
     return fechaFormatoFecha
 }
 
 const convertirAJSON = (array) => {
     // estas variables no cambian de valor, asi que preferimos usar const
-    let arrayConvertido = JSON.stringify(array);
+    const arrayConvertido = JSON.stringify(array);
     return arrayConvertido
 }
 
@@ -120,7 +120,7 @@ const guardarEnLocalStorage = (array, clave) => {
 
 const convertirDesdeJSON = (arrayJSON) => {
     // const
-    let JSONConvertido = JSON.parse(arrayJSON)
+    const JSONConvertido = JSON.parse(arrayJSON)
     return JSONConvertido
 }
 
@@ -158,12 +158,12 @@ if (categoriasActualizadas !== null) {
 fechaNuevaOperacion.valueAsDate = new Date(fechaLocalFormateada())
 filtroFecha.valueAsDate = new Date(fechaLocalFormateada())
 
-// las funciones siempre se deben definir como const
-let arrayFechaDeHoy = () => {
+
+const arrayFechaDeHoy = () => {
     if (operacionesAlmacenadas !== null) {
         arrayInputUsuario = operacionesAlmacenadas
         // const
-        let nuevoArray = operacionesAlmacenadas.filter((element) => {
+        const nuevoArray = operacionesAlmacenadas.filter((element) => {
             return element.fecha === filtroFecha.value
         })
         return nuevoArray
@@ -177,23 +177,22 @@ let arrayFechaDeHoy = () => {
 // No termino de entender del todo el propósito de estas funciones
 // si solo van a seleccionar un elemento del dom, no tiene sentido declararlas
 const actualizarBotonesEditarCategorias = () => {
-    // const aqui y en todas las funciones que siguen
-    let arrayDeBotonesEditarEnDOM = document.querySelectorAll(".open-editar-categoria");
+    const arrayDeBotonesEditarEnDOM = document.querySelectorAll(".open-editar-categoria");
     return arrayDeBotonesEditarEnDOM
 };
 
 const actualizarListaBotonEliminarCategoria = () => {
-    let arrayDeBotonesEliminarDom = document.querySelectorAll(".eliminar-categoria");
+    const arrayDeBotonesEliminarDom = document.querySelectorAll(".eliminar-categoria");
     return arrayDeBotonesEliminarDom
 };
 
 const actualizarListaBotonesEliminarOperacion = () => {
-    let botonesEliminarOperacion = document.querySelectorAll(".eliminar-operacion")
+    const botonesEliminarOperacion = document.querySelectorAll(".eliminar-operacion")
     return botonesEliminarOperacion
 };
 
 const actualizarListaBotonesEditarOperacion = () => {
-    let botonesEditarOperacion = document.querySelectorAll(".abrir-editar-operacion")
+    const botonesEditarOperacion = document.querySelectorAll(".abrir-editar-operacion")
     return botonesEditarOperacion
 }
 
@@ -246,9 +245,7 @@ const mostrarReporte = () => {
     const mostrarReporteGasto = arrayInputUsuario.some((elemento) => {
         return elemento.tipo === "gasto"
     })
-    // mejor decir:
-    // if (mostrarReporteGanancia && mostrarReporteGasto) {
-    if (mostrarReporteGanancia === true && mostrarReporteGasto === true) {
+    if (mostrarReporteGanancia && mostrarReporteGasto) {
         sinReportes.classList.add("is-hidden")
         conReportes.classList.remove("is-hidden")
         HTMLResumenReportes()
@@ -333,45 +330,43 @@ ocultarFiltros.onclick = () => {
 // actualiza la seccion de balances
 // deberian ser dos funciones diferentes, no es bueno mezclar funcionalidades
 const aplicarFiltros = () => {
-    // const en todas las variables que declaran acá
-    // si la variable va a cambiar, se pone let. sino, const
-    let filtradoPorTipo = arrayInputUsuario.filter((operacion) => {
+    const filtradoPorTipo = arrayInputUsuario.filter((operacion) => {
         if (filtroTipo.value === "todos") {
             return operacion
         }
         return operacion.tipo.toLowerCase() == filtroTipo.value
     });
 
-    let filtradoCategoriayTipo = filtradoPorTipo.filter((operacion) => {
+    const filtradoCategoriayTipo = filtradoPorTipo.filter((operacion) => {
         if (filtroCategoria.value === "todos") {
             return operacion
         }
         return operacion.categoria == filtroCategoria.value
     });
 
-    let filtradoFinal = filtradoCategoriayTipo.filter((operacion) => {
+    const filtradoFinal = filtradoCategoriayTipo.filter((operacion) => {
         return new Date(operacion.fecha) >= new Date(filtroFecha.value)
     })
 
 
-    let arrayDeGanancias = filtradoFinal.filter((operacion) => {
+    const arrayDeGanancias = filtradoFinal.filter((operacion) => {
         return operacion.tipo === "ganancia"
     })
 
-    let arrayDeGastos = filtradoFinal.filter((operacion) => {
+    const arrayDeGastos = filtradoFinal.filter((operacion) => {
         return operacion.tipo === "gasto"
     })
 
-    let sumaTotalGanancias = arrayDeGanancias.reduce((acc, element) => {
+    const sumaTotalGanancias = arrayDeGanancias.reduce((acc, element) => {
         return acc + element.monto
     }, 0)
 
-    let sumaTotalGastos = arrayDeGastos.reduce((acc, element) => {
+    const sumaTotalGastos = arrayDeGastos.reduce((acc, element) => {
         return acc + element.monto
     }, 0)
 
 
-    let total = sumaTotalGanancias - sumaTotalGastos
+    const total = sumaTotalGanancias - sumaTotalGastos
 
 
     totalGananciasBoxBalance.innerHTML = `+$${sumaTotalGanancias}`;
@@ -402,42 +397,42 @@ const aplicarFiltros = () => {
 
 const filtroMayorMonto = () => {
 
-    let arrayFiltradoDefiltros = aplicarFiltros()
-    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+    const arrayFiltradoDefiltros = aplicarFiltros()
+    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
         return b.monto - a.monto
     })
     return arrayOrdenado
 }
 
 const filtroMenorMonto = () => {
-    let arrayFiltradoDefiltros = aplicarFiltros()
-    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+    const arrayFiltradoDefiltros = aplicarFiltros()
+    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
         return a.monto - b.monto
     })
     return arrayOrdenado
 }
 
-let filtroRecientes = () => {
-    let arrayFiltradoDefiltros = aplicarFiltros();
-    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+const filtroRecientes = () => {
+    const arrayFiltradoDefiltros = aplicarFiltros();
+    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
         return new Date(b.fecha) - new Date(a.fecha)
     })
     return arrayOrdenado
 }
 
 const filtroMenosRecientes = () => {
-    let arrayFiltradoDefiltros = aplicarFiltros();
-    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+    const arrayFiltradoDefiltros = aplicarFiltros();
+    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
         return new Date(a.fecha) - new Date(b.fecha)
     })
     return arrayOrdenado
 }
 
 const filtroAZ = () => {
-    let arrayFiltradoDefiltros = aplicarFiltros();
-    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
-        let descripcionA = a.descripcion.toLowerCase();
-        let descripcionB = b.descripcion.toLowerCase();
+    const arrayFiltradoDefiltros = aplicarFiltros();
+    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        const descripcionA = a.descripcion.toLowerCase();
+        const descripcionB = b.descripcion.toLowerCase();
 
         if (descripcionA < descripcionB) {
             return -1;
@@ -452,10 +447,10 @@ const filtroAZ = () => {
 
 
 const filtroZA = () => {
-    let arrayFiltradoDefiltros = aplicarFiltros();
-    let arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
-        let descripcionA = a.descripcion.toLowerCase();
-        let descripcionB = b.descripcion.toLowerCase();
+    const arrayFiltradoDefiltros = aplicarFiltros();
+    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
+        const descripcionA = a.descripcion.toLowerCase();
+        const descripcionB = b.descripcion.toLowerCase();
 
         if (descripcionA > descripcionB) {
             return -1;
@@ -495,17 +490,17 @@ filtroOrdenarPor.onchange = () => {
 }
 
 filtroTipo.onchange = () => {
-    let arrayFiltradoPorTipo = aplicarFiltros()
+    const arrayFiltradoPorTipo = aplicarFiltros()
     HTMLBalanceBoxOperaciones(arrayFiltradoPorTipo)
 }
 
 filtroCategoria.onchange = () => {
-    let arrayFiltradoPorCategoria = aplicarFiltros()
+    const arrayFiltradoPorCategoria = aplicarFiltros()
     HTMLBalanceBoxOperaciones(arrayFiltradoPorCategoria)
 };
 
 filtroFecha.onchange = () => {
-    let arrayFiltradoPorFecha = aplicarFiltros()
+    const arrayFiltradoPorFecha = aplicarFiltros()
     HTMLBalanceBoxOperaciones(arrayFiltradoPorFecha)
 }
 
@@ -528,12 +523,12 @@ const htmlOperacionesSinResulados = () => {
 htmlOperacionesSinResulados()
 
 const ordernarFechaHTMLOperaciones = (string) => {
-    let arrayFechaOrdenada = [];
-    let arrayFechaDesordenada = string.split("-");
+    const arrayFechaOrdenada = [];
+    const arrayFechaDesordenada = string.split("-");
     for (let i = 2; i >= 0; i--) {
         arrayFechaOrdenada.push(arrayFechaDesordenada[i])
     }
-    let fechaResultado = arrayFechaOrdenada.join("/")
+    const fechaResultado = arrayFechaOrdenada.join("/")
     return fechaResultado
 }
 
@@ -634,8 +629,8 @@ const guardaVariable = (valor) => {
 
 
 const agregarOEditarOperacion = () => {
-    let valorDescripcion = descripcionNuevaOperacion.value
-    let valorMonto = montoNuevaOperacion.value
+    const valorDescripcion = descripcionNuevaOperacion.value
+    const valorMonto = montoNuevaOperacion.value
 
     if (valorDescripcion.length > 0 && valorMonto > 0) {
         if (edicion === true) {
@@ -704,7 +699,7 @@ cancelarNuevaOperacion.onclick = () => {
 
 const editarOperacion = () => {
 
-    let listaBotonesEditarOperaciones = actualizarListaBotonesEditarOperacion()
+    const listaBotonesEditarOperaciones = actualizarListaBotonesEditarOperacion()
 
     listaBotonesEditarOperaciones.forEach((boton) => {
         boton.onclick = () => {
@@ -715,11 +710,11 @@ const editarOperacion = () => {
             tituloModalEditarCrearOperacion.textContent = `Editar operación`
             botonAgregarNuevaOperacion.innerHTML = `<button type="button" class="button is-success">Editar</button>`;
 
-            let cantidadLetrasEditar = 6
-            let idRecortado = Number(boton.id.slice(cantidadLetrasEditar));
+            const cantidadLetrasEditar = 6
+            const idRecortado = Number(boton.id.slice(cantidadLetrasEditar));
             valorIdABorrar = idRecortado;
 
-            let operacionAEditar = arrayInputUsuario.filter((operacion) => {
+            const operacionAEditar = arrayInputUsuario.filter((operacion) => {
                 return operacion.id == idRecortado
             })
 
@@ -734,12 +729,12 @@ const editarOperacion = () => {
 
 
 const eliminarOperacion = () => {
-    let listaDeBotonesActualizada = actualizarListaBotonesEliminarOperacion()
+    const listaDeBotonesActualizada = actualizarListaBotonesEliminarOperacion()
     listaDeBotonesActualizada.forEach((boton) => {
         boton.onclick = () => {
             eliminarOperacion();
-            let cantidadLetrasEliminar = 8
-            let idRecortado = Number(boton.id.slice(cantidadLetrasEliminar))
+            const cantidadLetrasEliminar = 8
+            const idRecortado = Number(boton.id.slice(cantidadLetrasEliminar))
 
             arrayInputUsuario = arrayInputUsuario.filter((operacion) => {
                 return operacion.id != idRecortado
@@ -752,9 +747,9 @@ const eliminarOperacion = () => {
 
 montoNuevaOperacion.oninput = () => {
     if (montoNuevaOperacion.value.length > 10) {
-        let numeroAstring = String(montoNuevaOperacion.value)
-        let cortarString = numeroAstring.slice(0, 10)
-        let volverANumero = Number(cortarString)
+        const numeroAstring = String(montoNuevaOperacion.value)
+        const cortarString = numeroAstring.slice(0, 10)
+        const volverANumero = Number(cortarString)
         montoNuevaOperacion.value = volverANumero
     }
 
@@ -775,12 +770,12 @@ const abrirVentanaEditarCategoria = () => {
 
 const botonEliminarCategoria = () => {
 
-    let listaBotonesEliminarCategoria = actualizarListaBotonEliminarCategoria();
+    const listaBotonesEliminarCategoria = actualizarListaBotonEliminarCategoria();
 
     listaBotonesEliminarCategoria.forEach((boton) => {
         boton.onclick = () => {
             botonEliminarCategoria()
-            let idRecortado = Number(boton.id.slice(8))
+            const idRecortado = Number(boton.id.slice(8))
 
             arrayInputUsuario = arrayInputUsuario.filter((operacion) => {
                 return operacion.categoria !== arrayCategorias[idRecortado]
@@ -795,16 +790,15 @@ const botonEliminarCategoria = () => {
 
 
 const botonEditarCategoriaSeccionCategoria = () => {
-    // falta un const aca
-    arrayDeBotonesEditarEnDOM = actualizarBotonesEditarCategorias()
+    const arrayDeBotonesEditarEnDOM = actualizarBotonesEditarCategorias()
     arrayDeBotonesEditarEnDOM.forEach((boton) => {
         boton.onclick = () => {
             ocultarAdvertenciaCamposRequeridos()
             ocultarAdvertenciaRepetida()
             botonEditarCategoriaSeccionCategoria()
             abrirVentanaEditarCategoria()
-            let cantidadLetrasCortadasDelId = 6
-            let idRecortado = Number(boton.id.slice(cantidadLetrasCortadasDelId))
+            const cantidadLetrasCortadasDelId = 6
+            const idRecortado = Number(boton.id.slice(cantidadLetrasCortadasDelId))
             inputEditarCategoria.value = arrayCategorias[idRecortado]
             guardaVariable(inputEditarCategoria.value)
         }
@@ -821,7 +815,7 @@ cancelarEditarCategoria.onclick = () => {
 
 
 const HTMLcategoriasSeccionCategorias = () => {
-    let categoriasAMostrar = arrayCategorias.reduce((acc, element, index) => {
+    const categoriasAMostrar = arrayCategorias.reduce((acc, element, index) => {
         return acc + `<li>
         <div class="columns is-mobile is-vcentered mb-3">
             <div class="column">
@@ -847,8 +841,8 @@ HTMLcategoriasSeccionCategorias()
 
 const agregarOEditarCategoria = (input) => {
 
-    let valorNuevaCategoria = input.value
-    let verificarCategoriaExistente = arrayCategorias.some((element) => {
+    const valorNuevaCategoria = input.value
+    const verificarCategoriaExistente = arrayCategorias.some((element) => {
         return element.toLocaleLowerCase() === valorNuevaCategoria.toLowerCase()
     })
 
@@ -882,7 +876,6 @@ const agregarOEditarCategoria = (input) => {
         alertaCampoRequerido.forEach((alertas) => {
             alertas.classList.remove('is-hidden')
         })
-
     }
     if (verificarCategoriaExistente) {
         categoriaRepetida.forEach((alertas) => {
