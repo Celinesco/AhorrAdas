@@ -158,23 +158,12 @@ const arrayFechaDeHoy = () => {
 
 
 // Funciones Actualizar
-
-// No termino de entender del todo el propósito de estas funciones
-// si solo van a seleccionar un elemento del dom, no tiene sentido declararlas
-
-const actualizarListaBotonesEditarOperacion = () => {
-    return botonesEditarOperacion
-}
-
-
 const resetearValoresInputs = () => {
     descripcionNuevaOperacion.value = "";
     montoNuevaOperacion.value = "";
     fechaNuevaOperacion.valueAsDate = new Date(fechaLocalFormateada())
     categoriasEnNuevaOperacion.value = arrayCategorias[0]
 };
-
-
 const actualizarInfoUsuario = () => {
     HTMLBalanceBoxOperaciones(aplicarFiltros())
     HTMLcategoriasSeccionCategorias()
@@ -186,7 +175,6 @@ const actualizarInfoUsuario = () => {
 
 
 // Advertencias para formularios
-
 const ocultarAdvertenciaCamposRequeridos = () => {
     alertaCampoRequerido.forEach((alertas) => {
         alertas.classList.add('is-hidden')
@@ -264,9 +252,9 @@ botonMenuHamburguesa.onclick = () => {
 const categoriasEnSelects = (filtroEnSeccion) => {
     if (filtroEnSeccion !== categoriasEnNuevaOperacion)
         filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc, element) => {
-            return acc + ` <option value="${element}">${element}</option>`
+            return acc + ` <option value='${element}'>${element}</option>`
             // si no van a interpolar, usen comillas simples '' y dobles ""
-        }, `<option value="todos">Todas</option>`)
+        }, '<option value="todos">Todas</option>')
 
     else {
         filtroEnSeccion.innerHTML = arrayCategorias.reduce((acc, element) => {
@@ -304,7 +292,7 @@ const aplicarFiltros = () => {
         if (filtroTipo.value === "todos") {
             return operacion
         }
-        return operacion.tipo.toLowerCase() == filtroTipo.value
+        return operacion.tipo.toLowerCase() === filtroTipo.value
     });
 
     const filtradoCategoriayTipo = filtradoPorTipo.filter((operacion) => {
@@ -314,27 +302,11 @@ const aplicarFiltros = () => {
         return operacion.categoria == filtroCategoria.value
     });
 
-    const filtradoFinal = filtradoCategoriayTipo.filter((operacion) => {
-        return new Date(operacion.fecha) >= new Date(filtroFecha.value)
-    })
-
-
-    const arrayDeGanancias = filtradoFinal.filter((operacion) => {
-        return operacion.tipo === "ganancia"
-    })
-
-    const arrayDeGastos = filtradoFinal.filter((operacion) => {
-        return operacion.tipo === "gasto"
-    })
-
-    const sumaTotalGanancias = arrayDeGanancias.reduce((acc, element) => {
-        return acc + element.monto
-    }, 0)
-
-    const sumaTotalGastos = arrayDeGastos.reduce((acc, element) => {
-        return acc + element.monto
-    }, 0)
-
+    const filtradoFinal = filtradoCategoriayTipo.filter(operacion => new Date(operacion.fecha) >= new Date(filtroFecha.value));
+    const arrayDeGanancias = filtradoFinal.filter(operacion => operacion.tipo === "ganancia");
+    const arrayDeGastos = filtradoFinal.filter(operacion => operacion.tipo === "gasto");
+    const sumaTotalGanancias = arrayDeGanancias.reduce((acc, element) => acc + element.monto, 0);
+    const sumaTotalGastos = arrayDeGastos.reduce((acc, element) => acc + element.monto, 0);
 
     const total = sumaTotalGanancias - sumaTotalGastos
 
@@ -366,35 +338,26 @@ const aplicarFiltros = () => {
 
 
 const filtroMayorMonto = () => {
-
-    const arrayFiltradoDefiltros = aplicarFiltros()
-    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
-        return b.monto - a.monto
-    })
+    const arrayFiltradoDefiltros = aplicarFiltros();
+    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => b.monto - a.monto);
     return arrayOrdenado
 }
 
 const filtroMenorMonto = () => {
-    const arrayFiltradoDefiltros = aplicarFiltros()
-    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
-        return a.monto - b.monto
-    })
-    return arrayOrdenado
+    const arrayFiltradoDefiltros = aplicarFiltros();
+    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => a.monto - b.monto);
+    return arrayOrdenado;
 }
 
 const filtroRecientes = () => {
     const arrayFiltradoDefiltros = aplicarFiltros();
-    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
-        return new Date(b.fecha) - new Date(a.fecha)
-    })
+    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) =>  new Date(b.fecha) - new Date(a.fecha))
     return arrayOrdenado
 }
 
 const filtroMenosRecientes = () => {
     const arrayFiltradoDefiltros = aplicarFiltros();
-    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => {
-        return new Date(a.fecha) - new Date(b.fecha)
-    })
+    const arrayOrdenado = arrayFiltradoDefiltros.sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
     return arrayOrdenado
 }
 
@@ -583,17 +546,12 @@ const nuevoObjeto = () => {
         fecha: fechaNuevaOperacion.value
     })
 
-    arrayInputUsuario.sort((a, b) => {
-        return new Date(b.fecha) - new Date(a.fecha)
-    })
+    arrayInputUsuario.sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
     return arrayInputUsuario
 };
 
 
-const guardaVariable = (valor) => {
-    valoresPreviosEditarOperation.push(valor)
-};
-
+const guardaVariable = valor => valoresPreviosEditarOperation.push(valor);
 
 const agregarOEditarOperacion = () => {
     const valorDescripcion = descripcionNuevaOperacion.value
@@ -692,9 +650,7 @@ const eliminarOperacion = () => {
             eliminarOperacion();
             const cantidadLetrasEliminar = 8
             const idRecortado = Number(boton.id.slice(cantidadLetrasEliminar))
-            arrayInputUsuario = arrayInputUsuario.filter((operacion) => {
-                return operacion.id != idRecortado
-            })
+            arrayInputUsuario = arrayInputUsuario.filter(operacion => operacion.id != idRecortado)
             actualizarInfoUsuario()
         }
     })
@@ -730,13 +686,8 @@ const botonEliminarCategoria = () => {
         boton.onclick = () => {
             botonEliminarCategoria()
             const idRecortado = Number(boton.id.slice(8))
-
-            arrayInputUsuario = arrayInputUsuario.filter((operacion) => {
-                return operacion.categoria !== arrayCategorias[idRecortado]
-            });
-            arrayCategorias = arrayCategorias.filter((element, index) => {
-                return index !== idRecortado
-            });
+            arrayInputUsuario = arrayInputUsuario.filter(operacion => operacion.categoria !== arrayCategorias[idRecortado]);
+            arrayCategorias = arrayCategorias.filter((element, index) => index !== idRecortado);
             actualizarInfoUsuario()
         };
     })
@@ -796,9 +747,7 @@ HTMLcategoriasSeccionCategorias()
 const agregarOEditarCategoria = (input) => {
 
     const valorNuevaCategoria = input.value
-    const verificarCategoriaExistente = arrayCategorias.some((element) => {
-        return element.toLocaleLowerCase() === valorNuevaCategoria.toLowerCase()
-    })
+    const verificarCategoriaExistente = arrayCategorias.some(element => element.toLocaleLowerCase() === valorNuevaCategoria.toLowerCase())
 
     if (valorNuevaCategoria.length > 0 && !verificarCategoriaExistente) {
         if (input === inputNuevaCategoria) {
@@ -825,42 +774,34 @@ const agregarOEditarCategoria = (input) => {
             valoresPreviosEditarOperation = []
         }
     }
-    if (valorNuevaCategoria.length == 0) {
-        alertaCampoRequerido.forEach((alertas) => {
-            alertas.classList.remove('is-hidden')
-        })
-    }
-    if (verificarCategoriaExistente) {
-        categoriaRepetida.forEach((alertas) => {
-            alertas.classList.remove('is-hidden')
-        })
-    }
+    valorNuevaCategoria.length == 0 && alertaCampoRequerido.forEach(alertas => alertas.classList.remove('is-hidden'));
+    verificarCategoriaExistente && categoriaRepetida.forEach(alertas => alertas.classList.remove('is-hidden'));
 };
 
 
 inputEditarCategoria.oninput = () => {
-    ocultarAdvertenciaRepetida()
-    ocultarAdvertenciaCamposRequeridos()
+    ocultarAdvertenciaRepetida();
+    ocultarAdvertenciaCamposRequeridos();
 };
 
 botonEditarCategoriaSeccionEditarCategoria.onclick = (e) => {
-    e.preventDefault()
-    agregarOEditarCategoria(inputEditarCategoria)
+    e.preventDefault();
+    agregarOEditarCategoria(inputEditarCategoria);
 };
 
 inputNuevaCategoria.oninput = () => {
-    ocultarAdvertenciaCamposRequeridos()
-    ocultarAdvertenciaRepetida()
+    ocultarAdvertenciaCamposRequeridos();
+    ocultarAdvertenciaRepetida();
 };
 
 agregarNuevaCategoria.onclick = (e) => {
-    e.preventDefault()
-    agregarOEditarCategoria(inputNuevaCategoria)
+    e.preventDefault();
+    agregarOEditarCategoria(inputNuevaCategoria);
 };
 
 
-HTMLBalanceBoxOperaciones(arrayFechaDeHoy())
-aplicarFiltros()
+HTMLBalanceBoxOperaciones(arrayFechaDeHoy());
+aplicarFiltros();
 
 
 
