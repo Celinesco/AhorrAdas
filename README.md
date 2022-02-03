@@ -27,7 +27,7 @@ Colaboradoras:
 This is our second group assignment from the Frontend Bootcamp by ADA Itw. Using [this Website](https://frontend-proyecto-ahorradas.adaitw.org/) as a model, we were told to build the same one, using our JavaScript's knowledges, JSON to make use of the LocalStorage and [Bulma](https://bulma.io/), a CSS framework . 
 
 
-This app allows you to keep a track of your in- and outcomes 
+This app allows you to keep a track of your incomes and expenses 
 [Try it here!](https://celinesco.github.io/AhorrAdas/) 
 
 Collaborators:

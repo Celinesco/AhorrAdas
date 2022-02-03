@@ -100,16 +100,12 @@ const fechaLocalFormateada = () => {
     const fechaUTChoy = new Date();
     const fechaLocalString = fechaUTChoy.toLocaleDateString()
     const arrayFechaLocal = fechaLocalString.split('/')
-    const arrayFechaLocalDadaVuelta = [];
-    for (let i = 2; i >= 0; i--) {
-        arrayFechaLocalDadaVuelta.push(arrayFechaLocal[i])
-    }
+    const arrayFechaLocalDadaVuelta = arrayFechaLocal.reverse();
     const fechaFormatoFecha = arrayFechaLocalDadaVuelta.join('/')
     return fechaFormatoFecha
 }
 
 const convertirAJSON = (array) => {
-    // estas variables no cambian de valor, asi que preferimos usar const
     const arrayConvertido = JSON.stringify(array);
     return arrayConvertido
 }
@@ -119,7 +115,6 @@ const guardarEnLocalStorage = (array, clave) => {
 }
 
 const convertirDesdeJSON = (arrayJSON) => {
-    // const
     const JSONConvertido = JSON.parse(arrayJSON)
     return JSONConvertido
 }
@@ -162,7 +157,6 @@ filtroFecha.valueAsDate = new Date(fechaLocalFormateada())
 const arrayFechaDeHoy = () => {
     if (operacionesAlmacenadas !== null) {
         arrayInputUsuario = operacionesAlmacenadas
-        // const
         const nuevoArray = operacionesAlmacenadas.filter((element) => {
             return element.fecha === filtroFecha.value
         })
@@ -537,7 +531,6 @@ const HTMLBalanceBoxOperaciones = (array) => {
     if (array.length == 0) {
         htmlOperacionesSinResulados()
     }
-
     else {
         let acc = " ";
 
@@ -568,7 +561,6 @@ const HTMLBalanceBoxOperaciones = (array) => {
 
         })
 
-
         contenedorOperaciones.removeAttribute("class")
         contenedorOperaciones.innerHTML = `
     <div class="columns my-3 py-2 is-hidden-mobile" id="contenedor-operaciones">
@@ -585,7 +577,6 @@ const HTMLBalanceBoxOperaciones = (array) => {
 
         eliminarOperacion()
         editarOperacion()
-
     }
 };
 
@@ -604,7 +595,7 @@ abrirSeccionNuevaOperacion.onclick = () => {
     seccionNuevaOperacion.classList.remove('is-hidden');
     tituloModalEditarCrearOperacion.textContent = `Nueva operación`;
     botonAgregarNuevaOperacion.innerHTML = `<button type="button" class="button is-success">Agregar</button>`;
-}
+};
 
 const nuevoObjeto = () => {
     arrayInputUsuario.push({
@@ -620,12 +611,12 @@ const nuevoObjeto = () => {
         return new Date(b.fecha) - new Date(a.fecha)
     })
     return arrayInputUsuario
-}
+};
 
 
 const guardaVariable = (valor) => {
     valoresPreviosEditarOperation.push(valor)
-}
+};
 
 
 const agregarOEditarOperacion = () => {
@@ -654,7 +645,6 @@ const agregarOEditarOperacion = () => {
         actualizarListaBotonesEliminarOperacion()
         actualizarListaBotonesEditarOperacion()
     }
-
     else if (valorDescripcion.length === 0 && valorMonto == "") {
         alertaCampoRequerido.forEach((alertas) => {
             alertas.classList.remove('is-hidden')
@@ -663,25 +653,21 @@ const agregarOEditarOperacion = () => {
             alertas.classList.remove('is-hidden')
         })
     }
-
     else if (valorDescripcion.length > 0 && valorMonto == 0) {
         montoCampoRequerido.forEach((alertas) => {
             alertas.classList.remove('is-hidden')
         })
     }
-
     else if (valorMonto > 0 && valorDescripcion.length == 0) {
         alertaCampoRequerido.forEach((alertas) => {
             alertas.classList.remove('is-hidden')
         })
     }
-
-
-}
+};
 
 descripcionNuevaOperacion.oninput = () => {
     ocultarAdvertenciaCamposRequeridos()
-}
+};
 
 botonAgregarNuevaOperacion.onclick = (e) => {
     e.preventDefault()
@@ -694,7 +680,7 @@ cancelarNuevaOperacion.onclick = () => {
     seccionBalance.classList.remove('is-hidden');
     resetearValoresInputs();
     ocultarAdvertenciaCamposRequeridos()
-}
+};
 
 
 const editarOperacion = () => {
@@ -725,7 +711,7 @@ const editarOperacion = () => {
             fechaNuevaOperacion.value = operacionAEditar[0].fecha;
         }
     })
-}
+};
 
 
 const eliminarOperacion = () => {
@@ -742,7 +728,7 @@ const eliminarOperacion = () => {
             actualizarInfoUsuario()
         }
     })
-}
+};
 
 
 montoNuevaOperacion.oninput = () => {
@@ -756,8 +742,7 @@ montoNuevaOperacion.oninput = () => {
     montoCampoRequerido.forEach((alertas) => {
         alertas.classList.add('is-hidden')
     })
-
-}
+};
 
 
 // //--------------------FUNCIONALIDAD CATEGORÍAS-----------------///
@@ -786,7 +771,7 @@ const botonEliminarCategoria = () => {
             actualizarInfoUsuario()
         };
     })
-}
+};
 
 
 const botonEditarCategoriaSeccionCategoria = () => {
@@ -803,7 +788,7 @@ const botonEditarCategoriaSeccionCategoria = () => {
             guardaVariable(inputEditarCategoria.value)
         }
     })
-}
+};
 
 
 cancelarEditarCategoria.onclick = () => {
@@ -811,7 +796,7 @@ cancelarEditarCategoria.onclick = () => {
     ocultarAdvertenciaRepetida()
     ocultarSecciones()
     seccionCategorias.classList.remove('is-hidden');
-}
+};
 
 
 const HTMLcategoriasSeccionCategorias = () => {
@@ -834,7 +819,7 @@ const HTMLcategoriasSeccionCategorias = () => {
     listaCategorias.innerHTML = categoriasAMostrar
     botonEliminarCategoria()
     botonEditarCategoriaSeccionCategoria();
-}
+};
 
 HTMLcategoriasSeccionCategorias()
 
@@ -882,29 +867,28 @@ const agregarOEditarCategoria = (input) => {
             alertas.classList.remove('is-hidden')
         })
     }
-}
+};
 
 
 inputEditarCategoria.oninput = () => {
     ocultarAdvertenciaRepetida()
     ocultarAdvertenciaCamposRequeridos()
-}
+};
 
 botonEditarCategoriaSeccionEditarCategoria.onclick = (e) => {
     e.preventDefault()
     agregarOEditarCategoria(inputEditarCategoria)
-}
+};
 
 inputNuevaCategoria.oninput = () => {
     ocultarAdvertenciaCamposRequeridos()
     ocultarAdvertenciaRepetida()
-
-}
+};
 
 agregarNuevaCategoria.onclick = (e) => {
     e.preventDefault()
     agregarOEditarCategoria(inputNuevaCategoria)
-}
+};
 
 
 HTMLBalanceBoxOperaciones(arrayFechaDeHoy())
