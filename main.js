@@ -105,19 +105,10 @@ const fechaLocalFormateada = () => {
     return fechaFormatoFecha
 }
 
-const convertirAJSON = (array) => {
-    const arrayConvertido = JSON.stringify(array);
-    return arrayConvertido
-}
+const convertirAJSON = array => JSON.stringify(array);
+const guardarEnLocalStorage = (array, clave) => localStorage.setItem(clave, convertirAJSON(array));
+const convertirDesdeJSON = arrayJSON => JSON.parse(arrayJSON);
 
-const guardarEnLocalStorage = (array, clave) => {
-    localStorage.setItem(clave, convertirAJSON(array))
-}
-
-const convertirDesdeJSON = (arrayJSON) => {
-    const JSONConvertido = JSON.parse(arrayJSON)
-    return JSONConvertido
-}
 
 const leerDesdeLocalStorage = (clave) => {
     const json = localStorage.getItem(clave);
