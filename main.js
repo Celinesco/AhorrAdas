@@ -109,7 +109,6 @@ const convertirAJSON = array => JSON.stringify(array);
 const guardarEnLocalStorage = (array, clave) => localStorage.setItem(clave, convertirAJSON(array));
 const convertirDesdeJSON = arrayJSON => JSON.parse(arrayJSON);
 
-
 const leerDesdeLocalStorage = (clave) => {
     const json = localStorage.getItem(clave);
     const array = convertirDesdeJSON(json);
@@ -127,7 +126,8 @@ const buscarMayor = (array) => array.reduce((acc, elemento) => {
         return acc = elemento
     }
     return acc
-}, { categoria: "", tipo: "ganancia", monto: 0 })
+}, 
+{ categoria: "", tipo: "ganancia", monto: 0 })
 
 
 // Comienzo de página
@@ -161,23 +161,8 @@ const arrayFechaDeHoy = () => {
 
 // No termino de entender del todo el propósito de estas funciones
 // si solo van a seleccionar un elemento del dom, no tiene sentido declararlas
-const actualizarBotonesEditarCategorias = () => {
-    const arrayDeBotonesEditarEnDOM = document.querySelectorAll(".open-editar-categoria");
-    return arrayDeBotonesEditarEnDOM
-};
-
-const actualizarListaBotonEliminarCategoria = () => {
-    const arrayDeBotonesEliminarDom = document.querySelectorAll(".eliminar-categoria");
-    return arrayDeBotonesEliminarDom
-};
-
-const actualizarListaBotonesEliminarOperacion = () => {
-    const botonesEliminarOperacion = document.querySelectorAll(".eliminar-operacion")
-    return botonesEliminarOperacion
-};
 
 const actualizarListaBotonesEditarOperacion = () => {
-    const botonesEditarOperacion = document.querySelectorAll(".abrir-editar-operacion")
     return botonesEditarOperacion
 }
 
@@ -629,12 +614,6 @@ const agregarOEditarOperacion = () => {
         HTMLBalanceBoxOperaciones(aplicarFiltros());
         activarFiltrosOrdenarPor()
         guardarEnLocalStorage(arrayInputUsuario, 'operaciones_usuario')
-
-        // aqui el nombre de las funciones las puede haber confundido
-        // lo unico que hacen estas funciones es retornar un elemento del dom
-        // ejecutarlas aqui no hace nada
-        actualizarListaBotonesEliminarOperacion()
-        actualizarListaBotonesEditarOperacion()
     }
     else if (valorDescripcion.length === 0 && valorMonto == "") {
         alertaCampoRequerido.forEach((alertas) => {
@@ -676,9 +655,10 @@ cancelarNuevaOperacion.onclick = () => {
 
 const editarOperacion = () => {
 
-    const listaBotonesEditarOperaciones = actualizarListaBotonesEditarOperacion()
+    
+    const botonesEditarOperacion = document.querySelectorAll(".abrir-editar-operacion");
 
-    listaBotonesEditarOperaciones.forEach((boton) => {
+    botonesEditarOperacion.forEach((boton) => {
         boton.onclick = () => {
             edicion = true
             editarOperacion()
@@ -706,13 +686,12 @@ const editarOperacion = () => {
 
 
 const eliminarOperacion = () => {
-    const listaDeBotonesActualizada = actualizarListaBotonesEliminarOperacion()
-    listaDeBotonesActualizada.forEach((boton) => {
+    const botonesEliminarOperacion = document.querySelectorAll(".eliminar-operacion")
+    botonesEliminarOperacion.forEach((boton) => {
         boton.onclick = () => {
             eliminarOperacion();
             const cantidadLetrasEliminar = 8
             const idRecortado = Number(boton.id.slice(cantidadLetrasEliminar))
-
             arrayInputUsuario = arrayInputUsuario.filter((operacion) => {
                 return operacion.id != idRecortado
             })
@@ -746,9 +725,8 @@ const abrirVentanaEditarCategoria = () => {
 
 const botonEliminarCategoria = () => {
 
-    const listaBotonesEliminarCategoria = actualizarListaBotonEliminarCategoria();
-
-    listaBotonesEliminarCategoria.forEach((boton) => {
+    const arrayDeBotonesEliminarDom = document.querySelectorAll(".eliminar-categoria");
+    arrayDeBotonesEliminarDom.forEach((boton) => {
         boton.onclick = () => {
             botonEliminarCategoria()
             const idRecortado = Number(boton.id.slice(8))
@@ -766,7 +744,7 @@ const botonEliminarCategoria = () => {
 
 
 const botonEditarCategoriaSeccionCategoria = () => {
-    const arrayDeBotonesEditarEnDOM = actualizarBotonesEditarCategorias()
+    const arrayDeBotonesEditarEnDOM = document.querySelectorAll(".open-editar-categoria");
     arrayDeBotonesEditarEnDOM.forEach((boton) => {
         boton.onclick = () => {
             ocultarAdvertenciaCamposRequeridos()
@@ -827,7 +805,6 @@ const agregarOEditarCategoria = (input) => {
             arrayCategorias.push(input.value);
             actualizarInfoUsuario()
             input.value = ""
-            actualizarBotonesEditarCategorias()
         }
         else {
             for (let i = 0; i < arrayCategorias.length; i++) {
