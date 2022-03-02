@@ -272,6 +272,7 @@ categoriasEnSelects(categoriasEnNuevaOperacion)
 
 
 ocultarFiltros.onclick = () => {
+    
     if (ocultarFiltros.innerText === "Mostrar filtros") {
         ocultarFiltros.innerText = "Ocultar filtros";
         formularioSeccionBalance.classList.remove('is-hidden');
@@ -283,10 +284,31 @@ ocultarFiltros.onclick = () => {
     }
 }
 
+const actualizarBoxBalance = (sumaTotalGanancias, sumaTotalGastos) => {
 
-// esta funcion hace dos cosas distintas: aplica los filtros, pero tambien 
-// actualiza la seccion de balances
-// deberian ser dos funciones diferentes, no es bueno mezclar funcionalidades
+    const total = sumaTotalGanancias - sumaTotalGastos
+    totalGananciasBoxBalance.innerHTML = `+$${sumaTotalGanancias}`;
+    totalGastosBoxBalance.innerHTML = `-$${sumaTotalGastos}`;
+
+        if (total > 0) {
+        totalGastosGanancias.classList.add('has-text-success')
+        totalGastosGanancias.classList.remove('has-text-danger')
+        totalGastosGanancias.innerHTML = `+$${total}`
+    }
+    else if (total < 0) {
+        totalGastosGanancias.classList.add('has-text-danger');
+        totalGastosGanancias.classList.remove('has-text-success')
+        totalGastosGanancias.innerHTML = `-$${Math.abs(total)}`
+    }
+
+    else {
+        totalGastosGanancias.innerHTML = `$0`
+        totalGastosGanancias.classList.add('has-dark-text');
+        totalGastosGanancias.classList.remove('has-text-success');
+        totalGastosGanancias.classList.remove('has-text-danger');
+    }
+}
+
 const aplicarFiltros = () => {
     const filtradoPorTipo = arrayInputUsuario.filter((operacion) => {
         if (filtroTipo.value === "todos") {
@@ -308,29 +330,8 @@ const aplicarFiltros = () => {
     const sumaTotalGanancias = arrayDeGanancias.reduce((acc, element) => acc + element.monto, 0);
     const sumaTotalGastos = arrayDeGastos.reduce((acc, element) => acc + element.monto, 0);
 
-    const total = sumaTotalGanancias - sumaTotalGastos
 
-
-    totalGananciasBoxBalance.innerHTML = `+$${sumaTotalGanancias}`;
-    totalGastosBoxBalance.innerHTML = `-$${sumaTotalGastos}`;
-
-    if (total > 0) {
-        totalGastosGanancias.classList.add('has-text-success')
-        totalGastosGanancias.classList.remove('has-text-danger')
-        totalGastosGanancias.innerHTML = `+$${total}`
-    }
-    else if (total < 0) {
-        totalGastosGanancias.classList.add('has-text-danger');
-        totalGastosGanancias.classList.remove('has-text-success')
-        totalGastosGanancias.innerHTML = `-$${Math.abs(total)}`
-    }
-
-    else {
-        totalGastosGanancias.innerHTML = `$0`
-        totalGastosGanancias.classList.add('has-dark-text');
-        totalGastosGanancias.classList.remove('has-text-success');
-        totalGastosGanancias.classList.remove('has-text-danger');
-    }
+    actualizarBoxBalance(sumaTotalGanancias, sumaTotalGastos)
 
     return filtradoFinal
 
