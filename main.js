@@ -594,15 +594,12 @@ const agregarOEditarOperacion = () => {
     }
 };
 
-descripcionNuevaOperacion.oninput = () => {
-    ocultarAdvertenciaCamposRequeridos()
-};
+descripcionNuevaOperacion.oninput = () => ocultarAdvertenciaCamposRequeridos();
 
 botonAgregarNuevaOperacion.onclick = (e) => {
     e.preventDefault()
     agregarOEditarOperacion()
 };
-
 
 cancelarNuevaOperacion.onclick = () => {
     ocultarSecciones();
@@ -614,7 +611,6 @@ cancelarNuevaOperacion.onclick = () => {
 
 const editarOperacion = () => {
 
-    
     const botonesEditarOperacion = document.querySelectorAll(".abrir-editar-operacion");
 
     botonesEditarOperacion.forEach((boton) => {
@@ -665,7 +661,6 @@ montoNuevaOperacion.oninput = () => {
         const volverANumero = Number(cortarString)
         montoNuevaOperacion.value = volverANumero
     }
-
     montoCampoRequerido.forEach((alertas) => {
         alertas.classList.add('is-hidden')
     })
